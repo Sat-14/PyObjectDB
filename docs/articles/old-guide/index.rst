@@ -1,5 +1,5 @@
 ===============================
-Very old ZODB programming guide
+Very old PyObjectDB programming guide
 ===============================
 
 
@@ -12,7 +12,7 @@ Very old ZODB programming guide
    :maxdepth: 2
 
    introduction.rst
-   prog-zodb.rst
+   prog-PyObjectDB.rst
    zeo.rst
    transactions.rst
    modules.rst

@@ -1,31 +1,31 @@
-Advanced ZODB for Python Programmers
+Advanced PyObjectDB for Python Programmers
 ====================================
 
-In the first article in this series, "ZODB for Python
-Programmers":ZODB1 I covered some of the simpler aspects of Python
+In the first article in this series, "PyObjectDB for Python
+Programmers":PyObjectDB1 I covered some of the simpler aspects of Python
 object persistence.  In this article, I'll go over some of the more
-advanced features of ZODB.
+advanced features of PyObjectDB.
 
-In addition to simple persistence, ZODB offers some very useful
+In addition to simple persistence, PyObjectDB offers some very useful
 extras for the advanced Python application.  Specificly, we'll cover
 the following advanced features in this article:
 
--   Persistent-Aware Types -- ZODB comes with some special,
-    "persistent-aware" data types for storing data in a ZODB.  The
+-   Persistent-Aware Types -- PyObjectDB comes with some special,
+    "persistent-aware" data types for storing data in a PyObjectDB.  The
     most useful of these is the "BTree", which is a fast, efficient
     storage object for lots of data.
 
 -   Volatile Data -- Not all your data is meant to be stored in the
-    database, ZODB let's you have volatile data on your objects that
+    database, PyObjectDB let's you have volatile data on your objects that
     does not get saved.
 
--   Pluggable Storages -- ZODB offers you the ability to use many
+-   Pluggable Storages -- PyObjectDB offers you the ability to use many
     different storage back-ends to store your object data, including
     files, relational databases and a special client-server storage
     that stores objects on a remote server.
 
 -   Conflict Resolution -- When many threads try to write to the same
-    object at the same time, you can get conflicts.  ZODB offers a
+    object at the same time, you can get conflicts.  PyObjectDB offers a
     conflict resolution protocol that allows you to mitigate most
     conflicting writes to your data.
 
@@ -37,7 +37,7 @@ Persistent-Aware Types
 
 You can also get around the mutable attribute problem discussed in
 the first article by using special types that are "persistent
-aware".  ZODB comes with the following persistent aware mutable
+aware".  PyObjectDB comes with the following persistent aware mutable
 object types:
 
 -     PersistentList -- This type works just like a list, except that
@@ -57,7 +57,7 @@ BTrees offer a very powerful facility to the Python programmer:
     memory to hold at one time.  
 
 -   BTrees are integrated into the persistence machinery to work
-    effectively with ZODB's object cache.  Recently, or heavily
+    effectively with PyObjectDB's object cache.  Recently, or heavily
     used objects are kept in a memory cache for speed.
 
 -   BTrees can be searched very quickly, because they are stored
@@ -125,11 +125,11 @@ objects that are useful only as a "cache" that can be thrown away
 when your persistent object is deactivated (removed from memory
 when not used).
 
-ZODB provides you with the ability to have *volatile* attributes.
+PyObjectDB provides you with the ability to have *volatile* attributes.
 Volatile attributes are attributes of persistent objects that are
 never saved in the database, even if they are capable of being
 persistent.  Volatile attributes begin with '_v_' are good for
-keeping cached information around for optimization.  ZODB also
+keeping cached information around for optimization.  PyObjectDB also
 provides you with access to special pickling hooks that allow you
 to set volatile information when an object is activated.
 
@@ -154,11 +154,11 @@ object is removed from memory, the '_v_image' attribute is not
 saved, so the cached image is thrown away, only to be recalculated
 the next time you call 'image'.
  
-ZODB and Concurrency 
+PyObjectDB and Concurrency 
 --------------------
 
 Different, threads, processes, and computers on a network can open
-connections to a single ZODB object database.  Each of these
+connections to a single PyObjectDB object database.  Each of these
 different processes keeps its own copy of the objects that it uses
 in memory.
 
@@ -168,7 +168,7 @@ objects at the same time, one of the threads will raise a
 ConflictError.  If you want, you can write your application to
 either resolve or retry conflicts a reasonable number of times.
 
-Zope will retry a conflicting ZODB operation three times.  This is
+Zope will retry a conflicting PyObjectDB operation three times.  This is
 usually pretty reasonable behavior.  Because conflicts only happen
 when two threads write to the same object, retrying a conflict
 means that one thread will win the conflict and write itself, and
@@ -200,7 +200,7 @@ Opening a 'ClientStorage' connection is simple.  The following
 code creates a database connection and gets the root object for a
 'StorageServer' listening on "localhost:12345"::
 
-      from ZODB import DB
+      from PyObjectDB import DB
       from ZEO import ClientStorage
       storage = ClientStorage.ClientStorage('localhost', 12345)
       db = DB( storage )
@@ -208,7 +208,7 @@ code creates a database connection and gets the root object for a
       root = connection.root()
 
 In the rare event that two processes (or threads) modify the same
-object at the same time, ZODB provides you with the ability to
+object at the same time, PyObjectDB provides you with the ability to
 retry or resolve these conflicts yourself. 
 
 Resolving Conflicts
@@ -353,12 +353,12 @@ bonus, they also give you much better memory resource performance.
 Conclusion
 ----------
 
-ZODB offers many advanced features to help you develop simple, but
+PyObjectDB offers many advanced features to help you develop simple, but
 powerful python programs.  In this article, you used some of the
-more advanced features of ZODB to handle different application
+more advanced features of PyObjectDB to handle different application
 needs, like storing information in large sets, using the database
 concurrently, and maintaining transactional integrity.  For more
-information on ZODB, join the discussion list at zodb-dev@zope.org
+information on PyObjectDB, join the discussion list at PyObjectDB-dev@zope.org
 where you can find out more about this powerful component of Zope.
 
 

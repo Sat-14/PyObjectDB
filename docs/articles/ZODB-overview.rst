@@ -1,7 +1,7 @@
-An overview of the ZODB (by Laurence Rowe)
+An overview of the PyObjectDB (by Laurence Rowe)
 ==========================================
 
-ZODB in comparison to relational databases, transactions, scalability and best
+PyObjectDB in comparison to relational databases, transactions, scalability and best
 practice. Originally delivered to the Plone Conference 2007, Naples.
 
 Comparison to other database types
@@ -21,7 +21,7 @@ transactional semantics. ORMs such as `SQLAlchemy
 object orientated manner much more pleasant. But they don’t overcome the
 restrictions inherent in a relational model.
 
-The **ZODB** is an (almost) transparent python object persistence system,
+The **PyObjectDB** is an (almost) transparent python object persistence system,
 heavily influenced by Smalltalk. As an Object-Orientated Database it gives you
 the flexibility to build a data model fit your application. For the most part
 you don’t have to worry about persistency - you only work with python objects
@@ -29,21 +29,21 @@ and it just happens in the background.
 
 Of course this power comes at a price. While changing the methods your classes
 provide is not a problem, changing attributes can necessitate writing a
-migration script, as you would with a relational schema change. With ZODB
+migration script, as you would with a relational schema change. With PyObjectDB
 obejcts though explicit schema migrations are not enforced, which can bite you
 later.
 
 Transactions
 ------------
 
-The ZODB has a transactional support at its core. Transactions provide
+The PyObjectDB has a transactional support at its core. Transactions provide
 concurrency control and atomicity. Transactions are executed as if they have
 exclusive access to the data, so as an application developer you don’t have to
 worry about threading. Of course there is nothing to prevent two simultaneous
 conflicting requests, So checks are made at transaction commit time to ensure
 consistency.
 
-Since Zope 2.8 ZODB has implemented **Multi Version Concurrency Control**.
+Since Zope 2.8 PyObjectDB has implemented **Multi Version Concurrency Control**.
 This means no more ReadConflictErrors, each transaction is guaranteed to be
 able to load any object as it was when the transaction begun.
 
@@ -66,7 +66,7 @@ application. Another alternative is to offload text indexing to a dedicated
 search engine using `collective.solr
 <https://pypi.org/project/collective.solr/>`_.
 
-This brings us to **Atomicity**, the other key feature of ZODB transactions. A
+This brings us to **Atomicity**, the other key feature of PyObjectDB transactions. A
 transaction will either succeed or fail, your data is never left in an
 inconsistent state if an error occurs. This makes Zope a forgiving system to
 work with.
@@ -90,12 +90,12 @@ time as your Zope web server, invaluable for debugging.
 
 ZEO tends to be IO bound, so the GIL is not an issue.
 
-ZODB also supports **partitioning**, allowing you to spread data over multiple
+PyObjectDB also supports **partitioning**, allowing you to spread data over multiple
 storages. However you should be careful about cross database references
 (especially when copying and pasting between two databases) as they can be
 problematic.
 
-Another common reason to use partitioning is because the ZODB in memory cache
+Another common reason to use partitioning is because the PyObjectDB in memory cache
 settings are made per database. Separating the catalogue into another storage
 lets you set a higher target cache size for catalogue objects than for your
 content objects. As much of the Plone interface is catalogue driven this can
@@ -130,7 +130,7 @@ Other features
 **Savepoints** (previously sub-transactions) allow fine grained error control
 and objects to be garbage collected during a transaction, saving memory.
 
-Versions are deprecated (and will be removed in ZODB 3.9). The application
+Versions are deprecated (and will be removed in PyObjectDB 3.9). The application
 layer is responsible for versioning, e.g. CMFEditions / ZopeVersionControl.
 
 **Undo**, don’t rely on it! If your object is indexed it may prove impossible
@@ -139,7 +139,7 @@ same index. Undo is only performed on a single database, so if you have
 separated out your catalogue it will get out of sync. Fine for undoing in
 portal_skins/custom though.
 
-**BLOBs** are new in ZODB 3.8 / Zope 2.11, bringing efficient large file
+**BLOBs** are new in PyObjectDB 3.8 / Zope 2.11, bringing efficient large file
 support. Great for document management applications.
 
 **Packing** removes old revisions of objects. Similar to `Routine Vacuuming

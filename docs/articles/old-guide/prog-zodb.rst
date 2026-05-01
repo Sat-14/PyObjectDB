@@ -1,17 +1,17 @@
-.. % ZODB Programming
-.. % How ZODB works (ExtensionClass, dirty bits)
-.. % Installing ZODB
+.. % PyObjectDB Programming
+.. % How PyObjectDB works (ExtensionClass, dirty bits)
+.. % Installing PyObjectDB
 .. % Rules for Writing Persistent Classes
 
 
-ZODB Programming
+PyObjectDB Programming
 ================
 
 
-Installing ZODB
+Installing PyObjectDB
 ---------------
 
-ZODB is packaged using the standard distutils tools.
+PyObjectDB is packaged using the standard distutils tools.
 
 
 Requirements
@@ -28,22 +28,22 @@ extension modules.  Binary installers are provided for Windows users.
 Installing the Packages
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Download the ZODB tarball containing all the packages for both ZODB and ZEO from
-`<http://www.zope.org/Products/ZODB3.3>`_.  See the :file:`README.txt` file in
+Download the PyObjectDB tarball containing all the packages for both PyObjectDB and ZEO from
+`<http://www.zope.org/Products/PyObjectDB3.3>`_.  See the :file:`README.txt` file in
 the top level of the release directory for details on building, testing, and
 installing.
 
-You can find information about ZODB and the most current releases in the ZODB
-Wiki at `<http://www.zope.org/Wikis/ZODB>`_.
+You can find information about PyObjectDB and the most current releases in the PyObjectDB
+Wiki at `<http://www.zope.org/Wikis/PyObjectDB>`_.
 
 
-How ZODB Works
+How PyObjectDB Works
 --------------
 
-The ZODB is conceptually simple.  Python classes subclass a
-:class:`persistent.Persistent` class to become ZODB-aware.  Instances of
+The PyObjectDB is conceptually simple.  Python classes subclass a
+:class:`persistent.Persistent` class to become PyObjectDB-aware.  Instances of
 persistent objects are brought in from a permanent storage medium, such as a
-disk file, when the program needs them, and remain cached in RAM.  The ZODB
+disk file, when the program needs them, and remain cached in RAM.  The PyObjectDB
 traps modifications to objects, so that when a statement such as ``obj.size =
 1`` is executed, the modified object is marked as "dirty."  On request, any
 dirty objects are written out to permanent storage; this is called committing a
@@ -59,7 +59,7 @@ Consistency, Isolation, and Durability. In computer science jargon these four
 terms are collectively dubbed the ACID properties, forming an acronym from their
 names.
 
-The ZODB provides all of the ACID properties.  Definitions of the ACID
+The PyObjectDB provides all of the ACID properties.  Definitions of the ACID
 properties are:
 
 Atomicity
@@ -72,7 +72,7 @@ Atomicity
 
 Consistency
    means that each transaction executes a valid transformation of the database
-   state.  Some databases, but not ZODB, provide a variety of consistency checks in
+   state.  Some databases, but not PyObjectDB, provide a variety of consistency checks in
    the database or language; for example, a relational database constraint columns
    to be of particular types and can enforce relations across tables.  Viewed more
    generally, atomicity and isolation make it possible for applications to provide
@@ -87,10 +87,10 @@ Durability
    cause any data to be lost or corrupted.
 
 
-Opening a ZODB
+Opening a PyObjectDB
 --------------
 
-There are 3 main interfaces supplied by the ZODB: :class:`Storage`, :class:`DB`,
+There are 3 main interfaces supplied by the PyObjectDB: :class:`Storage`, :class:`DB`,
 and :class:`Connection` classes. The :class:`DB` and :class:`Connection`
 interfaces both have single implementations, but there are several different
 classes that implement the :class:`Storage` interface.
@@ -112,12 +112,12 @@ classes that implement the :class:`Storage` interface.
   :class:`Connection` instance for each thread. Different threads can then modify
   objects and commit their modifications independently.
 
-Preparing to use a ZODB requires 3 steps: you have to open the :class:`Storage`,
+Preparing to use a PyObjectDB requires 3 steps: you have to open the :class:`Storage`,
 then create a :class:`DB` instance that uses the :class:`Storage`, and then get
 a :class:`Connection` from the :class:`DB instance`.  All this is only a few
 lines of code::
 
-   from ZODB import FileStorage, DB
+   from PyObjectDB import FileStorage, DB
 
    storage = FileStorage.FileStorage('/tmp/test-filestorage.fs')
    db = DB(storage)
@@ -129,10 +129,10 @@ the first line that opens a :class:`Storage`; the above example uses a
 ZEO uses this flexibility to good effect.
 
 
-Using a ZODB Configuration File
+Using a PyObjectDB Configuration File
 -------------------------------
 
-ZODB also supports configuration files written in the ZConfig format. A
+PyObjectDB also supports configuration files written in the ZConfig format. A
 configuration file can be used to separate the configuration logic from the
 application logic.  The storages classes and the :class:`DB` class support a
 variety of keyword arguments; all these options can be specified in a config
@@ -141,23 +141,23 @@ file.
 The configuration file is simple.  The example in the previous section could use
 the following example::
 
-   <zodb>
+   <PyObjectDB>
      <filestorage>
      path /tmp/test-filestorage.fs
      </filestorage>
-   </zodb>
+   </PyObjectDB>
 
-The :mod:`ZODB.config` module includes several functions for opening database
+The :mod:`PyObjectDB.config` module includes several functions for opening database
 and storages from configuration files. ::
 
-   import ZODB.config
+   import PyObjectDB.config
 
-   db = ZODB.config.databaseFromURL('/tmp/test.conf')
+   db = PyObjectDB.config.databaseFromURL('/tmp/test.conf')
    conn = db.open()
 
-The ZConfig documentation, included in the ZODB3 release, explains the format in
+The ZConfig documentation, included in the PyObjectDB3 release, explains the format in
 detail.  Each configuration file is described by a schema, by convention stored
-in a :file:`component.xml` file.  ZODB, ZEO, zLOG, and zdaemon all have schemas.
+in a :file:`component.xml` file.  PyObjectDB, ZEO, zLOG, and zdaemon all have schemas.
 
 
 Writing a Persistent Class
@@ -175,19 +175,19 @@ The :class:`Persistent` base class is a new-style class implemented in C.
 
 For simplicity, in the examples the :class:`User` class will simply be used as a
 holder for a bunch of attributes.  Normally the class would define various
-methods that add functionality, but that has no impact on the ZODB's treatment
+methods that add functionality, but that has no impact on the PyObjectDB's treatment
 of the class.
 
-The ZODB uses persistence by reachability; starting from a set of root objects,
+The PyObjectDB uses persistence by reachability; starting from a set of root objects,
 all the attributes of those objects are made persistent, whether they're simple
 Python data types or class instances.  There's no method to explicitly store
-objects in a ZODB database; simply assign them as an attribute of an object, or
+objects in a PyObjectDB database; simply assign them as an attribute of an object, or
 store them in a mapping, that's already in the database.  This chain of
 containment must eventually reach back to the root object of the database.
 
 As an example, we'll create a simple database of users that allows retrieving a
 :class:`User` object given the user's ID.  First, we retrieve the primary root
-object of the ZODB using the :meth:`root` method of the :class:`Connection`
+object of the PyObjectDB using the :meth:`root` method of the :class:`Connection`
 instance.  The root object behaves like a Python dictionary, so you can just add
 a new key/value pair for your application's root object.  We'll insert an
 :class:`OOBTree` object that will contain all the :class:`User` objects.  (The
@@ -262,19 +262,19 @@ Rules for Writing Persistent Classes
 
 Practically all persistent languages impose some restrictions on programming
 style, warning against constructs they can't handle or adding subtle semantic
-changes, and the ZODB is no exception. Happily, the ZODB's restrictions are
+changes, and the PyObjectDB is no exception. Happily, the PyObjectDB's restrictions are
 fairly simple to understand, and in practice it isn't too painful to work around
 them.
 
 The summary of rules is as follows:
 
 * If you modify a mutable object that's the value of an object's attribute, the
-  ZODB can't catch that, and won't mark the object as dirty.  The solution is to
+  PyObjectDB can't catch that, and won't mark the object as dirty.  The solution is to
   either set the dirty bit yourself when you modify mutable objects, or use a
   wrapper for Python's lists and dictionaries (:class:`PersistentList`,
   :class:`PersistentMapping`) that will set the dirty bit properly.
 
-* Recent versions of the ZODB allow writing a class with  :meth:`__setattr__` ,
+* Recent versions of the PyObjectDB allow writing a class with  :meth:`__setattr__` ,
   :meth:`__getattr__`, or :meth:`__delattr__` methods.  (Older versions didn't
   support this at all.)  If you write such a :meth:`__setattr__` or
   :meth:`__delattr__` method, its code has to set the dirty bit manually.
@@ -291,21 +291,21 @@ Let's look at each of these rules in detail.
 Modifying Mutable Objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ZODB uses various Python hooks to catch attribute accesses, and can trap
+The PyObjectDB uses various Python hooks to catch attribute accesses, and can trap
 most of the ways of modifying an object, but not all of them. If you modify a
 :class:`User` object by assigning to one of its attributes, as in
-``userobj.first_name = 'Andrew'``, the ZODB will mark the object as having been
+``userobj.first_name = 'Andrew'``, the PyObjectDB will mark the object as having been
 changed, and it'll be written out on the following :meth:`commit`.
 
-The most common idiom that *isn't* caught by the ZODB is mutating a list or
+The most common idiom that *isn't* caught by the PyObjectDB is mutating a list or
 dictionary.  If :class:`User` objects have a attribute named ``friends``
 containing a list, calling ``userobj.friends.append(otherUser)`` doesn't mark
-``userobj`` as modified; from the ZODB's point of view, ``userobj.friends`` was
+``userobj`` as modified; from the PyObjectDB's point of view, ``userobj.friends`` was
 only read, and its value, which happened to be an ordinary Python list, was
-returned.  The ZODB isn't aware that the object returned was subsequently
+returned.  The PyObjectDB isn't aware that the object returned was subsequently
 modified.
 
-This is one of the few quirks you'll have to remember when using the ZODB; if
+This is one of the few quirks you'll have to remember when using the PyObjectDB; if
 you modify a mutable attribute of an object in place, you have to manually mark
 the object as having been modified by setting its dirty bit to true.  This is
 done by setting the :attr:`_p_changed` attribute of the object to true::
@@ -325,9 +325,9 @@ would then look like this::
        self.friends.append(otherUser)
        self._p_changed = True
 
-Alternatively, you could use a ZODB-aware list or mapping type that handles the
-dirty bit for you.  The ZODB comes with a :class:`PersistentMapping` class, and
-I've contributed a :class:`PersistentList` class that's included in my ZODB
+Alternatively, you could use a PyObjectDB-aware list or mapping type that handles the
+dirty bit for you.  The PyObjectDB comes with a :class:`PersistentMapping` class, and
+I've contributed a :class:`PersistentList` class that's included in my PyObjectDB
 distribution,  and may make it into a future upstream release of Zope.
 
 .. % XXX It'd be nice to discuss what happens when an object is ``ghosted'' (e.g.
@@ -338,7 +338,7 @@ distribution,  and may make it into a future upstream release of Zope.
 :meth:`__getattr__`, :meth:`__delattr__`, and :meth:`__setattr__`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ZODB allows persistent classes to have hook methods like :meth:`__getattr__` and
+PyObjectDB allows persistent classes to have hook methods like :meth:`__getattr__` and
 :meth:`__setattr__`.  There are four special methods that control attribute
 access; the rules for each are a little different.
 
@@ -378,7 +378,7 @@ the attribute; if not, the user code can run.
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 A :meth:`__del__` method is invoked just before the memory occupied by an
-unreferenced Python object is freed.  Because ZODB may materialize, and
+unreferenced Python object is freed.  Because PyObjectDB may materialize, and
 dematerialize, a given persistent object in memory any number of times, there
 isn't a meaningful relationship between when a persistent object's
 :meth:`__del__` method gets invoked and any natural aspect of a persistent
@@ -394,11 +394,11 @@ objects that haven't been referenced recently are removed from the cache.  If a
 persistent object with a :meth:`__del___` method is so removed, and the cache
 was holding the last memory reference to the object, the object's
 :meth:`__del__` method will be invoked.  If the :meth:`__del__` method then
-references any attribute of the object, ZODB needs to load the object from the
+references any attribute of the object, PyObjectDB needs to load the object from the
 database again, in order to satisfy the attribute reference.  This puts the
 object back into the cache again:  such an object is effectively immortal,
 occupying space in the memory cache forever, as every attempt to remove it from
-cache puts it back into the cache.  In ZODB versions prior to 3.2.2, this could
+cache puts it back into the cache.  In PyObjectDB versions prior to 3.2.2, this could
 even cause the cache reduction code to fall into an infinite loop.  The infinite
 loop no longer occurs, but such objects continue to live in the memory cache
 forever.
@@ -411,8 +411,8 @@ methods.
 Writing Persistent Classes
 --------------------------
 
-Now that we've looked at the basics of programming using the ZODB, we'll turn to
-some more subtle tasks that are likely to come up for anyone using the ZODB in a
+Now that we've looked at the basics of programming using the PyObjectDB, we'll turn to
+some more subtle tasks that are likely to come up for anyone using the PyObjectDB in a
 production system.
 
 
@@ -425,7 +425,7 @@ their interpretation change over time.  It's a worthy goal, but also an
 impractical one unless you're gifted with perfect knowledge of the future.  Such
 unnatural foresight can't be required of any person, so you therefore have to be
 prepared to handle such structural changes gracefully.  In object-oriented
-database terminology, this is a schema update.  The ZODB doesn't have an actual
+database terminology, this is a schema update.  The PyObjectDB doesn't have an actual
 schema specification, but you're changing the software's expectations of the
 data contained by an object, so you're implicitly changing the schema.
 
@@ -439,12 +439,12 @@ single dictionary or BTree, then it would be a simple matter to loop over every
 if your object graph is less structured; if :class:`User` objects can be found
 as attributes of any number of different class instances, then there's no longer
 any easy way to find them all, short of writing a generalized object traversal
-function that would walk over every single object in a ZODB, checking each one
+function that would walk over every single object in a PyObjectDB, checking each one
 to see if it's an instance of :class:`User`.
 
 Some OODBs support a feature called extents, which allow quickly finding all the
 instances of a given class, no matter where they are in the object graph;
-unfortunately the ZODB doesn't offer extents as a feature.
+unfortunately the PyObjectDB doesn't offer extents as a feature.
 
 .. % XXX Rest of section not written yet: __getstate__/__setstate__
 

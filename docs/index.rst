@@ -1,8 +1,8 @@
 ==========================================
-ZODB - a native object database for Python
+PyObjectDB - a native object database for Python
 ==========================================
 
-Because ZODB is an object database:
+Because PyObjectDB is an object database:
 
 - no separate language for database operations
 
@@ -19,7 +19,7 @@ Because ZODB is an object database:
 
 Check out the :doc:`tutorial`!
 
-ZODB runs on Python 2.7 or Python 3.4 and above. It also runs on PyPy.
+PyObjectDB runs on Python 2.7 or Python 3.4 and above. It also runs on PyPy.
 
 Learning more
 =============
@@ -42,17 +42,17 @@ Learning more
    changelog
    reference/index
 
-* `The ZODB Book (in progress) <http://zodb.readthedocs.org/en/latest/>`_
+* `The PyObjectDB Book (in progress) <http://PyObjectDB.readthedocs.org/en/latest/>`_
 
 
-What is the expansion of "ZODB"?
+What is the expansion of "PyObjectDB"?
 ================================
 
-The expansion of "ZODB" is the Z Object Database.  But, of course, we
-usually just use "ZODB".
+The expansion of "PyObjectDB" is the Z Object Database.  But, of course, we
+usually just use "PyObjectDB".
 
 In the past, it was the Zope Object Database, because it was
-developed as part of the Zope project.  But ZODB doesn't depend on
+developed as part of the Zope project.  But PyObjectDB doesn't depend on
 Zope in any way and is used in many projects that have nothing to do
 with Zope.
 
@@ -60,25 +60,25 @@ with Zope.
 Downloads
 =========
 
-ZODB is distributed through the `Python Package Index
-<https://pypi.org/project/ZODB/>`_.
+PyObjectDB is distributed through the `Python Package Index
+<https://pypi.org/project/PyObjectDB/>`_.
 
-You can install the ZODB using pip command::
+You can install the PyObjectDB using pip command::
 
-    $ pip install ZODB
+    $ pip install PyObjectDB
 
 Community and contributing
 ==========================
 
-Discussion occurs on the `ZODB mailing list
-<https://groups.google.com/forum/#!forum/zodb>`_. (And for the
+Discussion occurs on the `PyObjectDB mailing list
+<https://groups.google.com/forum/#!forum/PyObjectDB>`_. (And for the
 transaction system on the `transaction list
 <https://groups.google.com/forum/#!forum/python-transaction>`_)
 
 Bug reporting and feature requests are submitted through github issue
-trackers for various ZODB components:
+trackers for various PyObjectDB components:
 
-- ZODB `repository <https://github.com/zopefoundation/zodb>`_
+- PyObjectDB `repository <https://github.com/zopefoundation/PyObjectDB>`_
 
 - persistent `documentation <https://persistent.readthedocs.io/en/stable/>`_ and its `repository <https://github.com/zopefoundation/persistent>`_.
 
@@ -88,9 +88,9 @@ trackers for various ZODB components:
 
 - ZEO (client-server framework) `documentation <https://zeo.readthedocs.io/en/stable/>`_ and its `repository <https://github.com/zopefoundation/ZEO>`_
 
-- relstorage `documentation <https://relstorage.readthedocs.io/en/latest/>`_ and its `repository <https://github.com/zodb/relstorage/>`_
+- relstorage `documentation <https://relstorage.readthedocs.io/en/latest/>`_ and its `repository <https://github.com/PyObjectDB/relstorage/>`_
 
-- zodburi `documentation <https://docs.pylonsproject.org/projects/zodburi/en/latest/>`_ and its `repository <https://github.com/Pylons/zodburi>`_
+- PyObjectDBuri `documentation <https://docs.pylonsproject.org/projects/PyObjectDBuri/en/latest/>`_ and its `repository <https://github.com/Pylons/PyObjectDBuri>`_
 
 - NEO `documentation <https://neo.nexedi.com/>`_ and its `repository <https://lab.nexedi.com/nexedi/neoppod/>`_
 
@@ -102,5 +102,5 @@ If you'd like to contribute then we'll gladly accept work on documentation,
 helping out other developers and users at the mailing list, submitting bugs,
 creating proposals and writing code.
 
-ZODB is a project managed by the Zope Foundation so you can get write access
+PyObjectDB is a project managed by the Zope Foundation so you can get write access
 for contributing directly - check out the foundation's `Zope Developer Information <http://docs.zope.org/developer>`_.

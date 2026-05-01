@@ -10,7 +10,7 @@
 Related Modules
 ===============
 
-The ZODB package includes a number of related modules that provide useful data
+The PyObjectDB package includes a number of related modules that provide useful data
 types such as BTrees.
 
 
@@ -50,9 +50,9 @@ much as :class:`PersistentMapping` is a wrapper for mappings.
 BTrees Package
 --------------
 
-When programming with the ZODB, Python dictionaries aren't always what you need.
+When programming with the PyObjectDB, Python dictionaries aren't always what you need.
 The most important case is where you want to store a very large mapping.  When a
-Python dictionary is accessed in a ZODB, the whole dictionary has to be
+Python dictionary is accessed in a PyObjectDB, the whole dictionary has to be
 unpickled and brought into memory.  If you're storing something very large, such
 as a 100,000-entry user database, unpickling such a large object will be slow.
 BTrees are a balanced tree data structure that behave like a mapping but
@@ -66,7 +66,7 @@ There are variants of the data structures specialized to integers, which are
 faster and use less memory.  There are five modules that handle the different
 variants.  The first two letters of the module name specify the types of the
 keys and values in mappings -- O for any object, I for 32-bit signed integer,
-and (new in ZODB 3.4) F for 32-bit C float.  For example, the
+and (new in PyObjectDB 3.4) F for 32-bit C float.  For example, the
 :mod:`BTrees.IOBTree` module provides a mapping with integer keys and arbitrary
 objects as values.
 
@@ -84,10 +84,10 @@ to the number of existing elements.  Also like Python lists, a Bucket or Set is
 a single object, and is pickled and unpickled in its entirety.  BTrees and
 TreeSets are multi-level tree structures with much better (logarithmic) worst-
 case time bounds, and the tree structure is built out of multiple objects, which
-ZODB can load individually as needed.
+PyObjectDB can load individually as needed.
 
 The five modules are named :mod:`OOBTree`, :mod:`IOBTree`, :mod:`OIBTree`,
-:mod:`IIBTree`, and (new in ZODB 3.4) :mod:`IFBTree`.  The two letter prefixes
+:mod:`IIBTree`, and (new in PyObjectDB 3.4) :mod:`IFBTree`.  The two letter prefixes
 are repeated in the data types names.  The :mod:`BTrees.OOBTree` module defines
 the following types: :class:`OOBTree`, :class:`OOBucket`, :class:`OOSet`, and
 :class:`OOTreeSet`. Similarly, the other four modules each define their own
@@ -101,7 +101,7 @@ arguments to specify the minimum and maximum values to return, often called
 searching is very efficient.
 
 The :func:`keys`, :func:`values`, and :func:`items` methods on Bucket and Set
-types do return lists with all the data. Starting in ZODB 3.3, there are also
+types do return lists with all the data. Starting in PyObjectDB 3.3, there are also
 :func:`iterkeys`, :func:`itervalues`, and :func:`iteritems` methods that return
 iterators (in the Python 2.2 sense).  Those methods also apply to BTree and
 TreeSet objects.
@@ -114,7 +114,7 @@ optional bound argument, and :func:`byValue`, which should probably be ignored
 (it's hard to explain exactly what it does, and as a result it's almost never
 used -- best to consider it deprecated).  The various methods for enumerating
 keys, values and items also accept minimum and maximum key arguments ("range
-search"), and (new in ZODB 3.3) optional Boolean arguments to control whether a
+search"), and (new in PyObjectDB 3.3) optional Boolean arguments to control whether a
 range search is inclusive or exclusive of the range's endpoints. ::
 
    >>> from BTrees.OOBTree import OOBTree
@@ -139,7 +139,7 @@ range search is inclusive or exclusive of the range's endpoints. ::
    ['red', 'green']
    >>> list(t.values(2))    # values at keys >= 2
    ['green', 'blue', 'spades']
-   >>> list(t.values(min=1, max=4))  # keyword args new in ZODB 3.3
+   >>> list(t.values(min=1, max=4))  # keyword args new in PyObjectDB 3.3
    ['red', 'green', 'blue', 'spades']
    >>> list(t.values(min=1, max=4, excludemin=True, excludemax=True))
    ['green', 'blue']
@@ -150,10 +150,10 @@ range search is inclusive or exclusive of the range's endpoints. ::
    >>> for k in t.keys():
    ...     print k,
    1 2 3 4
-   >>> for k in t:    # new in ZODB 3.3
+   >>> for k in t:    # new in PyObjectDB 3.3
    ...     print k,
    1 2 3 4
-   >>> for pair in t.iteritems():  # new in ZODB 3.3
+   >>> for pair in t.iteritems():  # new in PyObjectDB 3.3
    ...     print pair,
    ...
    (1, 'red') (2, 'green') (3, 'blue') (4, 'spades')
@@ -161,9 +161,9 @@ range search is inclusive or exclusive of the range's endpoints. ::
    2
    >>> t.has_key(5)
    0
-   >>> 4 in t  # new in ZODB 3.3
+   >>> 4 in t  # new in PyObjectDB 3.3
    True
-   >>> 5 in t  # new in ZODB 3.3
+   >>> 5 in t  # new in PyObjectDB 3.3
    False
    >>>
 
@@ -184,7 +184,7 @@ documentation.  Note that the interfaces don't define the concrete types
 returned by most operations, and you shouldn't rely on the concrete types that
 happen to be returned:  stick to operations guaranteed by the interface.  In
 particular, note that the interfaces don't specify anything about comparison
-behavior, and so nothing about it is guaranteed.  In ZODB 3.3, for example, two
+behavior, and so nothing about it is guaranteed.  In PyObjectDB 3.3, for example, two
 BTrees happen to use Python's default object comparison, which amounts to
 comparing the (arbitrary but fixed) memory addresses of the BTrees. This may or
 may not be true in future releases. If the interfaces don't specify a behavior,

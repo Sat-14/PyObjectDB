@@ -11,7 +11,7 @@
 
 - Add ``class_factory`` parameter to ``DB.__init__()`` and
   ``class-factory`` option to ZConfig database configuration.
-  See `issue #420 <https://github.com/zopefoundation/ZODB/issues/420>`_.
+  See `issue #420 <https://github.com/zopefoundation/PyObjectDB/issues/420>`_.
 
 
 6.2 (2026-01-23)
@@ -40,11 +40,11 @@
 - repozo: prevent an incorrect "option ignored" warning when running backup
   or verify.
 
-- FileStorage: fix `restore` regression introduced in ZODB 6.0 in `#395
-  <https://github.com/zopefoundation/ZODB/pull/395>`_: when restoring data
+- FileStorage: fix `restore` regression introduced in PyObjectDB 6.0 in `#395
+  <https://github.com/zopefoundation/PyObjectDB/pull/395>`_: when restoring data
   records with undo the `restore` was no longer emitting backpointers and was
   emitting duplicate data copies instead.
-  `#409 <https://github.com/zopefoundation/ZODB/pull/409>`_
+  `#409 <https://github.com/zopefoundation/PyObjectDB/pull/409>`_
   fixes `restore` back to emit data records with backpointers for undo again.
 
 
@@ -59,20 +59,20 @@
 
 - FileStorage: fix a rare data corruption when using restore after multiple
   undos.
-  For details see `#395 <https://github.com/zopefoundation/ZODB/pull/395>`_.
+  For details see `#395 <https://github.com/zopefoundation/PyObjectDB/pull/395>`_.
 
 - Fix exit code of ``repozo`` script in case of verification error.
-  For details see `#396 <https://github.com/zopefoundation/ZODB/pull/396>`_.
+  For details see `#396 <https://github.com/zopefoundation/PyObjectDB/pull/396>`_.
 
 
 5.8.1 (2023-07-18)
 ==================
 
 - Fix ``racetest`` problems.
-  For details see `#376 <https://github.com/zopefoundation/ZODB/pull/376>`_.
+  For details see `#376 <https://github.com/zopefoundation/PyObjectDB/pull/376>`_.
 
 - Fix ``--with-verify`` argument in script repozo ``--recover``.
-  For details see `#381 <https://github.com/zopefoundation/ZODB/pull/381>`_.
+  For details see `#381 <https://github.com/zopefoundation/PyObjectDB/pull/381>`_.
 
 
 5.8.0 (2022-11-09)
@@ -88,19 +88,19 @@
 
 - Fix ``TypeError: can't concat str to bytes`` when running fsoids.py script
   with Python 3.
-  See `issue 350 <https://github.com/zopefoundation/ZODB/issues/350>`_.
+  See `issue 350 <https://github.com/zopefoundation/PyObjectDB/issues/350>`_.
 
 - Readd transaction size information to ``fsdump`` output;
   adapt `fsstats` to ``fsdump``'s exchanged order for ``size`` and ``class``
   information in data records;
-  (fixes `#354 <https://github.com/zopefoundation/ZODB/issues/354>_).
+  (fixes `#354 <https://github.com/zopefoundation/PyObjectDB/issues/354>_).
   Make ``fsdump`` callable via Python's ``-m`` command line option.
 
 - Fix UnboundLocalError when running fsoids.py script.
-  See `issue 285 <https://github.com/zopefoundation/ZODB/issues/285>`_.
+  See `issue 285 <https://github.com/zopefoundation/PyObjectDB/issues/285>`_.
 
 - Rework ``fsrefs`` script to work significantly faster by optimizing how it
-  does IO. See `PR 340 <https://github.com/zopefoundation/ZODB/pull/340>`_.
+  does IO. See `PR 340 <https://github.com/zopefoundation/PyObjectDB/pull/340>`_.
 
 - Require Python 3 to build the documentation.
 
@@ -115,7 +115,7 @@
 - Fix race with invalidations when starting a new transaction. The bug
   affected Storage implementations that rely on mvccadapter, and could result
   in data corruption (oid loaded at wrong serial after a concurrent commit).
-  See `issue 290 <https://github.com/zopefoundation/ZODB/issues/290>`_.
+  See `issue 290 <https://github.com/zopefoundation/PyObjectDB/issues/290>`_.
   As mentionned in pull request #307, interfaces are clarified about the fact
   that storage implementations must update at a precise moment the value that
   is returned by lastTransaction(): just after invalidate() or
@@ -136,18 +136,18 @@
 - Fix ``DB.undo()`` and ``DB.undoMultiple()`` to close the storage
   they open behind the scenes when the transaction is committed or
   rolled back. See `issue 268
-  <https://github.com/zopefoundation/ZODB/issues/268>`_.
+  <https://github.com/zopefoundation/PyObjectDB/issues/268>`_.
 
 - Make TransactionMetaData in charge of (de)serializing extension data.
   A new ``extension_bytes`` attribute converts automatically from
   ``extension``, or vice-versa. During storage iteration, ``extension_bytes``
   holds bytes as they are stored (i.e. no deserialization happens).
-  See `issue 207 <https://github.com/zopefoundation/ZODB/pull/207>`_.
+  See `issue 207 <https://github.com/zopefoundation/PyObjectDB/pull/207>`_.
 
 - Make a connection's savepoint storage implement its own
   (approximate) ``getSize`` method instead of relying on the original
   storage. Previously, this produced confusing DEBUG logging. See
-  `issue 282 <https://github.com/zopefoundation/ZODB/issues/282>`_.
+  `issue 282 <https://github.com/zopefoundation/PyObjectDB/issues/282>`_.
 
 - Fix tests with transaction 3.0.
 
@@ -155,51 +155,51 @@
 
 - Remove ``ConnectionPool.map()``. Instead, ``ConnectionPool`` is now
   iterable. See `PR 280
-  <https://github.com/zopefoundation/ZODB/pull/280>`_.
+  <https://github.com/zopefoundation/PyObjectDB/pull/280>`_.
 
 5.5.1 (2018-10-25)
 ==================
 
 - Fix KeyError on releasing resources of a Connection when closing the DB.
   This requires at least version 2.4 of the ``transaction`` package.
-  See `issue 208 <https://github.com/zopefoundation/ZODB/issues/208>`_.
+  See `issue 208 <https://github.com/zopefoundation/PyObjectDB/issues/208>`_.
 
 5.5.0 (2018-10-13)
 ==================
 
 - Add support for Python 3.7.
 
-- Bump the dependency on zodbpickle to at least 1.0.1. This is
+- Bump the dependency on PyObjectDBpickle to at least 1.0.1. This is
   required to avoid a memory leak on Python 2.7. See `issue 203
-  <https://github.com/zopefoundation/ZODB/issues/203>`_.
+  <https://github.com/zopefoundation/PyObjectDB/issues/203>`_.
 
 - Bump the dependency on persistent to at least 4.4.0.
 
 - Make the internal support functions for dealing with OIDs (``p64``
   and ``u64``) somewhat faster and raise more informative
   exceptions on certain types of bad input. See `issue 216
-  <https://github.com/zopefoundation/ZODB/issues/216>`_.
+  <https://github.com/zopefoundation/PyObjectDB/issues/216>`_.
 
 - Remove support for ``python setup.py test``. It hadn't been working
   for some time. See `issue #218
-  <https://github.com/zopefoundation/ZODB/issues/218>`_.
+  <https://github.com/zopefoundation/PyObjectDB/issues/218>`_.
 
 - Make the tests run faster by avoiding calls to ``time.sleep()``.
 
 5.4.0 (2018-03-26)
 ==================
 
-- ZODB now uses pickle protocol 3 for both Python 2 and Python 3.
+- PyObjectDB now uses pickle protocol 3 for both Python 2 and Python 3.
 
   (Previously, protocol 2 was used for Python 2.)
 
-  The zodbpickle package provides a `zodbpickle.binary` string type
+  The PyObjectDBpickle package provides a `PyObjectDBpickle.binary` string type
   that should be used in Python 2 to cause binary strings to be saved
   in a pickle binary format, so they can be loaded correctly in
   Python 3.  Pickle protocol 3 is needed for this to work correctly.
 
 - Object identifiers in persistent references are saved as
-  `zodbpickle.binary` strings in Python 2, so that they are loaded
+  `PyObjectDBpickle.binary` strings in Python 2, so that they are loaded
   correctly in Python 3.
 
 - If an object is missing from the index while packing a ``FileStorage``,
@@ -218,7 +218,7 @@
 - Drop support for Python 3.3.
 
 - Ensure that the ``HistoricalStorageAdapter`` forwards the ``release`` method to
-  its base instance. See `issue 78 <https://github.com/zopefoundation/ZODB/issues/788>`_.
+  its base instance. See `issue 78 <https://github.com/zopefoundation/PyObjectDB/issues/788>`_.
 
 - Use a higher pickle protocol (2) for serializing objects on Python
   2; previously protocol 1 was used. This is *much* more efficient for
@@ -231,7 +231,7 @@
             would result in a ``TypeError``. Doing so is not
             recommended as they cannot be loaded in Python 3.
 
-  See `issue 179 <https://github.com/zopefoundation/ZODB/pull/179>`_.
+  See `issue 179 <https://github.com/zopefoundation/PyObjectDB/pull/179>`_.
 
 5.2.4 (2017-05-17)
 ==================
@@ -240,16 +240,16 @@
   helpful to avoid false positives in tests that check for leaks.
 
 - Optimize getting the path to a blob file. See
-  `issue 161 <https://github.com/zopefoundation/ZODB/pull/161>`_.
+  `issue 161 <https://github.com/zopefoundation/PyObjectDB/pull/161>`_.
 
 - All classes are new-style classes on Python 2 (they were already
   new-style on Python 3). This improves performance on PyPy. See
-  `issue 160 <https://github.com/zopefoundation/ZODB/pull/160>`_.
+  `issue 160 <https://github.com/zopefoundation/PyObjectDB/pull/160>`_.
 
 5.2.3 (2017-04-11)
 ==================
 
-- Fix an import error. See `issue 158 <https://github.com/zopefoundation/ZODB/issues/158>`_.
+- Fix an import error. See `issue 158 <https://github.com/zopefoundation/PyObjectDB/issues/158>`_.
 
 5.2.2 (2017-04-11)
 ==================
@@ -257,7 +257,7 @@
 - Fixed: A blob misfeature set blob permissions so that blobs and blob
   directories were only readable by the database process owner, rather
   than honoring user-controlled permissions (e.g. ``umask``).
-  See `issue 155 <https://github.com/zopefoundation/ZODB/issues/155>`_.
+  See `issue 155 <https://github.com/zopefoundation/PyObjectDB/issues/155>`_.
 
 5.2.1 (2017-04-08)
 ==================
@@ -271,33 +271,33 @@
 
 - Call new afterCompletion API on storages to allow them to free
   resources after transaction complete.
-  See `issue 147 <https://github.com/zodb/relstorage/issues/147>`__.
+  See `issue 147 <https://github.com/PyObjectDB/relstorage/issues/147>`__.
 - Take advantage of the new transaction-manager explicit mode to avoid
   starting transactions unnecessarily when transactions end.
 
 - ``Connection.new_oid`` delegates to its storage, not the DB. This is
   helpful for improving concurrency in MVCC storages like RelStorage.
-  See `issue 139 <https://github.com/zopefoundation/ZODB/issues/139>`_.
+  See `issue 139 <https://github.com/zopefoundation/PyObjectDB/issues/139>`_.
 
 - ``persistent`` is no longer required at setup time.
-  See `issue 119 <https://github.com/zopefoundation/ZODB/issues/119>`_.
+  See `issue 119 <https://github.com/zopefoundation/PyObjectDB/issues/119>`_.
 
 - ``Connection.close`` and ``Connection.open`` no longer race on
   ``self.transaction_manager``, which could lead to
   ``AttributeError``. This was a bug introduced in 5.0.1. See `issue
-  142 <https://github.com/zopefoundation/ZODB/pull/143>`_.
+  142 <https://github.com/zopefoundation/PyObjectDB/pull/143>`_.
 
 
 5.1.1 (2016-11-18)
 ==================
 
-- Fixed: ``ZODB.Connection.TransactionMetaData`` didn't support custom data
+- Fixed: ``PyObjectDB.Connection.TransactionMetaData`` didn't support custom data
   storage that some storages rely on.
 
 5.1.0 (2016-11-17)
 ==================
 
-- ZODB now translates transaction meta data, ``user`` and
+- PyObjectDB now translates transaction meta data, ``user`` and
   ``description`` from text to bytes before passing them to storages,
   and converts them back to text when retrieving them from storages in
   the ``history``, ``undoLog`` and ``undoInfo`` methods.
@@ -311,7 +311,7 @@
 
 - Fix an AttributeError that DemoStorage could raise if it was asked
   to store a blob into a temporary changes before reading a blob. See
-  `issue 103 <https://github.com/zopefoundation/ZODB/issues/103>`_.
+  `issue 103 <https://github.com/zopefoundation/PyObjectDB/issues/103>`_.
 
 - Call _p_resolveConflict() even if a conflicting change doesn't change the
   state. This reverts to the behaviour of 3.10.3 and older.
@@ -319,7 +319,7 @@
 - Closing a Connection now reverts its ``transaction_manager`` to
   None. This helps prevent errors and release resources when the
   ``transaction_manager`` was the (default) thread-local manager. See
-  `issue 114 <https://github.com/zopefoundation/ZODB/issues/114>`_.
+  `issue 114 <https://github.com/zopefoundation/PyObjectDB/issues/114>`_.
 
 - Many docstrings have been improved.
 
@@ -413,7 +413,7 @@ Major **internal** implementation changes to the Multi Version
 Concurrency Control (MVCC) implementation:
 
 - For storages that implement IMVCCStorage (RelStorage), no longer
-  implement MVCC in ZODB.
+  implement MVCC in PyObjectDB.
 
 - For other storages, MVCC is implemented using an additional storage
   layer. This underlying layer works by calling ``loadBefore``. The
@@ -473,27 +473,27 @@ updated interface.
 
 - Drop support for Python 2.6 and 3.2.
 
-- Make the ``zodbpickle`` dependency required and not conditional.
+- Make the ``PyObjectDBpickle`` dependency required and not conditional.
   This fixes various packaging issues involving pip and its wheel
-  cache. zodbpickle was only optional under Python 2.6 so this change
+  cache. PyObjectDBpickle was only optional under Python 2.6 so this change
   only impacts users of that version.  See
-  https://github.com/zopefoundation/ZODB/pull/42.
+  https://github.com/zopefoundation/PyObjectDB/pull/42.
 
 - Add support for Python 3.5.
 
 - Avoid failure during cleanup of nested databases that provide MVCC
   on storage level (Relstorage).
-  https://github.com/zopefoundation/ZODB/issues/45
+  https://github.com/zopefoundation/PyObjectDB/issues/45
 
 - Remove useless dependency to `zdaemon` in setup.py. Remove ZEO documentation.
   Both were leftovers from the time where ZEO was part of this repository.
 
 - Fix possible data corruption after FileStorage is truncated to roll back a
   transaction.
-  https://github.com/zopefoundation/ZODB/pull/52
+  https://github.com/zopefoundation/PyObjectDB/pull/52
 
 - DemoStorage: add support for conflict resolution and fix history()
-  https://github.com/zopefoundation/ZODB/pull/58
+  https://github.com/zopefoundation/PyObjectDB/pull/58
 
 - Fixed a test that depended on implementation-specific behavior in tpc_finish
 
@@ -502,28 +502,28 @@ updated interface.
 
 - Declare conditional dependencies using PEP-426 environment markers
   (fixing interation between pip 7's wheel cache and tox).  See
-  https://github.com/zopefoundation/ZODB/issues/36.
+  https://github.com/zopefoundation/PyObjectDB/issues/36.
 
 4.2.0b1 (2015-05-22)
 ====================
 
 - Log failed conflict resolution attempts at ``DEBUG`` level.  See:
-  https://github.com/zopefoundation/ZODB/pull/29.
+  https://github.com/zopefoundation/PyObjectDB/pull/29.
 
 - Fix command-line parsing of ``--verbose`` and ``--verify`` arguments.
   (The short versions, ``-v`` and ``-V``, were parsed correctly.)
 
 - Add support for PyPy.
 
-- Fix the methods in ``ZODB.serialize`` that find object references
+- Fix the methods in ``PyObjectDB.serialize`` that find object references
   under Python 2.7 (used in scripts like ``referrers``, ``netspace``,
   and ``fsrecover`` among others). This requires the addition of the
-  ``zodbpickle`` dependency.
+  ``PyObjectDBpickle`` dependency.
 
 - FileStorage: fix an edge case when disk space runs out while packing,
   do not leave the ``.pack`` file around. That would block any write to the
   to-be-packed ``Data.fs``, because the disk would stay at 0 bytes free.
-  See https://github.com/zopefoundation/ZODB/pull/21.
+  See https://github.com/zopefoundation/PyObjectDB/pull/21.
 
 4.1.0 (2015-01-11)
 ==================
@@ -541,7 +541,7 @@ updated interface.
 
 - Fix ``POSKeyError`` during ``transaction.commit`` when after
   ``savepoint.rollback``.  See
-  https://github.com/zopefoundation/ZODB/issues/16
+  https://github.com/zopefoundation/PyObjectDB/issues/16
 
 - Ensure that the pickler used in PyPy always has a ``persistent_id``
   attribute (``inst_persistent_id`` is not present on the pure-Python
@@ -586,10 +586,10 @@ Finally released.
 
 .. note::
 
-   ZODB 4.0.x is supported on Python 3.x for *new* applications only.
+   PyObjectDB 4.0.x is supported on Python 3.x for *new* applications only.
    Due to changes in the standard library's pickle support, the Python3
    support does **not** provide forward- or backward-compatibility
-   at the data level with Python2.  A future version of ZODB may add
+   at the data level with Python2.  A future version of PyObjectDB may add
    such support.
 
    Applications which need migrate data from Python2 to Python3 should
@@ -626,11 +626,11 @@ New Features
 ------------
 
 - The ``persistent`` and ``BTrees`` packages are now released as separate
-  distributions, on which ZODB now depends.
+  distributions, on which PyObjectDB now depends.
 
-- ZODB no longer depends on zope.event.  It now uses ZODB.event, which
+- PyObjectDB no longer depends on zope.event.  It now uses PyObjectDB.event, which
   uses zope.event if it is installed.  You can override
-  ZODB.event.notify to provide your own event handling, although
+  PyObjectDB.event.notify to provide your own event handling, although
   zope.event is recommended.
 
 - BTrees allowed object keys with insane comparison. (Comparison
@@ -645,12 +645,12 @@ Bugs Fixed
 - Ensured that the export file and index file created by ``repozo`` share
   the same timestamp.
 
-  https://bugs.launchpad.net/zodb/+bug/993350
+  https://bugs.launchpad.net/PyObjectDB/+bug/993350
 
 - Pinned the ``transaction`` and ``manuel`` dependencies to Python 2.5-
   compatible versions when installing under Python 2.5.
 
 
 .. note::
-   Please see https://github.com/zopefoundation/ZODB/blob/master/HISTORY.rst
-   for older versions of ZODB.
+   Please see https://github.com/zopefoundation/PyObjectDB/blob/master/HISTORY.rst
+   for older versions of PyObjectDB.

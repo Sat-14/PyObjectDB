@@ -1,4 +1,4 @@
-Historical ZODB Changelog
+Historical PyObjectDB Changelog
 #########################
 
 .. contents::
@@ -30,10 +30,10 @@ Bugs Fixed
 - "activity monitor not updated for subconnections when connection
   returned to pool"
 
-  https://bugs.launchpad.net/zodb/+bug/737198
+  https://bugs.launchpad.net/PyObjectDB/+bug/737198
 
 - "Blob temp file get's removed before it should",
-  https://bugs.launchpad.net/zodb/+bug/595378
+  https://bugs.launchpad.net/PyObjectDB/+bug/595378
 
   A way this to happen is that a transaction is aborted after the
   commit process has started. I don't know how this would happen in
@@ -67,11 +67,11 @@ Bugs Fixed
   error in which one of the serials mentioned is zero.  This
   optimization has been removed.
 
-  See (for example): https://bugs.launchpad.net/zodb/+bug/665452
+  See (for example): https://bugs.launchpad.net/PyObjectDB/+bug/665452
 
 - ZEO server transaction timeouts weren't logged as critical.
 
-  https://bugs.launchpad.net/zodb/+bug/670986
+  https://bugs.launchpad.net/PyObjectDB/+bug/670986
 
 3.10.1 (2010-10-27)
 ===================
@@ -86,10 +86,10 @@ Bugs Fixed
   in a state where subsequent transactions in the same process would
   fail.
 
-  https://bugs.launchpad.net/zodb/+bug/665452
+  https://bugs.launchpad.net/PyObjectDB/+bug/665452
 
 - Unix domain sockets didn't work for ZEO (since the addition of IPv6
-  support). https://bugs.launchpad.net/zodb/+bug/663259
+  support). https://bugs.launchpad.net/PyObjectDB/+bug/663259
 
 - Removed a missfeature that can cause performance problems when using
   an external garbage collector with ZEO.  When objects were deleted
@@ -113,7 +113,7 @@ New Features
 
 - FileStorage indexes use a new format. They are saved and loaded much
   faster and take less space. Old indexes can still be read, but new
-  indexes won't be readable by older versions of ZODB.
+  indexes won't be readable by older versions of PyObjectDB.
 
 - The API for undoing multiple transactions has changed.  To undo
   multiple transactions in a single transaction, pass a list of
@@ -122,7 +122,7 @@ New Features
   raises an exception.
 
 - The ZEO protocol for undo has changed.  The only user-visible
-  consequence of this is that when ZODB 3.10 ZEO servers won't support
+  consequence of this is that when PyObjectDB 3.10 ZEO servers won't support
   undo for older clients.
 
 - The storage API (IStorage) has been tightened. Now, storages should
@@ -145,7 +145,7 @@ New Features
   and close_changes_on_close, to control whether underlying storages
   are closed when the DemoStorage is closed.
 
-  https://bugs.launchpad.net/zodb/+bug/118512
+  https://bugs.launchpad.net/PyObjectDB/+bug/118512
 
 - Removed the dependency on zope.proxy.
 
@@ -159,8 +159,8 @@ New Features
 
 - Enhanced the database opening conveniences:
 
-  - You can now pass storage keyword arguments to ZODB.DB and
-    ZODB.connection.
+  - You can now pass storage keyword arguments to PyObjectDB.DB and
+    PyObjectDB.connection.
 
   - You can now pass None (rather than a storage or file name) to get
     a database with a mapping storage.
@@ -172,7 +172,7 @@ New Features
 
 - Added support for wrapper storages that transform pickle data.
   Applications for this include compression and encryption.  An
-  example wrapper storage implementation, ZODB.tests.hexstorage, was
+  example wrapper storage implementation, PyObjectDB.tests.hexstorage, was
   included for testing.
 
   It is important that storage implementations not assume that
@@ -181,7 +181,7 @@ New Features
   data records.  Storages implementations should use these methods to
   get pickle data from stored records.
 
-- Deprecated ZODB.interfaces.StorageStopIteration.  Storage
+- Deprecated PyObjectDB.interfaces.StorageStopIteration.  Storage
   iterator implementations should just raise StopIteration, which
   means they can now be implemented as generators.
 
@@ -197,7 +197,7 @@ New Features
   A conflict error will be raised if the version of ob read by the
   transaction isn't current when the transaction is committed.
 
-  Normally, ZODB only assures that objects read are consistent, but not
+  Normally, PyObjectDB only assures that objects read are consistent, but not
   necessarily up to date.  Checking whether an object is up to date is
   important when information read from one object is used to update
   another.
@@ -240,7 +240,7 @@ New Features
 
     https://pypi.org/project/zope.mkzeoinstance/
 
-  and is no-longer included with ZODB.
+  and is no-longer included with PyObjectDB.
 
 - Removed untested unsupported dbmstorage fossile.
 
@@ -268,20 +268,20 @@ Bugs fixed
   files corresponding to backups being removed.
 
 - ZEO extension methods failed when a client reconnected to a
-  storage. (https://bugs.launchpad.net/zodb/+bug/143344)
+  storage. (https://bugs.launchpad.net/PyObjectDB/+bug/143344)
 
 - Clarified the return Value for lastTransaction in the case when
   there aren't any transactions.  Now a string of 8 nulls (aka "z64")
   is specified.
 
 - Setting _p_changed on a blob wo actually writing anything caused an
-  error. (https://bugs.launchpad.net/zodb/+bug/440234)
+  error. (https://bugs.launchpad.net/PyObjectDB/+bug/440234)
 
 - The verbose mode of the fstest was broken.
-  (https://bugs.launchpad.net/zodb/+bug/475996)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/475996)
 
 - Object ids created in a savepoint that is rolled back wren't being
-  reused. (https://bugs.launchpad.net/zodb/+bug/588389)
+  reused. (https://bugs.launchpad.net/PyObjectDB/+bug/588389)
 
 - Database connections didn't invalidate cache entries when conflict
   errors were raised in response to checkCurrentSerialInTransaction
@@ -293,7 +293,7 @@ Bugs fixed
   3.10.0b5.) Invalidating read data when there is a conflict error
   provides some extra insurance.
 
-- The interface, ZODB.interfaces.IStorage was incorrect. The store
+- The interface, PyObjectDB.interfaces.IStorage was incorrect. The store
   method should never return a sequence of oid and serial pairs.
 
 - When a demo storage push method was used to create a new demo
@@ -312,12 +312,12 @@ Bugs fixed
   circumstances.
 
 - Fixed bug in copying a BTrees.Length instance.
-  (https://bugs.launchpad.net/zodb/+bug/516653)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/516653)
 
 - Fixed a serious bug that caused cache failures when run
   with Python optimization turned on.
 
-  https://bugs.launchpad.net/zodb/+bug/544305
+  https://bugs.launchpad.net/PyObjectDB/+bug/544305
 
 - When using using a ClientStorage in a Storage server, there was a
   threading bug that caused clients to get disconnected.
@@ -329,11 +329,11 @@ Bugs fixed
   The failure to properly handle exceptions while accepting
   connections is potentially problematic on other platforms.
 
-  Fixes: https://bugs.launchpad.net/zodb/+bug/135108
+  Fixes: https://bugs.launchpad.net/PyObjectDB/+bug/135108
 
 - Object state management wasn't done correctly when classes
   implemented custom _p_deavtivate methods.
-  (https://bugs.launchpad.net/zodb/+bug/185066)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/185066)
 
 
 3.9.7 (2010-09-28)
@@ -344,13 +344,13 @@ Bugs Fixed
 
 - Changes in way that garbage collection treats dictionaries in Python
   2.7 broke the object/connection cache implementation.
-  (https://bugs.launchpad.net/zodb/+bug/641481)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/641481)
 
   Python 2.7 wasn't officially supported, but we were releasing
   binaries for it, so ...
 
 - Logrotation/repoening via a SIGUSR2 signal wasn't implemented.
-  (https://bugs.launchpad.net/zodb/+bug/143600)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/143600)
 
 - When using multi-databases, cache-management operations on a
   connection, cacheMinimize and cacheGC, weren't applied to
@@ -363,7 +363,7 @@ Bugs Fixed
 ----------
 
 - Updating blobs in save points could cause spurious "invalidations
-  out of order" errors.  https://bugs.launchpad.net/zodb/+bug/509801
+  out of order" errors.  https://bugs.launchpad.net/PyObjectDB/+bug/509801
 
   (Thanks to Christian Zagrodnick for chasing this down.)
 
@@ -387,17 +387,17 @@ Bugs Fixed
 - Conflict errors didn't invalidate ZEO cache entries.
 
 - When objects were added in savepoints and either the savepoint was
-  rolled back (https://bugs.launchpad.net/zodb/+bug/143560) or the
+  rolled back (https://bugs.launchpad.net/PyObjectDB/+bug/143560) or the
   transaction was aborted
-  (https://mail.zope.org/pipermail/zodb-dev/2010-June/013488.html)
+  (https://mail.zope.org/pipermail/PyObjectDB-dev/2010-June/013488.html)
   The objects' _p_oid and _p_jar variables weren't cleared, leading to
   surprizing errors.
 
 - Objects added in transactions that were later aborted could have
-  _p_changed still set (https://bugs.launchpad.net/zodb/+bug/615758).
+  _p_changed still set (https://bugs.launchpad.net/PyObjectDB/+bug/615758).
 
 - ZEO extension methods failed when a client reconnected to a
-  storage. (https://bugs.launchpad.net/zodb/+bug/143344)
+  storage. (https://bugs.launchpad.net/PyObjectDB/+bug/143344)
 
 - On Mac OS X, clients that connected and disconnected quickly could
   cause a ZEO server to stop accepting connections, due to a failure
@@ -406,20 +406,20 @@ Bugs Fixed
   The failure to properly handle exceptions while accepting
   connections is potentially problematic on other platforms.
 
-  Fixes: https://bugs.launchpad.net/zodb/+bug/135108
+  Fixes: https://bugs.launchpad.net/PyObjectDB/+bug/135108
 
 - Passing keys or values outside the range of 32-bit ints on 64-bit
   platforms led to undetected overflow errors. Now these cases cause
   Type errors to be raised.
 
-  https://bugs.launchpad.net/zodb/+bug/143237
+  https://bugs.launchpad.net/PyObjectDB/+bug/143237
 
 - BTree sets and tree sets didn't correctly check values passed to
   update or to constructors, causing Python to exit under certain
   circumstances.
 
 - The verbose mode of the fstest was broken.
-  (https://bugs.launchpad.net/zodb/+bug/475996)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/475996)
 
 3.9.5 (2010-04-23)
 ==================
@@ -428,22 +428,22 @@ Bugs Fixed
 ----------
 
 - Fixed bug in cPickleCache's byte size estimation logic.
-  (https://bugs.launchpad.net/zodb/+bug/533015)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/533015)
 
 - Fixed a serious bug that caused cache failures when run
   with Python optimization turned on.
 
-  https://bugs.launchpad.net/zodb/+bug/544305
+  https://bugs.launchpad.net/PyObjectDB/+bug/544305
 
 - Fixed a bug that caused savepoint rollback to not properly
   set object state when objects implemented _p_invalidate methods
   that reloaded ther state (unghostifiable objects).
 
-  https://bugs.launchpad.net/zodb/+bug/428039
+  https://bugs.launchpad.net/PyObjectDB/+bug/428039
 
 - cross-database wekrefs weren't handled correctly.
 
-  https://bugs.launchpad.net/zodb/+bug/435547
+  https://bugs.launchpad.net/PyObjectDB/+bug/435547
 
 - The mkzeoinst script was fixed to tell people to
   install and use the mkzeoinstance script. :)
@@ -459,9 +459,9 @@ Bugs Fixed
   Connection._setstate_noncurrent.)
 
 - DemoStorage.loadBefore sometimes returned invalid data which
-  would trigger AssertionErrors in ZODB.Connection.
+  would trigger AssertionErrors in PyObjectDB.Connection.
 
-- History support was broken when using stprages that work with ZODB
+- History support was broken when using stprages that work with PyObjectDB
   3.8 and 3.9.
 
 - zope.testing was an unnecessary non-testing dependency.
@@ -533,7 +533,7 @@ New Features (in more or less reverse chronological order)
 - Databases have a new method, ``transaction``, that can be used with the
   Python (2.5 and later) ``with`` statement::
 
-     db = ZODB.DB(...)
+     db = PyObjectDB.DB(...)
      with db.transaction() as conn:
           # ... do stuff with conn
 
@@ -541,13 +541,13 @@ New Features (in more or less reverse chronological order)
   If control exits the block without an error, the transaction is
   committed, otherwise, it is aborted.
 
-- Convenience functions ZODB.connection and ZEO.connection provide a
+- Convenience functions PyObjectDB.connection and ZEO.connection provide a
   convenient way to open a connection to a database.  They open a
   database and return a connection to it. When the connection is
   closed, the database is closed as well.
 
-- The ZODB.config databaseFrom... methods now support
-  multi-databases. If multiple zodb sections are used to define
+- The PyObjectDB.config databaseFrom... methods now support
+  multi-databases. If multiple PyObjectDB sections are used to define
   multiple databases, the databases are connected in a multi-database
   arrangement and the first of the defined databases is returned.
 
@@ -594,7 +594,7 @@ New Features (in more or less reverse chronological order)
   really client errors.
 
 - A new storage interface, IExternalGC, to support external garbage
-  collection, http://wiki.zope.org/ZODB/ExternalGC, has been defined
+  collection, http://wiki.zope.org/PyObjectDB/ExternalGC, has been defined
   and implemented for FileStorage and ClientStorage.
 
 - As a small convenience (mainly for tests), you can now specify
@@ -639,8 +639,8 @@ New Features (in more or less reverse chronological order)
   The client blob directory layout has changed.  If you have existing
   non-shared blob directories, you will have to remove them.
 
-- ZODB 3.9 ZEO clients can connect to ZODB 3.8 servers.  ZODB ZEO clients
-  from ZODB 3.2 on can connect to ZODB 3.9 servers.
+- PyObjectDB 3.9 ZEO clients can connect to PyObjectDB 3.8 servers.  PyObjectDB ZEO clients
+  from PyObjectDB 3.2 on can connect to PyObjectDB 3.9 servers.
 
 - When a ZEO cache is stale and would need verification, a
   ZEO.interfaces.StaleCache event is published (to zope.event).
@@ -692,12 +692,12 @@ New Features (in more or less reverse chronological order)
 
   - Explicit support for demo-storage stacking via push and pop methods.
 
-- Wen calling ZODB.DB to create a database, you can now pass a file
+- Wen calling PyObjectDB.DB to create a database, you can now pass a file
   name, rather than a storage to use a file storage.
 
 - Added support for copying and recovery of blob storages:
 
-  - Added a helper function, ZODB.blob.is_blob_record for testing whether
+  - Added a helper function, PyObjectDB.blob.is_blob_record for testing whether
     a data record is for a blob.  This can be used when iterating over a
     storage to detect blob records so that blob data can be copied.
 
@@ -708,7 +708,7 @@ New Features (in more or less reverse chronological order)
   - Added the IBlobStorageRestoreable interfaces for blob storages
     that support recovery via a restoreBlob method.
 
-  - Updated ZODB.blob.BlobStorage to implement
+  - Updated PyObjectDB.blob.BlobStorage to implement
     IBlobStorageRestoreable and to have a copyTransactionsFrom method
     that also copies blob data.
 
@@ -723,24 +723,24 @@ New Features (in more or less reverse chronological order)
 
 - Versions are no-longer supported.
 
-- Document conflict resolution (see ZODB/ConflictResolution.txt).
+- Document conflict resolution (see PyObjectDB/ConflictResolution.txt).
 
 - Support multi-database references in conflict resolution.
 
 - Make it possible to examine oid and (in some situations) database
   name of persistent object references during conflict resolution.
 
-- Moved the 'transaction' module out of ZODB.
-  ZODB depends upon this module, but it must be installed separately.
+- Moved the 'transaction' module out of PyObjectDB.
+  PyObjectDB depends upon this module, but it must be installed separately.
 
-- ZODB installation now requires setuptools.
+- PyObjectDB installation now requires setuptools.
 
 - Added `offset` information to output of `fstail`
   script. Added test harness for this script.
 
 - Added support for read-only, historical connections based
   on datetimes or serials (TIDs).  See
-  src/ZODB/historical_connections.txt.
+  src/PyObjectDB/historical_connections.txt.
 
 - Removed the ThreadedAsync module.
 
@@ -763,26 +763,26 @@ Bugs Fixed
   object to a BTree-based set.)
 
 - The runzeo script didn't work without a configuration file.
-  (https://bugs.launchpad.net/zodb/+bug/410571)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/410571)
 
 - Officially deprecated PersistentDict
-  (https://bugs.launchpad.net/zodb/+bug/400775)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/400775)
 
 - Calling __setstate__ on a persistent object could under certain
   uncommon cause the process to crash.
-  (https://bugs.launchpad.net/zodb/+bug/262158)
+  (https://bugs.launchpad.net/PyObjectDB/+bug/262158)
 
 - When committing transactions involving blobs to ClientStorages with
   non-shared blob directories, a failure could occur in tpc_finish if
   there was insufficient disk space to copy the blob file or if the
-  file wasn't available.  https://bugs.launchpad.net/zodb/+bug/224169
+  file wasn't available.  https://bugs.launchpad.net/PyObjectDB/+bug/224169
 
 - Savepoint blob data wasn't properly isolated. If multiple
   simultaneous savepoints in separate transactions modified the same
   blob, data from one savepoint would overwrite data for another.
 
 - Savepoint blob data wasn't cleaned up after a transaction abort.
-  https://bugs.launchpad.net/zodb/+bug/323067
+  https://bugs.launchpad.net/PyObjectDB/+bug/323067
 
 - Opening a blob with modes 'r+' or 'a' would fail when the blob had no
   committed changes.
@@ -793,12 +793,12 @@ Bugs Fixed
 
 - Certain ZEO server errors could cause a client to get into a state
   where it couldn't commit transactions.
-  https://bugs.launchpad.net/zodb/+bug/374737
+  https://bugs.launchpad.net/PyObjectDB/+bug/374737
 
 - Fixed vulnerabilities in the ZEO network protocol that allow:
 
-  - CVE-2009-0668 Arbitrary Python code execution in ZODB ZEO storage servers
-  - CVE-2009-0669 Authentication bypass in ZODB ZEO storage servers
+  - CVE-2009-0668 Arbitrary Python code execution in PyObjectDB ZEO storage servers
+  - CVE-2009-0669 Authentication bypass in PyObjectDB ZEO storage servers
 
   The vulnerabilities only apply if you are using ZEO to share a
   database among multiple applications or application instances and if
@@ -984,7 +984,7 @@ Bugs Fixed
 - Completed implementation of ZEO authentication. This fixes issue 220856.
 
 
-What's new in ZODB 3.8.0
+What's new in PyObjectDB 3.8.0
 ========================
 
 General
@@ -993,10 +993,10 @@ General
 - (unreleased) Fixed setup.py use of setuptools vs distutils, so .c and .h
   files are included in the bdist_egg.
 
-- The ZODB Storage APIs have been documented and cleaned up.
+- The PyObjectDB Storage APIs have been documented and cleaned up.
 
-- ZODB versions are now officially deprecated and support for them
-  will be removed in ZODB 3.9.  (They have been widely recognized as
+- PyObjectDB versions are now officially deprecated and support for them
+  will be removed in PyObjectDB 3.9.  (They have been widely recognized as
   deprecated for quite a while.)
 
 - Changed the automatic garbage collection when opening a connection to only
@@ -1044,10 +1044,10 @@ Transactions
   Any attempt to commit a doomed transaction will raise a DoomedTransaction
   exception.
 
-- (3.8a1) Clean up the ZODB imports in transaction.
+- (3.8a1) Clean up the PyObjectDB imports in transaction.
 
-  Clean up weird import dance with ZODB. This is unnecessary since the
-  transaction module stopped being imported in ZODB/__init__.py in rev 39622.
+  Clean up weird import dance with PyObjectDB. This is unnecessary since the
+  transaction module stopped being imported in PyObjectDB/__init__.py in rev 39622.
 
 - (3.8a1) Support for subtransactions has been removed in favor of
   save points.
@@ -1058,14 +1058,14 @@ Blobs
 - (3.8b1) Updated the Blob implementation in a number of ways.  Some
   of these are backward incompatible with 3.8a1:
 
-  o The Blob class now lives in ZODB.blob
+  o The Blob class now lives in PyObjectDB.blob
 
   o The blob openDetached method has been replaced by the committed method.
 
-- (3.8a1) Added new blob feature. See the ZODB/Blobs directory for
+- (3.8a1) Added new blob feature. See the PyObjectDB/Blobs directory for
   documentation.
 
-  ZODB now handles (reasonably) large binary objects efficiently. Useful to
+  PyObjectDB now handles (reasonably) large binary objects efficiently. Useful to
   use from a few kilobytes to at least multiple hundred megabytes.
 
 BTrees
@@ -1093,24 +1093,24 @@ BTrees
   modules.
 
 
-What's new in ZODB3 3.7.0
+What's new in PyObjectDB3 3.7.0
 ==========================
 Release date: 2007-04-20
 
 Packaging
 ---------
 
-- (3.7.0b3) ZODB is now packaged without it's dependencies
+- (3.7.0b3) PyObjectDB is now packaged without it's dependencies
 
-  ZODB no longer includes copies of dependencies such as 
+  PyObjectDB no longer includes copies of dependencies such as 
   ZConfig, zope.interface and so on.  It now treats these as
-  dependencies.  If ZODB is installed with easy_install or
+  dependencies.  If PyObjectDB is installed with easy_install or
   zc.buildout, the dependencies will be installed automatically.
 
 
-- (3.7.0b3) ZODB is now a buildout
+- (3.7.0b3) PyObjectDB is now a buildout
 
-  ZODB checkouts are now built and tested using zc.buildout.
+  PyObjectDB checkouts are now built and tested using zc.buildout.
 
 - (3.7b4) Added logic to avoid spurious errors from the logging system
   on exit.
@@ -1138,7 +1138,7 @@ Packaging
 
   Added a partial heart beat to try to detect lost connections that
   aren't otherwise caught,
-  http://mail.zope.org/pipermail/zodb-dev/2005-June/008951.html, by
+  http://mail.zope.org/pipermail/PyObjectDB-dev/2005-June/008951.html, by
   perioidically writing to all connections during periods of inactivity.
 
 Connection management
@@ -1222,7 +1222,7 @@ After Commit hooks
   and the ``ITransaction`` interface for details.
 
 
-What's new in ZODB3 3.6.2?
+What's new in PyObjectDB3 3.6.2?
 ==========================
 Release date: 15-July-2006
 
@@ -1250,16 +1250,16 @@ Zope2 / Zope3 development).  These are the dates of the internal releases:
 - 3.6a2 06-Sep-2005
 - 3.6a1 04-Sep-2005
 
-Removal of Features Deprecated in ZODB 3.4
+Removal of Features Deprecated in PyObjectDB 3.4
 ------------------------------------------
 
-(3.6b2) ZODB 3.6 no longer contains features officially deprecated in the
-ZODB 3.4 release.  These include:
+(3.6b2) PyObjectDB 3.6 no longer contains features officially deprecated in the
+PyObjectDB 3.4 release.  These include:
 
 - ``get_transaction()``.  Use ``transaction.get()`` instead.
   ``transaction.commit()`` is a shortcut spelling of
   ``transaction.get().commit()``, and ``transaction.abort()``
-  of ``transaction.get().abort()``.  Note that importing ZODB no longer
+  of ``transaction.get().abort()``.  Note that importing PyObjectDB no longer
   installs ``get_transaction`` as a name in Python's ``__builtin__``
   module either.
 
@@ -1299,11 +1299,11 @@ Persistent
 - (3.6.1) Suppressed warnings about signedness of characters when
   compiling under GCC 4.0.x.  See http://www.zope.org/Collectors/Zope/2027.
 
-- (3.6a4) ZODB 3.6 introduces a change to the basic behavior of Persistent
-  objects in a particular end case.  Before ZODB 3.6, setting
+- (3.6a4) PyObjectDB 3.6 introduces a change to the basic behavior of Persistent
+  objects in a particular end case.  Before PyObjectDB 3.6, setting
   ``obj._p_changed`` to a true value when ``obj`` was a ghost was ignored:
   ``obj`` remained a ghost, and getting ``obj._p_changed`` continued to
-  return ``None``.  Starting with ZODB 3.6, ``obj`` is activated instead
+  return ``None``.  Starting with PyObjectDB 3.6, ``obj`` is activated instead
   (unghostified), and its state is changed from the ghost state to the
   changed state.  The new behavior is less surprising and more robust.
 
@@ -1315,7 +1315,7 @@ Commit hooks
 
 - (3.6a1) The ``beforeCommitHook()`` method has been replaced by the new
   ``addBeforeCommitHook()`` method, with a more-robust signature.
-  ``beforeCommitHook()`` is now deprecated, and will be removed in ZODB 3.8.
+  ``beforeCommitHook()`` is now deprecated, and will be removed in PyObjectDB 3.8.
   Thanks to Julien Anguenot for contributing code and tests.
 
 Connection management
@@ -1353,15 +1353,15 @@ Multidatabase
 -------------
 
 - (3.6b1) The ``database_name`` for a database in a multidatabase
-  collection can now be specified in a config file's ``<zodb>`` section,
+  collection can now be specified in a config file's ``<PyObjectDB>`` section,
   as the value of the optional new ``database_name`` key.  The
   ``.databases`` attribute cannot be specified in a config file, but
   can be passed as the optional new ``databases`` argument to the
-  ``open()`` method of a ZConfig factory for type ``ZODBDatabase``.
+  ``open()`` method of a ZConfig factory for type ``PyObjectDBDatabase``.
   For backward compatibility, Zope 2.9 continues to allow using the
-  name in its ``<zodb_db name>`` config section as the database name
-  (note that ``<zodb_db>`` is defined by Zope, not by ZODB -- it's a
-  Zope-specific extension of ZODB's ``<zodb>`` section).
+  name in its ``<PyObjectDB_db name>`` config section as the database name
+  (note that ``<PyObjectDB_db>`` is defined by Zope, not by PyObjectDB -- it's a
+  Zope-specific extension of PyObjectDB's ``<PyObjectDB>`` section).
 
 PersistentMapping
 -----------------
@@ -1430,16 +1430,16 @@ Development
 -----------
 
 - (3.6a1) The source code for the old ExtensionClass-based Persistence
-  package moved, from ZODB to the Zope 2.9 development tree.  ZODB 3.5
+  package moved, from PyObjectDB to the Zope 2.9 development tree.  PyObjectDB 3.5
   makes no use of Persistence, and, indeed, the Persistence package could
-  not be compiled from a ZODB release, since some of the C header files
+  not be compiled from a PyObjectDB release, since some of the C header files
   needed appear only in Zope.
 
 - (3.6a3) Re-added the ``zeoctl`` module, for the same reasons
   ``mkzeoinst`` was re-added (see below).
 
 - (3.6a2) The ``mkzeoinst`` module was re-added to ZEO, because Zope3
-  has a script that expects to import it from there.  ZODB's ``mkzeoinst``
+  has a script that expects to import it from there.  PyObjectDB's ``mkzeoinst``
   script was rewritten to invoke the ``mkzeoinst`` module.
 
 ``transact``
@@ -1449,7 +1449,7 @@ Development
   longer worked.  It remains undocumented and untested, but thanks to
   Janko Hauser it's possible that it works again ;-).
 
-What's new in ZODB3 3.5.1?
+What's new in PyObjectDB3 3.5.1?
 ==========================
 Release date: 26-Sep-2005
 
@@ -1466,7 +1466,7 @@ Build
   ``mkzeoinst`` was re-added (see below).
 
 - (3.5.1b1) The ``mkzeoinst`` module was re-added to ZEO, because Zope3
-  has a script that expects to import it from there.  ZODB's ``mkzeoinst``
+  has a script that expects to import it from there.  PyObjectDB's ``mkzeoinst``
   script was rewritten to invoke the ``mkzeoinst`` module.
 
 ZopeUndo
@@ -1478,7 +1478,7 @@ ZopeUndo
   previous fix failed to take this into account.
 
 
-What's new in ZODB3 3.5.0?
+What's new in PyObjectDB3 3.5.0?
 ==========================
 Release date: 31-Aug-2005
 
@@ -1527,7 +1527,7 @@ ZEO client cache
 Subtransactions are deprecated
 ------------------------------
 
-- (3.5a4) Subtransactions are deprecated, and will be removed in ZODB 3.7.
+- (3.5a4) Subtransactions are deprecated, and will be removed in PyObjectDB 3.7.
   Use savepoints instead.  Savepoints are more powerful, and code using
   subtransactions does not mix well with code using savepoints (a
   subtransaction commit forces all current savepoints to become unusable, so
@@ -1571,14 +1571,14 @@ Multi-database
 --------------
 
 - (3.5a1) Preliminary support for persistent cross-database references has
-  been added.  See ``ZODB/cross-database-references.txt`` for an
+  been added.  See ``PyObjectDB/cross-database-references.txt`` for an
   introduction.
 
 Tools
 -----
 
 - (3.5a6, 3.5a7) Collector #1847.  The ZEO client cache tracing and simulation
-  tools weren't updated to work with ZODB 3.3, and the introduction of
+  tools weren't updated to work with PyObjectDB 3.3, and the introduction of
   MVCC required major reworking of the tracing and simulation code.  These
   tools are in a working state again, although so far lightly tested on
   just a few applications.  In ``doc/ZEO/``, see the heavily revised
@@ -1625,16 +1625,16 @@ FileStorage
 
 - (3.5a4) Collector #1822.  The ``undoLog()`` and ``undoInfo()`` methods
   were changed in 3.4a9 to return the documented results.  Alas, some pieces
-  of (non-ZODB) code relied on the actual behavior.  When the ``first`` and
+  of (non-PyObjectDB) code relied on the actual behavior.  When the ``first`` and
   ``last`` arguments are both >= 0, these methods now treat them as if they
   were Python slice indices, including the `first` index but excluding the
   ``last`` index.  This matches former behavior, although it contradicts older
-  ZODB UML documentation.  The documentation in
-  ``ZODB.interfaces.IStorageUndoable`` was changed to match the new intent.
+  PyObjectDB UML documentation.  The documentation in
+  ``PyObjectDB.interfaces.IStorageUndoable`` was changed to match the new intent.
 
 - (3.5a2) The ``_readnext()`` method now returns the transaction size as
   the value of the "size" key.  Thanks to Dieter Maurer for the patch, from
-  http://mail.zope.org/pipermail/zodb-dev/2003-October/006157.html. "This is
+  http://mail.zope.org/pipermail/PyObjectDB-dev/2003-October/006157.html. "This is
   very valuable when you want to spot strange transaction sizes via Zope's
   'Undo' tab".
 
@@ -1655,15 +1655,15 @@ BTrees
 
 - (3.5a4) The ancient ``convert.py`` script was removed.  It was intended to
   convert "old" BTrees to "new" BTrees, but the "old" BTree implementation
-  was removed from ZODB years ago.
+  was removed from PyObjectDB years ago.
 
 
-What's new in ZODB3 3.4.1?
+What's new in PyObjectDB3 3.4.1?
 ==========================
 Release date: 09-Aug-2005
 
 Following are dates of internal releases (to support ongoing Zope 2
-development) since ZODB 3.4's last public release:
+development) since PyObjectDB 3.4's last public release:
 
 - 3.4.1b5 08-Aug-2005
 - 3.4.1b4 07-Aug-2005
@@ -1752,17 +1752,17 @@ FileStorage
 
 - (3.4.1a2) Collector #1822.  The ``undoLog()`` and ``undoInfo()`` methods
   were changed in 3.4a9 to return the documented results.  Alas, some pieces
-  of (non-ZODB) code relied on the actual behavior.  When the `first` and
+  of (non-PyObjectDB) code relied on the actual behavior.  When the `first` and
   `last` arguments are both >= 0, these methods now treat them as if they
   were Python slice indices, including the `first` index but excluding the
   `last` index.  This matches former behavior, although it contradicts older
-  ZODB UML documentation.  The documentation in
-  ``ZODB.interfaces.IStorageUndoable`` was changed to match the new intent.
+  PyObjectDB UML documentation.  The documentation in
+  ``PyObjectDB.interfaces.IStorageUndoable`` was changed to match the new intent.
 
 - (3.4.1a1) The ``UndoSearch._readnext()`` method now returns the transaction
   size as the value of the "size" key.  Thanks to Dieter Maurer for the
   patch, from
-  http://mail.zope.org/pipermail/zodb-dev/2003-October/006157.html. "This is
+  http://mail.zope.org/pipermail/PyObjectDB-dev/2003-October/006157.html. "This is
   very valuable when you want to spot strange transaction sizes via Zope's
   'Undo' tab".
 
@@ -1800,7 +1800,7 @@ Tools
 -----
 
 - (3.4.1b1 thru 3.4.1b5) Collector #1847.  The ZEO client cache tracing and
-  simulation tools weren't updated to work with ZODB 3.3, and the
+  simulation tools weren't updated to work with PyObjectDB 3.3, and the
   introduction of MVCC required major reworking of the tracing and simulation
   code.  These tools are in a working state again, although so far lightly
   tested on just a few applications.  In ``doc/ZEO/``, see the heavily revised
@@ -1832,12 +1832,12 @@ BTrees
   methods raise an exception if no key exists satsifying the constraints.
 
 
-What's new in ZODB3 3.4?
+What's new in PyObjectDB3 3.4?
 ========================
 Release date: 09-Jun-2005
 
 Following is combined news from the "internal releases" (to support
-ongoing Zope 2.8 and Zope3 development) since the last public ZODB 3.4
+ongoing Zope 2.8 and Zope3 development) since the last public PyObjectDB 3.4
 release.  These are the dates of the internal releases:
 
 - 3.4c2 06-Jun-2005
@@ -1857,14 +1857,14 @@ Connection, DB
 - (3.4b3) For sanity, the ``txn_mgr`` argument to ``DB.open()``,
   ``Connection.__init__()``, and ``Connection._setDB()`` has been renamed
   to ``transaction_manager``.  ``txn_mgr`` is still accepted, but is
-  deprecated and will be removed in ZODB 3.6.  Any code that was using
+  deprecated and will be removed in PyObjectDB 3.6.  Any code that was using
   the private ``._txn_mgr`` attribute of ``Connection`` will break
   immediately.
 
 Development
 -----------
 
-- (3.4b2) ZODB's ``test.py`` is now a small driver for the shared
+- (3.4b2) PyObjectDB's ``test.py`` is now a small driver for the shared
   ``zope.testing.testrunner``.  See the latter's documentation
   for command-line arguments.
 
@@ -1883,12 +1883,12 @@ Tests
   success now.
 
 
-What's new in ZODB3 3.4b1?
+What's new in PyObjectDB3 3.4b1?
 ==========================
 Release date: 19-May-2005
 
 What follows is combined news from the "internal releases" (to support
-ongoing Zope 2.8 and Zope3 development) since the last public ZODB 3.4
+ongoing Zope 2.8 and Zope3 development) since the last public PyObjectDB 3.4
 release.  These are the dates of the internal releases:
 
 - 3.4b1 19-May-2005
@@ -1959,20 +1959,20 @@ transaction
 
 - (3.4a3) Clarifications were made to transaction interfaces.
 
-Support for ZODB4 savepoint-aware data managers has been dropped
+Support for PyObjectDB4 savepoint-aware data managers has been dropped
 ----------------------------------------------------------------
 
 - (3.4a4) In adding savepoint support, we dropped the attempted support for
-  ZODB4 data managers that support savepoints.  We don't think that this will
+  PyObjectDB4 data managers that support savepoints.  We don't think that this will
   affect anyone.
 
 ZEO
 ---
 
-- (3.4a4) The ZODB and ZEO version numbers are now the same.  Concretely::
+- (3.4a4) The PyObjectDB and ZEO version numbers are now the same.  Concretely::
 
-      import ZODB, ZEO
-      assert ZODB.__version__ == ZEO.version
+      import PyObjectDB, ZEO
+      assert PyObjectDB.__version__ == ZEO.version
 
   no longer fails.  If interested, see the README file for details about
   earlier version numbering schemes.
@@ -1989,7 +1989,7 @@ ZEO
 
 - (3.4a4) The default logging setup in ``runzeo.py`` was broken.  It was
   changed so that running ``runzeo.py`` from a command line now, and without
-  using a config file, prints output to the console much as ZODB 3.2 did.
+  using a config file, prints output to the console much as PyObjectDB 3.2 did.
 
 ZEO on Windows
 --------------
@@ -2027,7 +2027,7 @@ FileStorage
   a wrong number of results, one too many if ``last < 0`` (the default is
   such a case), or one too few if ``last >= 0``.  These have been repaired,
   new tests were added, and these methods are now documented in
-  ``ZODB.interfaces.IStorageUndoable``.
+  ``PyObjectDB.interfaces.IStorageUndoable``.
 
 - (3.4a2) A ``pdb.set_trace()`` call was mistakenly left in method
   ``FileStorage.modifiedInVersion()``.
@@ -2035,7 +2035,7 @@ FileStorage
 ZConfig
 -------
 
-- (3.4b1) The "standalone" release of ZODB now includes ZConfig version 2.3.
+- (3.4b1) The "standalone" release of PyObjectDB now includes ZConfig version 2.3.
 
 DemoStorage
 -----------
@@ -2058,8 +2058,8 @@ BaseStorage
 Tests
 -----
 
-- (3.4a3) The various flavors of the ``check2ZODBThreads`` and
-  ``check7ZODBThreads`` tests are much less likely to suffer sproadic
+- (3.4a3) The various flavors of the ``check2PyObjectDBThreads`` and
+  ``check7PyObjectDBThreads`` tests are much less likely to suffer sproadic
   failures now.
 
 - (3.4a2) The test ``checkOldStyleRoot`` failed in Zope3, because of an
@@ -2068,14 +2068,14 @@ Tests
 ZApplication
 ------------
 
-- (3.4a8) The file ``ZApplication.py`` was moved, from ZODB to Zope(2).  ZODB
+- (3.4a8) The file ``ZApplication.py`` was moved, from PyObjectDB to Zope(2).  PyObjectDB
   and Zope3 don't use it, but Zope2 does.
 
 - (3.4a7) The ``__call__`` method didn't work if a non-None ``connection``
   string argument was passed.  Thanks to Stefan Holek for noticing.
 
 
-What's new in ZODB3 3.4a1?
+What's new in PyObjectDB3 3.4a1?
 ==========================
 Release date: 01-Apr-2005
 
@@ -2083,10 +2083,10 @@ transaction
 -----------
 
 - ``get_transaction()`` is officially deprecated now, and will be removed
-  in ZODB 3.6.  Use the ``transaction`` package instead.   For example,
+  in PyObjectDB 3.6.  Use the ``transaction`` package instead.   For example,
   instead of::
 
-      import ZODB
+      import PyObjectDB
       ...
       get_transaction().commit()
 
@@ -2120,20 +2120,20 @@ DB
   The following optional arguments to ``DB.open()`` are deprecated:
   ``transaction``, ``waitflag``, ``force`` and ``temporary``.  If one
   is specified, its value is ignored, and ``DeprecationWarning`` is
-  raised.  In ZODB 3.6, these optional arguments will be removed.
+  raised.  In PyObjectDB 3.6, these optional arguments will be removed.
 
 - Lightweight support for "multi-databases" is implemented.  These are
   collections of named DB objects and associated open Connections, such
   that the Connection for any DB in the collection can be obtained from
   a Connection from any other DB in the collection.  See the new test
-  file ZODB/tests/multidb.txt for a tutorial doctest.  Thanks to Christian
-  Theune for his work on this during the PyCon 2005 ZODB sprint.
+  file PyObjectDB/tests/multidb.txt for a tutorial doctest.  Thanks to Christian
+  Theune for his work on this during the PyCon 2005 PyObjectDB sprint.
 
 ZEO compatibility
 -----------------
 
 There are severe restrictions on using ZEO servers and clients at or after
-ZODB 3.3 with ZEO servers and clients from ZODB versions before 3.3.  See the
+PyObjectDB 3.3 with ZEO servers and clients from PyObjectDB versions before 3.3.  See the
 reworked ``Compatibility`` section in ``README.txt`` for details.  If
 possible, it will be easiest to move clients and servers to 3.3+
 simultaneously.  With care, it's possible to use a 3.3+ ZEO server with
@@ -2183,7 +2183,7 @@ uses of specified oids in the entire database (e.g., suppose oid 0x345620
 is missing -- did it ever exist?  if so, when?  who referenced it?  when
 was the last transaction that modified an object that referenced it?
 which objects did it reference?  what kind of object was it?).
-ZODB/test/testfsoids.py is a tutorial doctest.
+PyObjectDB/test/testfsoids.py is a tutorial doctest.
 
 
 fsIndex
@@ -2194,18 +2194,18 @@ were added.  ``fsIndex`` is a special hybrid kind of BTree used to implement
 FileStorage indices.  Thanks to Chris McDonough for code and tests.
 
 
-What's new in ZODB3 3.3.1?
+What's new in PyObjectDB3 3.3.1?
 ==========================
 Release date: DD-MMM-2005
 
 Tests
 -----
 
-The various flavors of the ``check2ZODBThreads`` and ``check7ZODBThreads``
+The various flavors of the ``check2PyObjectDBThreads`` and ``check7PyObjectDBThreads``
 tests are much less likely to suffer sproadic failures now.
 
 
-What's new in ZODB3 3.3.1c1?
+What's new in PyObjectDB3 3.3.1c1?
 ============================
 Release date: 01-Apr-2005
 
@@ -2253,7 +2253,7 @@ depending on platform, and should suffer far fewer (if any) intermittent
 ZEO protocol and compatibility
 ------------------------------
 
-ZODB 3.3 introduced multiversion concurrency control (MVCC), which required
+PyObjectDB 3.3 introduced multiversion concurrency control (MVCC), which required
 changes to the ZEO protocol.  The first 3.3 release should have increased
 the internal ZEO protocol version number (used by ZEO protocol negotiation
 when a client connects), but neglected to.  This has been repaired.
@@ -2290,7 +2290,7 @@ FileStorage
   damage could (and did) persist even across packing.
 
   The index file's maximum-oid data is ignored now, but is still written
-  out so that ``.index`` files can be read by older versions of ZODB.
+  out so that ``.index`` files can be read by older versions of PyObjectDB.
   Finding the true maximum oid is done now by exploiting that the main
   index is really a kind of BTree (long ago, this wasn't true), and finding
   the largest key in a BTree is inexpensive.
@@ -2313,14 +2313,14 @@ It's been changed to say what it meant:
     ``ValueError: A different object already has the same oid``
 
 This happens if an attempt is made to add distinct objects to the cache
-that have the same oid (object identifier).  ZODB should never do this,
+that have the same oid (object identifier).  PyObjectDB should never do this,
 but it's possible for application code to force such an attempt.
 
 PersistentMapping and PersistentList
 ------------------------------------
 
 Backward compatibility code has been added so that the sanest of the
-ZODB 3.2 dotted paths for ``PersistentMapping`` and ``PersistentList``
+PyObjectDB 3.2 dotted paths for ``PersistentMapping`` and ``PersistentList``
 resolve.  These are still preferred:
 
 - ``from persistent.list import PersistentList``
@@ -2328,8 +2328,8 @@ resolve.  These are still preferred:
 
 but these work again too:
 
-- ``from ZODB.PersistentList import PersistentList``
-- ``from ZODB.PersistentMapping import PersistentMapping``
+- ``from PyObjectDB.PersistentList import PersistentList``
+- ``from PyObjectDB.PersistentMapping import PersistentMapping``
 
 BTrees
 ------
@@ -2337,7 +2337,7 @@ BTrees
 The BTrees interface file neglected to document the optional
 ``excludemin`` and ``excludemax`` arguments to the ``keys()``, ``values()``
 and ``items()`` methods.  Appropriate changes were merged in from the
-ZODB4 BTrees interface file.
+PyObjectDB4 BTrees interface file.
 
 Tools
 -----
@@ -2355,7 +2355,7 @@ that tried to keep track of this by saving an oid high water mark in the
 index file and incrementally updating it.
 
 
-What's new in ZODB3 3.3.1a1?
+What's new in PyObjectDB3 3.3.1a1?
 ============================
 Release date: 11-Jan-2005
 
@@ -2394,9 +2394,9 @@ such message per 5 minutes.
 persistent
 ----------
 
-Collector #1350:  ZODB has a default one-thread-per-connection model, and
+Collector #1350:  PyObjectDB has a default one-thread-per-connection model, and
 two threads should never do operations on a single connection
-simultaneously.  However, ZODB can't detect violations, and this happened
+simultaneously.  However, PyObjectDB can't detect violations, and this happened
 in an early stage of Zope 2.8 development.  The low-level ``ghostify()``
 and ``unghostify()`` routines in ``cPerisistence.c`` were changed to give
 some help in detecting this when it happens.  In a debug build, both abort
@@ -2437,7 +2437,7 @@ Tools
   BTree's or TreeSet's constituent objects.
 
 
-What's new in ZODB3 3.3?
+What's new in PyObjectDB3 3.3?
 ========================
 Release date: 06-Oct-2004
 
@@ -2449,7 +2449,7 @@ with protocol 0 ("text mode") pickles, which could require sending
 four times as many bytes as necessary.  Protocol 1 pickles are used
 now.  Thanks to Andreas Jung for the diagnosis and cure.
 
-ZODB/component.xml
+PyObjectDB/component.xml
 ------------------
 
 ``cache-size`` parameters were changed from type ``integer`` to
@@ -2477,14 +2477,14 @@ pickle, due to starting the read at a wrong location.  Looked like
 cut-and-paste repetition of the same bug in ``FileStorage.FileIterator``
 noted in the news for 3.3c1.
 
-What's new in ZODB3 3.3 release candidate 1?
+What's new in PyObjectDB3 3.3 release candidate 1?
 ============================================
 Release date: 14-Sep-2004
 
 Connection
 ----------
 
-ZODB intends to raise ``ConnnectionStateError`` if an attempt is made to
+PyObjectDB intends to raise ``ConnnectionStateError`` if an attempt is made to
 close a connection while modifications are pending (the connection is
 involved in a transaction that hasn't been ``abort()``'ed or
 ``commit()``'ed).  It was missing the case where the only pending
@@ -2538,12 +2538,12 @@ transaction
 - If ReadConflictError was raised by an attempt to load an object with a
   ``_p_independent()`` method that returned false, attempting to commit the
   transaction failed to (re)raise ReadConflictError for that object.  Note
-  that ZODB intends to prevent committing a transaction in which a
+  that PyObjectDB intends to prevent committing a transaction in which a
   ReadConflictError occurred; this was an obscure case it missed.
 
-- Growing pains:  ZODB 3.2 had a bug wherein ``Transaction.begin()`` didn't
+- Growing pains:  PyObjectDB 3.2 had a bug wherein ``Transaction.begin()`` didn't
   abort the current transaction if the only pending changes were in a
-  subtransaction.  In ZODB 3.3, it's intended that a transaction manager be
+  subtransaction.  In PyObjectDB 3.3, it's intended that a transaction manager be
   used to effect ``begin()`` (instead of invoking ``Transaction.begin()``),
   and calling ``begin()`` on a transaction manager didn't have this old
   bug.  However, ``Transaction.begin()`` still exists in 3.3, and it had a
@@ -2578,7 +2578,7 @@ BTrees
 
 The BTrees __init__.py file is now just a comment.  It had been trying
 to set up support for (long gone) "int sets", and to import an old
-version of Zope's Interface package, which doesn't even ship with ZODB.
+version of Zope's Interface package, which doesn't even ship with PyObjectDB.
 The latter in particular created problems, at least clashing with
 PythonCAD's Interface package.
 
@@ -2614,7 +2614,7 @@ Tools
 user and description fields, which caused several tools to display
 binary gibberish for these values.
 
-``ZODB.utils.oid_repr()`` changed to add a leading "0x", and to strip
+``PyObjectDB.utils.oid_repr()`` changed to add a leading "0x", and to strip
 leading zeroes.  This is used, e.g., in the detail of a ``POSKeyError``
 exception, to identify the missing oid.  Before, the output was ambiguous.
 For example, oid 17 was displayed as 0000000000000011.  As a Python
@@ -2640,7 +2640,7 @@ finding a data record for an object uncreation or version abort.  These
 no longer appear.
 
 ``fsdump.py``'s ``get_pickle_metadata()`` function (which is used by several
-tools) was confused about what to do when the ZODB pickle started with
+tools) was confused about what to do when the PyObjectDB pickle started with
 a pickle ``GLOBAL`` opcode.  It actually loaded the class then, which it
 intends never to do, leading to stray messages on stdout when the class
 wasn't available, and leading to a strange return value even when it was
@@ -2649,7 +2649,7 @@ and an empty string was returned as "the class name").  This has been
 repaired.
 
 
-What's new in ZODB3 3.3 beta 2
+What's new in PyObjectDB3 3.3 beta 2
 ==============================
 Release date: 13-Aug-2004
 
@@ -2713,11 +2713,11 @@ a thread), and less likely to latch on to spurious problems resulting from
 the real failure.
 
 
-What's new in ZODB3 3.3 beta 1
+What's new in PyObjectDB3 3.3 beta 1
 ==============================
 Release date: 07-Jun-2004
 
-3.3b1 is the first ZODB release built using the new zpkg tools:
+3.3b1 is the first PyObjectDB release built using the new zpkg tools:
 
     http://zope.org/Members/fdrake/zpkgtools/
 
@@ -2734,10 +2734,10 @@ Fixed bug indexing BTreeItems objects with negative indexes.  This
 caused reverse iteration to return each item twice.  Thanks to Casey
 Duncan for the fix.
 
-ZODB
+PyObjectDB
 ----
 
-Methods removed from the database (ZODB.DB.DB) class:  cacheStatistics(),
+Methods removed from the database (PyObjectDB.DB.DB) class:  cacheStatistics(),
 cacheMeanAge(), cacheMeanDeac(), and cacheMeanDeal().  These were
 undocumented, untested, and unused.  The first always returned an empty
 tuple, and the rest always returned None.
@@ -2776,7 +2776,7 @@ effectively immortal).  Thanks to Toby Dickenson for suggesting a nice
 cure.
 
 
-What's new in ZODB3 3.3 alpha 3
+What's new in PyObjectDB3 3.3 alpha 3
 ===============================
 Release date: 16-Apr-2004
 
@@ -2832,8 +2832,8 @@ Transaction's ``join()`` method instead of its ``register()`` method.  An
 object that calls ``join()`` manages its own resources.  An object that
 calls ``register()`` expects the TM to manage the objects.
 
-Data managers written against the ZODB 4 transaction API are now
-supported in ZODB 3.
+Data managers written against the PyObjectDB 4 transaction API are now
+supported in PyObjectDB 3.
 
 persistent
 ----------
@@ -2857,23 +2857,23 @@ __getnewargs__() must be loaded from storage even to create a ghost.
 
 There is new support for writing hooks like __getattr__ and
 __getattribute__.  The new hooks require that user code call special
-persistence methods like _p_getattr() inside their hook.  See the ZODB
+persistence methods like _p_getattr() inside their hook.  See the PyObjectDB
 programming guide for details.
 
 The format of serialized persistent references has changed; that is,
 the on-disk format for references has changed.  The old format is
-still supported, but earlier versions of ZODB will not be able to read
+still supported, but earlier versions of PyObjectDB will not be able to read
 the new format.
 
-ZODB
+PyObjectDB
 ----
 
-Closing a ZODB Connection while it is registered with a transaction,
+Closing a PyObjectDB Connection while it is registered with a transaction,
 e.g. has pending modifications, will raise a ConnnectionStateError.
 Trying to load objects from or store objects to a closed connection
 will also raise a ConnnectionStateError.
 
-ZODB connections are synchronized on commit, even when they didn't
+PyObjectDB connections are synchronized on commit, even when they didn't
 modify objects.  This feature assumes that the thread that opened the
 connection is also the thread that uses it.  If not, this feature will
 cause problems.  It can be disabled by passing synch=False to open().
@@ -2896,7 +2896,7 @@ setVersionCacheDeactivateAfter() are also deprecated.
 The old-style undo() method was removed from the storage API, and
 transactionalUndo() was renamed to undo().
 
-The BDBStorages are no longer distributed with ZODB.
+The BDBStorages are no longer distributed with PyObjectDB.
 
 Fixed a serious bug in the new pack implementation.  If pack was
 called on the storage and passed a time earlier than a previous pack
@@ -2946,7 +2946,7 @@ test.py for an example.
 ZConfig
 -------
 
-This release of ZODB contains ZConfig 2.1.
+This release of PyObjectDB contains ZConfig 2.1.
 
 More documentation has been written.
 
@@ -2966,11 +2966,11 @@ Always use an absolute pathname when opening a FileHandler.
 Miscellaneous
 -------------
 
-The layout of the ZODB source release has changed.  All the source
+The layout of the PyObjectDB source release has changed.  All the source
 code is contained in a src subdirectory.  The primary motivation for
-this change was to avoid confusion caused by installing ZODB and then
+this change was to avoid confusion caused by installing PyObjectDB and then
 testing it interactively from the source directory; the interpreter
-would find the uncompiled ZODB package in the source directory and
+would find the uncompiled PyObjectDB package in the source directory and
 report an import error.
 
 A reference-counting bug was fixed, in the logic calling a modified
@@ -2979,7 +2979,7 @@ was rare assertion failures in Python's cyclic garbage collection.
 
 The Connection class's onCommitAction() method was removed.
 
-Some of the doc strings in ZODB are now written for processing by
+Some of the doc strings in PyObjectDB are now written for processing by
 epydoc.
 
 Several new test suites were written using doctest instead of the
@@ -2990,12 +2990,12 @@ MappingStorage now implements getTid().
 ThreadedAsync: Provide a way to shutdown the servers using an exit
 status.
 
-The mkzeoinstance script looks for a ZODB installation, not a Zope
+The mkzeoinstance script looks for a PyObjectDB installation, not a Zope
 installation.  The received wisdom is that running a ZEO server
 without access to the appserver code avoids many mysterious problems.
 
 
-What's new in ZODB3 3.3 alpha 2
+What's new in PyObjectDB3 3.3 alpha 2
 ===============================
 Release date: 06-Jan-2004
 
@@ -3008,7 +3008,7 @@ The Persistent base class is now contained in the persistent package.
 The Persistence package is included for backwards compatibility.  The
 Persistence package is used by Zope to provide special
 ExtensionClass-compatibility features like a non-C3 MRO and an __of__
-method.  ExtensionClass is not included with this release of ZODB3.
+method.  ExtensionClass is not included with this release of PyObjectDB3.
 If you use the Persistence package, it will print a warning and import
 Persistent from persistent.
 
@@ -3028,15 +3028,15 @@ of memory leaks, although we are still tracking a few problems.
 Multi-version concurrency control
 ---------------------------------
 
-ZODB now supports multi-version concurrency control (MVCC) for
+PyObjectDB now supports multi-version concurrency control (MVCC) for
 storages that support multiple revisions.  FileStorage and
 BDBFullStorage both support MVCC.  In short, MVCC means that read
 conflicts should almost never occur.  When an object is modified in
 one transaction, other concurrent transactions read old revisions of
-the object to preserve consistency.  In earlier versions of ZODB, any
+the object to preserve consistency.  In earlier versions of PyObjectDB, any
 access of the modified object would raise a ReadConflictError.
 
-The ZODB internals changed significantly to accommodate MVCC.  There
+The PyObjectDB internals changed significantly to accommodate MVCC.  There
 are relatively few user visible changes, aside from the lack of read
 conflicts.  It is possible to disable the MVCC feature using the mvcc
 keyword argument to the DB open() method, ex.: db.open(mvcc=False).
@@ -3086,7 +3086,7 @@ can be committed.  Application code may need this in advanced
 applications.
 
 
-What's new in ZODB3 3.3 alpha 1
+What's new in PyObjectDB3 3.3 alpha 1
 ===============================
 Release date: 17-Jul-2003
 
@@ -3181,13 +3181,13 @@ The exceptions generated by write conflicts now contain the name of
 the conflicted object's class.  This feature requires support for the
 storage.  All the standard storages support it.
 
-What's new in ZODB3 3.2
+What's new in PyObjectDB3 3.2
 ========================
 Release date: 08-Oct-2003
 
 Nothing has changed since release candidate 1.
 
-What's new in ZODB3 3.2 release candidate 1
+What's new in PyObjectDB3 3.2 release candidate 1
 ===========================================
 Release date: 01-Oct-2003
 
@@ -3195,13 +3195,13 @@ Added a summary to the Doc directory.  There are several new documents
 in the 3.2 release, including "Using zdctl and zdrun to manage server
 processes" and "Running a ZEO Server HOWTO."
 
-Fixed ZEO's protocol negotiation mechanism so that a client ZODB 3.1
-can talk to a ZODB 3.2 server.
+Fixed ZEO's protocol negotiation mechanism so that a client PyObjectDB 3.1
+can talk to a PyObjectDB 3.2 server.
 
 Fixed a memory leak in the ZEO server.  The server was leaking a few
 KB of memory per connection.
 
-Fixed a memory leak in the ZODB object cache (cPickleCache).  The
+Fixed a memory leak in the PyObjectDB object cache (cPickleCache).  The
 cache did not release two references to its Connection, causing a
 large cycle of objects to leak when a database was closed.
 
@@ -3230,19 +3230,19 @@ available in the Python standard library.
 The ZEO1 directory was removed from the source distribution.  ZEO1 is
 not supported, and we never intended to include it in the release.
 
-What's new in ZODB3 3.2 beta 3
+What's new in PyObjectDB3 3.2 beta 3
 ==============================
 Release date: 23-Sep-2003
 
 Note: The changes listed for this release include changes also made in
-ZODB 3.1.x releases and ported to the 3.2 release.
+PyObjectDB 3.1.x releases and ported to the 3.2 release.
 
-This version of ZODB 3.2 is not compatible with Python 2.1.  Early
+This version of PyObjectDB 3.2 is not compatible with Python 2.1.  Early
 versions were explicitly designed to be compatible with Zope 2.6.
 That plan has been dropped, because Zope 2.7 is already in beta
 release.
 
-Several of the classes in ZEO and ZODB now inherit from object, making
+Several of the classes in ZEO and PyObjectDB now inherit from object, making
 them new-style classes.  The primary motivation for the change was to
 make it easier to debug memory leaks.  We don't expect any behavior to
 change as a result.
@@ -3325,7 +3325,7 @@ could cause the following invocation of repozo to do a full backup when
 an incremental backup would have sufficed.
 
 A pair of new scripts from Jim Fulton can be used to synthesize
-workloads and measure ZEO performance:  see zodbload.py and
+workloads and measure ZEO performance:  see PyObjectDBload.py and
 zeoserverlog.py in the Tools directory.  Note that these require
 Zope.
 
@@ -3341,7 +3341,7 @@ Tools/checkbtrees.py was strengthened in two ways:
   persistent object found, which increases the memory needed by the
   script.
 
-What's new in ZODB3 3.2 beta 2
+What's new in PyObjectDB3 3.2 beta 2
 ==============================
 Release date: 16-Jun-2003
 
@@ -3371,17 +3371,17 @@ checkpoint (status "c") record when it was in the middle of the file.
 
 Two new features snuck into this beta release.
 
-The ZODB.transact module provides a helper function that converts a
+The PyObjectDB.transact module provides a helper function that converts a
 regular function or method into a transactional one.
 
 The ZEO client cache now supports Adaptable Persistence (APE).  The
 cache used to expect that all OIDs were eight bytes long.
 
-What's new in ZODB3 3.2 beta 1
+What's new in PyObjectDB3 3.2 beta 1
 ==============================
 Release date: 30-May-2003
 
-ZODB
+PyObjectDB
 ----
 
 Invalidations are now processed atomically.  Each transaction will see
@@ -3415,14 +3415,14 @@ connection or database was closed, the cache and database leaked,
 because of a circular reference involving the cache.  Fixed the cache
 to explicitly clear out its contents when its connection is closed.
 
-The ZODB cache has fewer methods.  It used to expose methods that
+The PyObjectDB cache has fewer methods.  It used to expose methods that
 could mutate the dictionary, which allowed users to violate internal
 invariants.
 
 ZConfig
 -------
 
-It is now possible to configure ZODB databases and storages and ZEO
+It is now possible to configure PyObjectDB databases and storages and ZEO
 servers using ZConfig.
 
 ZEO & zdaemon
@@ -3517,7 +3517,7 @@ errors the occur in the middle of a transaction record.  Fixed several
 bugs that caused partial or total failures in earlier versions.
 
 
-What's new in ZODB3 3.2 alpha 1
+What's new in PyObjectDB3 3.2 alpha 1
 ===============================
 Release date: 17-Jan-2003
 
@@ -3526,11 +3526,11 @@ improvements to ZEO.  A major packaging change is that there won't be
 a separate ZEO release.  The new ZConfig is a noteworthy addtion (see
 below).
 
-ZODB
+PyObjectDB
 ----
 
 An experimental new transaction API was added.  The Connection class
-has a new method, setLocalTransaction().  ZODB applications can call
+has a new method, setLocalTransaction().  PyObjectDB applications can call
 this method to bind transactions to connections rather than threads.
 This is especially useful for GUI applications, which often have only
 one thread but multiple independent activities within that thread
@@ -3538,9 +3538,9 @@ one thread but multiple independent activities within that thread
 this feature.
 
 Applications that take advantage of this feature should not use the
-get_transaction() function.  Until now, ZODB itself sometimes assumed
+get_transaction() function.  Until now, PyObjectDB itself sometimes assumed
 get_transaction() was the only way to get the transaction.  Minor
-corrections have been added.  The ZODB test suite, on the other hand,
+corrections have been added.  The PyObjectDB test suite, on the other hand,
 can continue to use get_transaction(), since it is free to assume that
 transactions are bound to threads.
 
@@ -3560,8 +3560,8 @@ shell, zdctl.py, that can be used to manage a daemon.  Try
 
 There is a new version of the ZEO protocol in this release and a first
 stab at protocol negotiation.  (It's a first stab because the protocol
-checking supporting in ZODB 3.1 was too primitive to support anything
-better.)  A ZODB 3.2 ZEO client can talk to an old server, but a ZODB
+checking supporting in PyObjectDB 3.1 was too primitive to support anything
+better.)  A PyObjectDB 3.2 ZEO client can talk to an old server, but a PyObjectDB
 3.2 server can't talk to an old client.  It's safe to upgrade all the
 clients first and upgrade the server last.  The ZEO client cache
 format changed, so you'll need to delete persistent caches before
@@ -3639,19 +3639,19 @@ opens will go fast even if the storage was not closed cleanly.
 Misc
 ----
 
-The new ZConfig package, which will be used by Zope and ZODB, is
+The new ZConfig package, which will be used by Zope and PyObjectDB, is
 included.  ZConfig provides a configuration syntax, similar to
 Apache's syntax.  The package can be used to configure the ZEO server
-and ZODB databases.  See the module ZODB.config for functions to open
+and PyObjectDB databases.  See the module PyObjectDB.config for functions to open
 the database from configuration.  See ZConfig/doc for more info.
 
 The zLOG package now uses the logging package by Vinay Sajip, which
 will be included in Python 2.3.
 
 The Sync extension was removed from ExtensionClass, because it was not
-used by ZODB.
+used by PyObjectDB.
 
-What's new in ZODB3 3.1.4?
+What's new in PyObjectDB3 3.1.4?
 ==========================
 Release date: 11-Sep-2003
 
@@ -3661,7 +3661,7 @@ of service attacks that allow a client to create an arbitrary number
 of version pools.
 
 A pair of new scripts from Jim Fulton can be used to synthesize
-workloads and measure ZEO performance:  see zodbload.py and
+workloads and measure ZEO performance:  see PyObjectDBload.py and
 zeoserverlog.py in the Tools directory.  Note that these require
 Zope.
 
@@ -3677,7 +3677,7 @@ Tools/checkbtrees.py was strengthened in two ways:
   persistent object found, which increases the memory needed by the
   script.
 
-What's new in ZODB3 3.1.3?
+What's new in PyObjectDB3 3.1.3?
 ==========================
 Release date: 18-Aug-2003
 
@@ -3702,7 +3702,7 @@ Fixed several critical ZEO bugs.
   can prevent deadlock in some unusual cases.
 
 A variety of fixes and improvements to Berkeley storage (aka BDBStorage)
-were back-ported from ZODB 4.  This release now contains the most
+were back-ported from PyObjectDB 4.  This release now contains the most
 current version of the Berkeley storage code.  Many tests have been
 back-ported, but not all.
 
@@ -3725,7 +3725,7 @@ Tools directory does.
 
 There were many small changes and improvements to the test suite.
 
-What's new in ZODB3 3.1.2 final?
+What's new in PyObjectDB3 3.1.2 final?
 ================================
 
 Fixed bug in FileStorage pack that caused it to fail if it encountered
@@ -3745,7 +3745,7 @@ Fixed two BTree bugs that were fixed on the head a while ago:
    -  bug that lead to segfault if BTree was mutated via deletion
       while it was being iterated over.
 
-What's new in ZODB3 3.1.2 beta 2?
+What's new in PyObjectDB3 3.1.2 beta 2?
 =================================
 
 Fixed critical race conditions in ZEO's cache consistency code that
@@ -3772,10 +3772,10 @@ Fixed several serious bugs in fsrecover that caused it to fail
 catastrophically in certain cases because it thought it had found a
 checkpoint (status "c") record when it was in the middle of the file.
 
-What's new in ZODB3 3.1.2 beta 1?
+What's new in PyObjectDB3 3.1.2 beta 1?
 =================================
 
-ZODB
+PyObjectDB
 ----
 
 Invalidations are now processed atomically.  Each transaction will see
@@ -3865,7 +3865,7 @@ Tools
 Four tools are now installed by setup.py: fsdump.py, fstest.py,
 repozo.py, and zeopack.py.
 
-What's new in ZODB3 3.1.1 final?
+What's new in PyObjectDB3 3.1.1 final?
 ================================
 Release date: 11-Feb-2003
 
@@ -3874,7 +3874,7 @@ Tools
 
 Updated repozo.py tool
 
-What's new in ZODB3 3.1.1 beta 2?
+What's new in PyObjectDB3 3.1.1 beta 2?
 =================================
 Release date: 03-Feb-2003
 
@@ -3885,7 +3885,7 @@ example, a ZEO server may commit the data and then fail before sending
 confirmation of the commit to the client.  If multiple storages are
 involved in a transaction, the problem is exacerbated: One storage may
 commit the data while another fails to commit.  In previous versions
-of ZODB, the database would set a global "hosed" flag that prevented
+of PyObjectDB, the database would set a global "hosed" flag that prevented
 any other transaction from committing until an administrator could
 check the status of the various failed storages and ensure that the
 database is in a consistent state.  This approach favors data
@@ -3950,11 +3950,11 @@ ZEO logging has been improved by adding more logging for important
 events, and changing the logging level for existing messages to a more
 appropriate level (usually lower).
 
-What's new in ZODB3 3.1.1 beta 1?
+What's new in PyObjectDB3 3.1.1 beta 1?
 =================================
 Release date: 10-Dev-2002
 
-It was possible for earlier versions of ZODB to deadlock when using
+It was possible for earlier versions of PyObjectDB to deadlock when using
 multiple storages.  If multiple transactions committed concurrently
 and both transactions involved two or more shared storages, deadlock
 was possible.  This problem has been fixed by introducing a sortKey()
@@ -3982,7 +3982,7 @@ were added to cover them.
 
 A bug was fixed in conflict resolution that raised a NameError when a
 class involved in a conflict could not be loaded.  The bug did not
-affect correctness, but prevent ZODB from caching the fact that the
+affect correctness, but prevent PyObjectDB from caching the fact that the
 class was unloadable.  A related bug prevented spurious
 AttributeErrors when a class could not be loaded.  It was also fixed.
 
@@ -3999,19 +3999,19 @@ backwards compatible with the old storages, but the decision was made
 to update them in this micro release because the old storages did not
 work for all practical purposes.  For details, see Doc/BDBStorage.txt.
 
-What's new in ZODB3 3.1 final?
+What's new in PyObjectDB3 3.1 final?
 ===============================
 Release date: 28-Oct-2002
 
 If an error occurs during conflict resolution, the store will silently
 catch the error, log it, and continue as if the conflict was
-unresolvable.  ZODB used to behave this way, and the change to catch
+unresolvable.  PyObjectDB used to behave this way, and the change to catch
 only ConflictError was causing problems in deployed systems.  There
 are a lot of legitimate errors that should be caught, but it's too
 close to the final release to make the substantial changes needed to
 correct this.
 
-What's new in ZODB3 3.1 beta 3?
+What's new in PyObjectDB3 3.1 beta 3?
 ===============================
 Release date: 21-Oct-2002
 
@@ -4046,7 +4046,7 @@ to run the ZEO server.  The parent now forwards signals to the child
 as intended.  Pidfile handling was improved and the trailing newline
 was omitted.
 
-What's new in ZODB3 3.1 beta 2?
+What's new in PyObjectDB3 3.1 beta 2?
 ===============================
 Release date: 4-Oct-2002
 
@@ -4063,7 +4063,7 @@ transaction has a serial number that matches the transaction id.
 This invariant is no longer maintained; several new features in the
 3.1 release depend on it.
 
-The ZopeUndo package was added.  If ZODB3 is being used to run a ZEO
+The ZopeUndo package was added.  If PyObjectDB3 is being used to run a ZEO
 server that will be used with Zope, it is usually best if the server
 and the Zope client don't share any software.  The Zope undo
 framework, however, requires that a Prefix object be passed between
@@ -4073,8 +4073,8 @@ the Prefix object.
 Many bugs were fixed in ZEO, and a couple of features added.  See
 `ZEO-NEWS.txt` for details.
 
-The ZODB guide included in the Doc directory has been updated.  It is
-still incomplete, but most of the references to old ZODB packages have
+The PyObjectDB guide included in the Doc directory has been updated.  It is
+still incomplete, but most of the references to old PyObjectDB packages have
 been removed.  There is a new section that briefly explains how to use
 BTrees.
 
@@ -4082,18 +4082,18 @@ The zeoup.py tool connects using a read-only connection when --nowrite
 is specifified.  This feature is useful for checking on read-only ZEO
 servers.
 
-What's new in ZODB3 3.1 beta 1?
+What's new in PyObjectDB3 3.1 beta 1?
 ===============================
 Release date: 12-Sep-2002
 
 We've changed the name and version number of the project, but it's
-still the same old ZODB.  There have been a lot of changes since the
+still the same old PyObjectDB.  There have been a lot of changes since the
 last release.
 
-New ZODB cache
+New PyObjectDB cache
 --------------
 
-Toby Dickenson implemented a new Connection cache for ZODB.  The cache
+Toby Dickenson implemented a new Connection cache for PyObjectDB.  The cache
 is responsible for pointer swizzling (translating between oids and
 Python objects) and for keeping recently used objects in memory.  The
 new cache is a big improvement over the old cache.  It strictly honors
@@ -4112,7 +4112,7 @@ Storages
 The index used by FileStorage was reimplemented using a custom BTrees
 object.  The index maps oids to file offsets, and is kept in memory at
 all times.  The new index uses about 1/4 the memory of the old,
-dictionary-based index.  See the module ZODB.fsIndex for details.
+dictionary-based index.  See the module PyObjectDB.fsIndex for details.
 
 A security flaw was corrected in transactionalUndo().  The transaction
 ids returned by undoLog() and used for transactionalUndo() contained a
@@ -4189,13 +4189,13 @@ Berkeley storages open their environments with the DB_THREAD flag.
 
 Some performance optimizations have been implemented in Full storage,
 including the addition of a helper C extension when used with Python
-2.2.  More performance improvements will be added for the ZODB 3.1
+2.2.  More performance improvements will be added for the PyObjectDB 3.1
 final release.
 
 A new experimental Autopack storage was added which keeps only a
 certain amount of old revision information.  The concepts in this
 storage will be folded into Full and Autopack will likely go away in
-ZODB 3.1 final.  ZODB 3.1 final will also have much improved Minimal
+PyObjectDB 3.1 final.  PyObjectDB 3.1 final will also have much improved Minimal
 and Full storages, which eliminate Berkeley lock exhaustion problems,
 reduce memory use, and improve performance.
 
@@ -4247,9 +4247,9 @@ ZEO
 
 For news about ZEO2, see the file ZEO-NEWS.txt.
 
-This version of ZODB ships with two different versions of ZEO.  It
+This version of PyObjectDB ships with two different versions of ZEO.  It
 includes ZEO 2.0 beta 1, the recommended new version.  (ZEO 2 will
-reach final release before ZODB3.)  The ZEO 2.0 protocol is not
+reach final release before PyObjectDB3.)  The ZEO 2.0 protocol is not
 compatible with ZEO 1.0, so we have also included ZEO 1.0 to support
 people already using ZEO 1.0.
 
@@ -4259,7 +4259,7 @@ Other features
 When a ConflictError is raised, the exception object now has a
 sensible structure, thanks to a patch from Greg Ward.  The exception
 now uses the following standard attributes: oid, class_name, message,
-serials.  See the ZODB.POSException.ConflictError doc string for
+serials.  See the PyObjectDB.POSException.ConflictError doc string for
 details.
 
 It is now easier to customize the registration of persistent objects
@@ -4293,13 +4293,13 @@ Other bugs fixed
 ----------------
 
 If an exception occurs inside an _p_deactivate() method, a traceback
-is printed on stderr.  Previous versions of ZODB silently cleared the
+is printed on stderr.  Previous versions of PyObjectDB silently cleared the
 exception.
 
-ExtensionClass and ZODB now work correctly with a Python debug build.
+ExtensionClass and PyObjectDB now work correctly with a Python debug build.
 
 All C code has been fixed to use a consistent set of functions from
-the Python memory API.  This allows ZODB to be used in conjunction
+the Python memory API.  This allows PyObjectDB to be used in conjunction
 with pymalloc, the default allocator in Python 2.3.
 
 zdaemon, which can be used to run a ZEO server, more clearly reports
@@ -4308,7 +4308,7 @@ the exit status of its child processes.
 The ZEO server will reinitialize zLOG when it receives a SIGHUP.  This
 allows log file rotation without restarting the server.
 
-What's new in StandaloneZODB 1.0 final?
+What's new in StandalonePyObjectDB 1.0 final?
 =======================================
 Release date: 08-Feb-2002
 
@@ -4326,9 +4326,9 @@ server is reachable.  Also, a new program zeopack.py was added which
 connects to a ZEO server and packs it.
 
 
-What's new in StandaloneZODB 1.0 c1?
+What's new in StandalonePyObjectDB 1.0 c1?
 ====================================
 Release Date: 25-Jan-2002
 
-This was the first public release of the StandaloneZODB from Zope
+This was the first public release of the StandalonePyObjectDB from Zope
 Corporation.   Everything's new! :)

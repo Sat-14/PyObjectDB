@@ -1,5 +1,5 @@
 ======================
-ZODB programming guide
+PyObjectDB programming guide
 ======================
 
 This guide consists of a collection of topics that should be of

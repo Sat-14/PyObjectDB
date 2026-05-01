@@ -5,7 +5,7 @@ Sphinx > 6, < 7
 # Silence dependabot claiming a security issue in older versions:
 pygments >= 2.7.4
 docutils
-ZODB
+PyObjectDB
 sphinxcontrib_zopeext
 j1m.sphinxautozconfig
 # Force a recent version

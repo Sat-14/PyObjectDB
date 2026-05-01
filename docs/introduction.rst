@@ -25,7 +25,7 @@ Transactions provide isolation
   primitives.
 
   You still have to deal with concurrency on some level. For
-  timestamp-based systems like ZODB, you may have to retry conflicting
+  timestamp-based systems like PyObjectDB, you may have to retry conflicting
   transactions. With locking-based systems, you have to deal with
   possible deadlocks.
 
@@ -36,7 +36,7 @@ Transactions affect multiple objects
   scalability, but otherwise, think hard about giving up the benefits
   of transactions.
 
-ZODB transaction support:
+PyObjectDB transaction support:
 
 - `ACID <https://en.wikipedia.org/wiki/ACID>`_ transactions with
   `snapshot isolation
@@ -44,10 +44,10 @@ ZODB transaction support:
 
 - Distributed transaction support using two-phase commit
 
-  This allows transactions to span multiple ZODB databases and to span
-  ZODB and non-ZODB databases.
+  This allows transactions to span multiple PyObjectDB databases and to span
+  PyObjectDB and non-PyObjectDB databases.
 
-Other notable ZODB features
+Other notable PyObjectDB features
 ===========================
 
 Database caching with invalidation
@@ -62,7 +62,7 @@ Database caching with invalidation
   invalidates cache entries automatically.
 
 Pluggable layered storage
-  ZODB has a pluggable storage architecture. This allows a variety of
+  PyObjectDB has a pluggable storage architecture. This allows a variety of
   storage schemes including memory-based, file-based and distributed
   (client-server) storage.  Through storage layering, storage
   components provide compression, encryption, replication and more.
@@ -71,7 +71,7 @@ Easy testing
   Because application code rarely has database logic, it can
   usually be unit tested without a database.
 
-  ZODB provides in-memory storage implementations as well as
+  PyObjectDB provides in-memory storage implementations as well as
   copy-on-write layered "demo storage" implementations that make testing
   database-related code very easy.
 
@@ -80,21 +80,21 @@ Garbage collection
   don't have to worry about referential integrity.
 
 Binary large objects, Blobs
-  ZODB blobs are database-managed files.  This can be especially
+  PyObjectDB blobs are database-managed files.  This can be especially
   useful when serving media.  If you use AWS, there's a Blob
   implementation that stores blobs in S3 and caches them on disk.
 
 Time travel
-  ZODB storages typically add new records on write and remove old
+  PyObjectDB storages typically add new records on write and remove old
   records on "pack" operations.  This allows limited time travel, back
   to the last pack time.  This can be very useful for forensic
   analysis.
 
-When should you use ZODB?
+When should you use PyObjectDB?
 =========================
 
 You want to focus on your application without writing a lot of database code.
-  ZODB provides highly transparent persistence.
+  PyObjectDB provides highly transparent persistence.
 
 Your application has complex relationships and data structures.
   In relational databases you have to join tables to model complex
@@ -109,40 +109,40 @@ Your application has complex relationships and data structures.
   typically far less powerful and transactional semantics typically don't
   cross documents, if they exist at all.
 
-  In ZODB, you can make objects as complex as you want and cross
+  In PyObjectDB, you can make objects as complex as you want and cross
   object relationships are handled with Python object references.
 
 You access data through object attributes and methods.
   If your primary object access is search, then other database
   technologies might be a better fit.
 
-  ZODB has no query language other than Python. It's primary support
+  PyObjectDB has no query language other than Python. It's primary support
   for search is through mapping objects called BTrees.  People have
-  build higher-level search APIs on top of ZODB. These work well
+  build higher-level search APIs on top of PyObjectDB. These work well
   enough to support some search.
 
 You read data a lot more than you write it.
-  ZODB caches aggressively, and if your working set fits (or mostly
+  PyObjectDB caches aggressively, and if your working set fits (or mostly
   fits) in memory, performance is very good because it rarely has to
   touch the database server.
 
   If your application is very write heavy (e.g. logging), then you're
   better off using something else.  Sometimes, you can use a database
-  suitable for heavy writes in combination with ZODB.
+  suitable for heavy writes in combination with PyObjectDB.
 
 Need to test logic that uses your database.
-  ZODB has a number of storage implementations, including layered
+  PyObjectDB has a number of storage implementations, including layered
   in-memory implementations that make testing very easy.
 
   A database without an in-memory storage option can make testing very
   complicated.
 
-When should you *not* use ZODB?
+When should you *not* use PyObjectDB?
 ===============================
 
 - You have very high write volume.
 
-  ZODB can commit thousands of transactions per second with suitable
+  PyObjectDB can commit thousands of transactions per second with suitable
   storage configuration and without conflicting changes.
 
   Internal search indexes can lead to lots of conflicts, and can
@@ -156,11 +156,11 @@ When should you *not* use ZODB?
 Newt DB addresses these issues to a significant degree. See
 http://newtdb.org.
 
-How does ZODB scale?
+How does PyObjectDB scale?
 ====================
 
 Not as well as many technologies, but some fairly large applications
-have been built on ZODB.
+have been built on PyObjectDB.
 
 At Zope Corporation, several hundred newspaper content-management
 systems and web sites were hosted using a multi-database configuration
@@ -168,13 +168,13 @@ with most data in a main database and a catalog database.  The
 databases had several hundred gigabytes of ordinary database records
 plus multiple terabytes of blob data.
 
-ZODB is mature
+PyObjectDB is mature
 ==============
 
-ZODB is very mature. Development started in 1996 and it has been used
+PyObjectDB is very mature. Development started in 1996 and it has been used
 in production in thousands of applications for many years.
 
-ZODB is in heavy use in the `Pyramid <http://www.pylonsproject.org/>`_
+PyObjectDB is in heavy use in the `Pyramid <http://www.pylonsproject.org/>`_
 and `Plone <https://plone.org/>`_ communities and in many other
 applications.
 

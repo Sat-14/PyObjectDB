@@ -1,1 +1,1 @@
-.. include:: ../src/ZODB/cross-database-references.rst
+.. include:: ../src/PyObjectDB/cross-database-references.rst

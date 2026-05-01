@@ -1,1 +1,1 @@
-.. include:: ../src/ZODB/persistentclass.rst
+.. include:: ../src/PyObjectDB/persistentclass.rst

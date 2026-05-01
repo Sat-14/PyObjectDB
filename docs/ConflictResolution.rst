@@ -1,1 +1,1 @@
-.. include:: ../src/ZODB/ConflictResolution.rst
+.. include:: ../src/PyObjectDB/ConflictResolution.rst

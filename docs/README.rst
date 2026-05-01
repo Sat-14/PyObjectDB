@@ -1,10 +1,10 @@
 ==================
-ZODB documentation
+PyObjectDB documentation
 ==================
 
-``zodbdocs`` is the source documentation for the website https://zodb.readthedocs.io. It
-contains all ZODB relevant documentation like "ZODB/ZEO Programming Guide",
-some ZODB articles and links to the ZODB release notes.
+``PyObjectDBdocs`` is the source documentation for the website https://PyObjectDB.readthedocs.io. It
+contains all PyObjectDB relevant documentation like "PyObjectDB/ZEO Programming Guide",
+some PyObjectDB articles and links to the PyObjectDB release notes.
 
 
 Building the documentation

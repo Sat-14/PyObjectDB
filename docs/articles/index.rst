@@ -1,4 +1,4 @@
-ZODB articles
+PyObjectDB articles
 =============
 
 Contents
@@ -7,20 +7,20 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   ZODB-overview.rst
-   ZODB1.rst
-   ZODB2.rst
+   PyObjectDB-overview.rst
+   PyObjectDB1.rst
+   PyObjectDB2.rst
    old-guide/index
-   multi-zodb-gc.rst
+   multi-PyObjectDB-gc.rst
 
 
-Other ZODB Resources
+Other PyObjectDB Resources
 --------------------
 
-- IBM developerWorks `Example-driven ZODB
-  <http://www.ibm.com/developerworks/aix/library/au-zodb/>`_
+- IBM developerWorks `Example-driven PyObjectDB
+  <http://www.ibm.com/developerworks/aix/library/au-PyObjectDB/>`_
 
-- `How To Love ZODB and Forget RDBMS
-  <http://zope.org/Members/adytumsolutions/HowToLoveZODB_PartI>`_
+- `How To Love PyObjectDB and Forget RDBMS
+  <http://zope.org/Members/adytumsolutions/HowToLovePyObjectDB_PartI>`_
 
-- `Very old ZODB wiki <http://www.zope.org/Members/jim/ZODB/FrontPage>`_
+- `Very old PyObjectDB wiki <http://www.zope.org/Members/jim/PyObjectDB/FrontPage>`_

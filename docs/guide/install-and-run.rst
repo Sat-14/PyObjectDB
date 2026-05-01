@@ -1,17 +1,17 @@
 ===========================
-Installing and running ZODB
+Installing and running PyObjectDB
 ===========================
 
 This topic discusses some boring nitty-gritty details needed to
-actually run ZODB.
+actually run PyObjectDB.
 
 Installation
 ============
 
-Installation of ZODB is pretty straightforward using Python's
+Installation of PyObjectDB is pretty straightforward using Python's
 packaging system. For example, using pip::
 
-  pip install ZODB
+  pip install PyObjectDB
 
 You may need additional optional packages, such as `ZEO
 <https://pypi.org/project/ZEO/>`_ or `RelStorage
@@ -21,37 +21,37 @@ choices.
 Configuration
 =============
 
-You can set up ZODB in your application using either Python, or
-ZODB's configuration language.  For simple database setup, and
+You can set up PyObjectDB in your application using either Python, or
+PyObjectDB's configuration language.  For simple database setup, and
 especially for exploration, the Python APIs are sufficient.
 
-For more complex configurations, you'll probably find ZODB's
+For more complex configurations, you'll probably find PyObjectDB's
 configuration language easier to use.
 
-To understand database setup, it's important to understand ZODB's
-architecture.  ZODB separates database functionality
+To understand database setup, it's important to understand PyObjectDB's
+architecture.  PyObjectDB separates database functionality
 from storage concerns. When you create a database object,
 you specify a storage object for it to use, as in::
 
-    import ZODB, ZODB.FileStorage
+    import PyObjectDB, PyObjectDB.FileStorage
 
-    storage = ZODB.FileStorage.FileStorage('mydata.fs')
-    db = ZODB.DB(storage)
+    storage = PyObjectDB.FileStorage.FileStorage('mydata.fs')
+    db = PyObjectDB.DB(storage)
 
 So when you define a database, you'll also define a storage. In the
 example above, we define a :class:`file storage
-<ZODB.FileStorage.FileStorage.FileStorage>` and then use it to define
+<PyObjectDB.FileStorage.FileStorage.FileStorage>` and then use it to define
 a database.
 
 Sometimes, storages are created through composition.  For example, if
 we want to save space, we could layer a ``ZlibStorage``
 [#zlibstoragefn]_ over the file storage::
 
-    import ZODB, ZODB.FileStorage, zc.zlibstorage
+    import PyObjectDB, PyObjectDB.FileStorage, zc.zlibstorage
 
-    storage = ZODB.FileStorage.FileStorage('mydata.fs')
+    storage = PyObjectDB.FileStorage.FileStorage('mydata.fs')
     compressed_storage = zc.zlibstorage.ZlibStorage(storage)
-    db = ZODB.DB(compressed_storage)
+    db = PyObjectDB.DB(compressed_storage)
 
 `ZlibStorage <https://pypi.org/project/zc.zlibstorage/>`_
 compresses database records [#zlib]_.
@@ -61,40 +61,40 @@ Python configuration
 
 To set up a database with Python, you'll construct a storage using the
 :ref:`storage APIs <included-storages-label>`, and then pass the
-storage to the :class:`~ZODB.DB` class to create a database, as shown
+storage to the :class:`~PyObjectDB.DB` class to create a database, as shown
 in the examples in the previous section.
 
-The :class:`~ZODB.DB` class also accepts a string path name as its
+The :class:`~PyObjectDB.DB` class also accepts a string path name as its
 storage argument to automatically create a file storage.  You can also
 pass ``None`` as the storage to automatically use a
-:class:`~ZODB.MappingStorage.MappingStorage`, which is convenient when
-exploring ZODB::
+:class:`~PyObjectDB.MappingStorage.MappingStorage`, which is convenient when
+exploring PyObjectDB::
 
-  db = ZODB.DB(None) # Create an in-memory database.
+  db = PyObjectDB.DB(None) # Create an in-memory database.
 
 Text configuration
 ------------------
 
-ZODB supports a text-based configuration language.  It uses a syntax
+PyObjectDB supports a text-based configuration language.  It uses a syntax
 similar to Apache configuration files.  The syntax was chosen to be
 familiar to site administrators.
 
-ZODB's text configuration uses `ZConfig
+PyObjectDB's text configuration uses `ZConfig
 <https://pypi.org/project/ZConfig/>`_. You can use ZConfig to
 create your application's configuration, but it's more common to
-include ZODB configuration strings in their own files or embedded in
+include PyObjectDB configuration strings in their own files or embedded in
 simpler configuration files, such as `configarser
 <https://docs.python.org/3/library/configparser.html#module-configparser>`_
 files.
 
-A database configuration string has a ``zodb`` section wrapping a
+A database configuration string has a ``PyObjectDB`` section wrapping a
 storage section, as in::
 
-  <zodb>
+  <PyObjectDB>
     cache-size-bytes 100MB
     <mappingstorage>
     </mappingstorage>
-  </zodb>
+  </PyObjectDB>
 
 .. -> snippet
 
@@ -103,20 +103,20 @@ In the example above, the :ref:`mappingstorage
 by the database.
 
 To create a database from a string, use
-:func:`ZODB.config.databaseFromString`::
+:func:`PyObjectDB.config.databaseFromString`::
 
-    >>> import ZODB.config
-    >>> db = ZODB.config.databaseFromString(snippet)
+    >>> import PyObjectDB.config
+    >>> db = PyObjectDB.config.databaseFromString(snippet)
 
 To load databases from file names or URLs, use
-:func:`ZODB.config.databaseFromURL`.
+:func:`PyObjectDB.config.databaseFromURL`.
 
 URI-based configuration
 -----------------------
 
-Another database configuration option is provided by the `zodburi
-<https://pypi.org/project/zodburi/>`_ package. See:
-http://docs.pylonsproject.org/projects/zodburi.  It's less powerful
+Another database configuration option is provided by the `PyObjectDBuri
+<https://pypi.org/project/PyObjectDBuri/>`_ package. See:
+http://docs.pylonsproject.org/projects/PyObjectDBuri.  It's less powerful
 than the Python or text configuration options, but allows
 configuration to be reduced to a single URI and handles most cases.
 
@@ -136,20 +136,20 @@ Getting connections
 Amongst [#amongst]_ the common ways of getting a connection:
 
 db.open()
-   The database :meth:`~ZODB.DB.open` method opens a
+   The database :meth:`~PyObjectDB.DB.open` method opens a
    connection, returning a connection object::
 
       >>> conn = db.open()
 
    It's up to the application to call
-   :meth:`~ZODB.Connection.Connection.close` when the application is
+   :meth:`~PyObjectDB.Connection.Connection.close` when the application is
    done using the connection.
 
    If changes are made, the application :ref:`commits transactions
    <using-transactions-label>` to make them permanent.
 
 db.transaction()
-   The database :meth:`~ZODB.DB.transaction` method
+   The database :meth:`~PyObjectDB.DB.transaction` method
    returns a context manager that can be used with the `python with
    statement
    <https://docs.python.org/3/reference/compound_stmts.html#grammar-token-with_stmt>`_
@@ -211,7 +211,7 @@ make it possible to search objects in large collections.
 .. [#zlib] ZlibStorage uses the :mod:`zlib` standard module, which
    uses the `zlib library <http://www.zlib.net/>`_.
 
-.. [#caches-are-expensive] ZODB can be very efficient at caching data
+.. [#caches-are-expensive] PyObjectDB can be very efficient at caching data
    in memory, especially if your `working set
    <https://en.wikipedia.org/wiki/Working_set>`_ is small enough to
    fit in memory, because the cache is simply an object tree and

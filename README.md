@@ -1,6 +1,6 @@
-# PyObjectDB (formerly ZODB)
+# PyObjectDB (formerly PyObjectDB)
 
-![Latest release](https://img.shields.io/pypi/v/ZODB.svg) ![Supported Python versions](https://img.shields.io/pypi/pyversions/ZODB.svg) ![Build status](https://github.com/zopefoundation/ZODB/actions/workflows/tests.yml/badge.svg) ![Coverage status](https://coveralls.io/repos/github/zopefoundation/ZODB/badge.svg) ![Documentation status](https://readthedocs.org/projects/zodb-docs/badge/?version=latest)
+![Latest release](https://img.shields.io/pypi/v/PyObjectDB.svg) ![Supported Python versions](https://img.shields.io/pypi/pyversions/PyObjectDB.svg) ![Build status](https://github.com/zopefoundation/PyObjectDB/actions/workflows/tests.yml/badge.svg) ![Coverage status](https://coveralls.io/repos/github/zopefoundation/PyObjectDB/badge.svg) ![Documentation status](https://readthedocs.org/projects/PyObjectDB-docs/badge/?version=latest)
 
 **PyObjectDB** is an ACID-compliant, object-oriented database for Python that provides a high degree of transparency. It runs on Python 3.7 and above, as well as PyPy.
 
@@ -33,6 +33,6 @@ graph TD
 
 ## Documentation
 
-To learn more, visit: https://zodb-docs.readthedocs.io
+To learn more, visit: https://PyObjectDB-docs.readthedocs.io
 
-*(This repository is a renamed demonstration fork of the original ZODB project.)*
+*(This repository is a renamed demonstration fork of the original PyObjectDB project.)*

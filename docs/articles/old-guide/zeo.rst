@@ -13,12 +13,12 @@ ZEO
 How ZEO Works
 -------------
 
-The ZODB, as I've described it so far, can only be used within a single Python
+The PyObjectDB, as I've described it so far, can only be used within a single Python
 process (though perhaps with multiple threads).  ZEO, Zope Enterprise Objects,
-extends the ZODB machinery to provide access to objects over a network.  The
+extends the PyObjectDB machinery to provide access to objects over a network.  The
 name "Zope Enterprise Objects" is a bit misleading; ZEO can be used to store
 Python objects and access them in a distributed fashion without Zope ever
-entering the picture. The combination of ZEO and ZODB is essentially a Python-
+entering the picture. The combination of ZEO and PyObjectDB is essentially a Python-
 specific object database.
 
 ZEO consists of about 12,000 lines of Python code, excluding tests.  The code is
@@ -72,7 +72,7 @@ run a ZEO Storage Server on a machine.
 Requirements
 ^^^^^^^^^^^^
 
-The ZEO server software is included in ZODB3.  As with the rest of ZODB3, you'll
+The ZEO server software is included in PyObjectDB3.  As with the rest of PyObjectDB3, you'll
 need Python 2.3 or higher.
 
 
@@ -88,19 +88,19 @@ good choise is to use  ``python ZEO/runzeo.py -a /tmp/zeosocket -f
 Testing the ZEO Installation
 ----------------------------
 
-Once a ZEO server is up and running, using it is just like using ZODB with a
+Once a ZEO server is up and running, using it is just like using PyObjectDB with a
 more conventional disk-based storage; no new programming details are introduced
 by using a remote server.  The only difference is that programs must create a
 :class:`ClientStorage` instance instead of a :class:`FileStorage` instance.
-From that point onward, ZODB-based code is happily unaware that objects are
+From that point onward, PyObjectDB-based code is happily unaware that objects are
 being retrieved from a ZEO server, and not from the local disk.
 
 As an example, and to test whether ZEO is working correctly, try running the
 following lines of code, which will connect to the server, add some bits of data
-to the root of the ZODB, and commits the transaction::
+to the root of the PyObjectDB, and commits the transaction::
 
    from ZEO import ClientStorage
-   from ZODB import DB
+   from PyObjectDB import DB
    import transaction
 
    # Change next line to connect to your ZEO server
@@ -121,19 +121,19 @@ If this code runs properly, then your ZEO server is working correctly.
 
 You can also use a configuration file. ::
 
-   <zodb>
+   <PyObjectDB>
        <zeoclient>
        server localhost:9100
        </zeoclient>
-   </zodb>
+   </PyObjectDB>
 
 One nice feature of the configuration file is that you don't need to specify
 imports for a specific storage.  That makes the code a little shorter and allows
 you to change storages without changing the code. ::
 
-   import ZODB.config
+   import PyObjectDB.config
 
-   db = ZODB.config.databaseFromURL('/tmp/zeo.conf')
+   db = PyObjectDB.config.databaseFromURL('/tmp/zeo.conf')
 
 
 ZEO Programming Notes
@@ -233,7 +233,7 @@ other client called :meth:`new_messages`, which isn't what we want. ::
        return new
 
 This application is interesting because it uses ZEO to easily share a data
-structure; ZEO and ZODB are being used for their networking ability, not
+structure; ZEO and PyObjectDB are being used for their networking ability, not
 primarily for their data storage ability.  I can foresee many interesting
 applications using ZEO in this way:
 
@@ -244,9 +244,9 @@ applications using ZEO in this way:
 
 * You could create a Python class containing a CD's title and track information.
   To make a CD database, a read-only ZEO server could be opened to the world, or
-  an HTTP or XML-RPC interface could be written on top of the ZODB.
+  an HTTP or XML-RPC interface could be written on top of the PyObjectDB.
 
-* A program like Quicken could use a ZODB on the local disk to store its data.
+* A program like Quicken could use a PyObjectDB on the local disk to store its data.
   This avoids the need to write and maintain specialized I/O code that reads in
   your objects and writes them out; instead you can concentrate on the problem
   domain, writing objects that represent cheques, stock portfolios, or whatever.

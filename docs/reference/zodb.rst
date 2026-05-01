@@ -1,22 +1,22 @@
 =========
-ZODB APIs
+PyObjectDB APIs
 =========
 
 .. contents::
 
-ZODB module functions
+PyObjectDB module functions
 =====================
 
 .. method:: DB(storage, *args, **kw)
 
-      Create a database. See :py:class:`ZODB.DB`.
+      Create a database. See :py:class:`PyObjectDB.DB`.
 
-.. autofunction:: ZODB.connection
+.. autofunction:: PyObjectDB.connection
 
 Databases
 =========
 
-.. autoclass:: ZODB.DB
+.. autoclass:: PyObjectDB.DB
    :members: __init__, open, close, pack,
              cacheDetail, cacheExtremeDetail, cacheMinimize,
              cacheSize, cacheDetailSize, getCacheSize, getCacheSizeBytes,
@@ -36,39 +36,39 @@ Databases
 Database text configuration
 ---------------------------
 
-Databases are configured with ``zodb`` sections::
+Databases are configured with ``PyObjectDB`` sections::
 
-  <zodb>
+  <PyObjectDB>
     cache-size-bytes 100MB
     <mappingstorage>
     </mappingstorage>
-  </zodb>
+  </PyObjectDB>
 
-A ``zodb`` section must have a storage sub-section specifying a
+A ``PyObjectDB`` section must have a storage sub-section specifying a
 storage and any of the following options:
 
-.. zconfigsectionkeys:: ZODB component.xml zodb
+.. zconfigsectionkeys:: PyObjectDB component.xml PyObjectDB
 
 .. _multidatabase-text-configuration:
 
-For a multi-database configuration, use multiple ``zodb`` sections and
+For a multi-database configuration, use multiple ``PyObjectDB`` sections and
 give the sections names::
 
-  <zodb first>
+  <PyObjectDB first>
     cache-size-bytes 100MB
     <mappingstorage>
     </mappingstorage>
-  </zodb>
+  </PyObjectDB>
 
-  <zodb second>
+  <PyObjectDB second>
     <mappingstorage>
     </mappingstorage>
-  </zodb>
+  </PyObjectDB>
 
 .. -> src
 
-   >>> import ZODB.config
-   >>> db = ZODB.config.databaseFromString(src)
+   >>> import PyObjectDB.config
+   >>> db = PyObjectDB.config.databaseFromString(src)
    >>> sorted(db.databases)
    ['first', 'second']
    >>> db._cache_size_bytes
@@ -81,7 +81,7 @@ database's ``databases`` attribute.
 Connections
 ===========
 
-.. autoclass:: ZODB.Connection.Connection
+.. autoclass:: PyObjectDB.Connection.Connection
    :members: add, cacheGC, cacheMinimize, close, db, get,
              getDebugInfo, get_connection, isReadOnly, oldstate,
              onCloseCallback, root, setDebugInfo, sync,
@@ -90,7 +90,7 @@ Connections
 TimeStamp (transaction ids)
 ===========================
 
-.. class:: ZODB.TimeStamp.TimeStamp(year, month, day, hour, minute, seconds)
+.. class:: PyObjectDB.TimeStamp.TimeStamp(year, month, day, hour, minute, seconds)
 
    Create a time-stamp object. Time stamps facilitate the computation
    of transaction ids, which are based on times. The arguments are
@@ -145,6 +145,6 @@ TimeStamp (transaction ids)
 Loading configuration
 =====================
 
-.. automodule:: ZODB.config
+.. automodule:: PyObjectDB.config
    :members: databaseFromString, databaseFromFile, databaseFromURL,
              storageFromString, storageFromFile, storageFromURL

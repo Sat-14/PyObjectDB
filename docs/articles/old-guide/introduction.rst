@@ -1,5 +1,5 @@
 .. % Introduction
-.. % What is ZODB?
+.. % What is PyObjectDB?
 .. % What is ZEO?
 .. % OODBs vs. Relational DBs
 .. % Other OODBs
@@ -9,17 +9,17 @@ Introduction
 ============
 
 This guide explains how to write Python programs that use the Z Object Database
-(ZODB) and Zope Enterprise Objects (ZEO).  The latest version of the guide is
-always available at `<http://www.zope.org/Wikis/ZODB/guide/index.html>`_.
+(PyObjectDB) and Zope Enterprise Objects (ZEO).  The latest version of the guide is
+always available at `<http://www.zope.org/Wikis/PyObjectDB/guide/index.html>`_.
 
 
-What is the ZODB?
+What is the PyObjectDB?
 -----------------
 
-The ZODB is a persistence system for Python objects.  Persistent programming
+The PyObjectDB is a persistence system for Python objects.  Persistent programming
 languages provide facilities that automatically write objects to disk and read
 them in again when they're required by a running program.  By installing the
-ZODB, you add such facilities to Python.
+PyObjectDB, you add such facilities to Python.
 
 It's certainly possible to build your own system for making Python objects
 persistent.  The usual starting points are the :mod:`pickle` module, for
@@ -31,7 +31,7 @@ fact the :mod:`shelve` module, included in Python's standard library, does this.
 
 The downside is that the programmer has to explicitly manage objects, reading an
 object when it's needed and writing it out to disk when the object is no longer
-required.  The ZODB manages objects for you, keeping them in a cache, writing
+required.  The PyObjectDB manages objects for you, keeping them in a cache, writing
 them out to disk when they are modified, and dropping them from the cache if
 they haven't been used in a while.
 
@@ -39,11 +39,11 @@ they haven't been used in a while.
 OODBs vs. Relational DBs
 ------------------------
 
-Another way to look at it is that the ZODB is a Python-specific object-oriented
+Another way to look at it is that the PyObjectDB is a Python-specific object-oriented
 database (OODB).  Commercial object databases for C++ or Java often require that
 you jump through some hoops, such as using a special preprocessor or avoiding
-certain data types.  As we'll see, the ZODB has some hoops of its own to jump
-through, but in comparison the naturalness of the ZODB is astonishing.
+certain data types.  As we'll see, the PyObjectDB has some hoops of its own to jump
+through, but in comparison the naturalness of the PyObjectDB is astonishing.
 
 Relational databases (RDBs) are far more common than OODBs. Relational databases
 store information in tables; a table consists of any number of rows, each row
@@ -131,7 +131,7 @@ value of 2.0?  In the relational version, you have two unappealing choices:
    parameter you're looking for. Repeat for run #2, 3, and so forth.  This does a
    vast number of SQL queries, and therefore is incredibly slow.
 
-An object database such as ZODB simply stores internal pointers from object to
+An object database such as PyObjectDB simply stores internal pointers from object to
 object, so reading in a single object is much faster than doing a bunch of SQL
 queries and assembling the results. Scanning all runs, therefore, is still
 inefficient, but not grossly inefficient.
@@ -140,7 +140,7 @@ inefficient, but not grossly inefficient.
 What is ZEO?
 ------------
 
-The ZODB comes with a few different classes that implement the :class:`Storage`
+The PyObjectDB comes with a few different classes that implement the :class:`Storage`
 interface.  Such classes handle the job of writing out Python objects to a
 physical storage medium, which can be a disk file (the :class:`FileStorage`
 class), a BerkeleyDB file (:class:`BDBFullStorage`), a relational database
@@ -156,8 +156,8 @@ possibilities.
 About this guide
 ----------------
 
-The primary author of this guide works on a project which uses the ZODB and ZEO
-as its primary storage technology.  We use the ZODB to store process runs and
+The primary author of this guide works on a project which uses the PyObjectDB and ZEO
+as its primary storage technology.  We use the PyObjectDB to store process runs and
 operations, a catalog of available processes, user information, accounting
 information, and other data.  Part of the goal of writing this document is to
 make our experience more widely available.  A few times we've spent hours or
@@ -165,19 +165,19 @@ even days trying to figure out a problem, and this guide is an attempt to gather
 up the knowledge we've gained so that others don't have to make the same
 mistakes we did while learning.
 
-The author's ZODB project is described in a paper available here,
+The author's PyObjectDB project is described in a paper available here,
 `<http://www.amk.ca/python/writing/mx-architecture/>`_
 
 This document will always be a work in progress.  If you wish to suggest
 clarifications or additional topics, please send your comments to the
-`ZODB-dev mailing list <https://groups.google.com/forum/#!forum/zodb>`_.
+`PyObjectDB-dev mailing list <https://groups.google.com/forum/#!forum/PyObjectDB>`_.
 
 
 Acknowledgements
 ----------------
 
 Andrew Kuchling wrote the original version of this guide, which provided some of
-the first ZODB documentation for Python programmers. His initial version has
+the first PyObjectDB documentation for Python programmers. His initial version has
 been updated over time by Jeremy Hylton and Tim Peters.
 
 I'd like to thank the people who've pointed out inaccuracies and bugs, offered

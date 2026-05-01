@@ -8,8 +8,8 @@ from BTrees import OOBTree
 from persistent import Persistent
 from ZEO import ClientStorage
 
-import ZODB
-from ZODB.POSException import ConflictError
+import PyObjectDB
+from PyObjectDB.POSException import ConflictError
 
 
 class ChatSession(Persistent):
@@ -80,7 +80,7 @@ def get_chat_session(conn, channelname):
     if required."""
 
     # We'll keep a B-tree of sessions, mapping channel names to
-    # session objects.  The B-tree is stored at the ZODB's root under
+    # session objects.  The B-tree is stored at the PyObjectDB's root under
     # the key 'chat_sessions'.
     root = conn.root()
     if not root.has_key('chat_sessions'):
@@ -107,7 +107,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     storage = ClientStorage.ClientStorage(('localhost', 9672))
-    db = ZODB.DB(storage)
+    db = PyObjectDB.DB(storage)
     conn = db.open()
 
     s = session = get_chat_session(conn, sys.argv[1])

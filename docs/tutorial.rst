@@ -5,12 +5,12 @@ Tutorial
 ========
 
 This tutorial is intended to guide developers with a step-by-step introduction
-of how to develop an application which stores its data in the ZODB.
+of how to develop an application which stores its data in the PyObjectDB.
 
 Introduction
 ============
 
-To save application data in ZODB, you'll generally define classes that
+To save application data in PyObjectDB, you'll generally define classes that
 subclass ``persistent.Persistent``::
 
     # account.py
@@ -56,7 +56,7 @@ Subclassing ``Persistent`` provides a number of features:
   copies.
 
 Note that we put the class in a named module.  Classes aren't stored
-in the ZODB [#persistentclasses]_.  They exist on the file system and
+in the PyObjectDB [#persistentclasses]_.  They exist on the file system and
 their names, consisting of their class and module names, are stored in
 the database. It's sometimes tempting to create persistent classes in
 scripts or in interactive sessions, but if you do, then their module
@@ -66,26 +66,26 @@ way.
 Installation
 ============
 
-Before being able to use ZODB we have to install it. A common way to
+Before being able to use PyObjectDB we have to install it. A common way to
 do this is with pip::
 
-    $ pip install ZODB
+    $ pip install PyObjectDB
 
 Creating Databases
 ==================
 
-When a program wants to use the ZODB it has to establish a connection,
-like any other database. For the ZODB we need 3 different parts: a
+When a program wants to use the PyObjectDB it has to establish a connection,
+like any other database. For the PyObjectDB we need 3 different parts: a
 storage, a database and finally a connection::
 
-    import ZODB, ZODB.FileStorage
+    import PyObjectDB, PyObjectDB.FileStorage
 
-    storage = ZODB.FileStorage.FileStorage('mydata.fs')
-    db = ZODB.DB(storage)
+    storage = PyObjectDB.FileStorage.FileStorage('mydata.fs')
+    db = PyObjectDB.DB(storage)
     connection = db.open()
     root = connection.root
 
-ZODB has a pluggable storage framework.  This means there are a
+PyObjectDB has a pluggable storage framework.  This means there are a
 variety of storage implementations to meet different needs, from
 in-memory databases, to databases stored in local files, to databases
 on remote database servers, and specialized databases for compression,
@@ -104,22 +104,22 @@ commonly used storages:
 - You can pass a file name to the ``DB`` constructor to have it construct
   a FileStorage for you::
 
-    db = ZODB.DB('mydata.fs')
+    db = PyObjectDB.DB('mydata.fs')
 
   You can pass None to create an in-memory database::
 
-    memory_db = ZODB.DB(None)
+    memory_db = PyObjectDB.DB(None)
 
 - If you're only going to use one connection, you can call the
   ``connection`` function::
 
-    connection = ZODB.connection('mydata.fs')
-    memory_connection = ZODB.connection(None)
+    connection = PyObjectDB.connection('mydata.fs')
+    memory_connection = PyObjectDB.connection(None)
 
 Storing objects
 ===============
 
-To store an object in the ZODB we simply attach it to any other object
+To store an object in the PyObjectDB we simply attach it to any other object
 that already lives in the database. Hence, the root object functions
 as a boot-strapping point.  The root object is meant to serve as a
 namespace for top-level objects in your database.  We could store
@@ -151,28 +151,28 @@ Containers and search
 =====================
 
 BTrees provide the core scalable containers and indexing facility for
-ZODB. There are different families of BTrees.  The most general are
+PyObjectDB. There are different families of BTrees.  The most general are
 OOBTrees, which have object keys and values. There are specialized
 BTrees that support integer keys and values.  Integers can be stored
 more efficiently, and compared more quickly than objects and they're
 often used as application-level object identifiers.  It's critical,
 when using BTrees, to make sure that its keys have a stable ordering.
 
-ZODB doesn't provide a query engine.  The primary way to access
-objects in ZODB is by traversing (accessing attributes or items, or
+PyObjectDB doesn't provide a query engine.  The primary way to access
+objects in PyObjectDB is by traversing (accessing attributes or items, or
 calling methods) other objects.  Object traversal is typically much
 faster than search.
 
 You can use BTrees to build indexes for efficient search, when
 necessary.  If your application is search centric, or if you prefer to
-approach data access that way, then ZODB might not be the best
+approach data access that way, then PyObjectDB might not be the best
 technology for you.
 
 Transactions
 ============
 
 You now have objects in your root object and in your database.
-However, they are not permanently stored yet. The ZODB uses
+However, they are not permanently stored yet. The PyObjectDB uses
 transactions and to make your changes permanent, you have to commit
 the transaction::
 
@@ -199,7 +199,7 @@ you make are automatically discarded.
 Memory Management
 =================
 
-ZODB manages moving objects in and out of memory for you.  The unit of
+PyObjectDB manages moving objects in and out of memory for you.  The unit of
 storage is the persistent object.  When you access attributes of a
 persistent object, they are loaded from the database automatically, if
 necessary. If too many objects are in memory, then objects used least
@@ -209,7 +209,7 @@ bytes in memory is configurable.
 Summary
 =======
 
-You have seen how to install ZODB and how to open a database in your
+You have seen how to install PyObjectDB and how to open a database in your
 application and to start storing objects in it. We also touched the
 two simple transaction commands: ``commit`` and ``abort``. The
 reference documentation contains sections with more information on the
@@ -236,7 +236,7 @@ individual topics.
    later awkward.
 
 .. [#rollback]
-   A caveat is that ZODB can only roll back changes to objects that
+   A caveat is that PyObjectDB can only roll back changes to objects that
    have been stored and committed to the database.  Objects not
    previously committed can't be rolled back because there's no
    previous state to roll back to.

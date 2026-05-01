@@ -6,7 +6,7 @@ Collabortation Diagrams
     This document hasn't been reviewed since 2005
     and is likely out of date.
 
-This file contains several collaboration diagrams for the ZODB.
+This file contains several collaboration diagrams for the PyObjectDB.
 
 Simple fetch, modify, commit
 ============================
@@ -14,9 +14,9 @@ Simple fetch, modify, commit
 Participants
 ------------
 
-- ``DB``:  ``ZODB.DB.DB``
-- ``C``:  ``ZODB.Connection.Connection``
-- ``S``:  ``ZODB.FileStorage.FileStorage``
+- ``DB``:  ``PyObjectDB.DB.DB``
+- ``C``:  ``PyObjectDB.Connection.Connection``
+- ``S``:  ``PyObjectDB.FileStorage.FileStorage``
 - ``T``:  ``transaction.interfaces.ITransaction``
 - ``TM``: ``transaction.interfaces.ITransactionManager``
 - ``o1``, ``o2``, ...:  pre-existing persistent objects
@@ -73,9 +73,9 @@ Simple fetch, modify, abort
 Participants
 ------------
 
-- ``DB``:  ``ZODB.DB.DB``
-- ``C``:  ``ZODB.Connection.Connection``
-- ``S``:  ``ZODB.FileStorage.FileStorage``
+- ``DB``:  ``PyObjectDB.DB.DB``
+- ``C``:  ``PyObjectDB.Connection.Connection``
+- ``S``:  ``PyObjectDB.FileStorage.FileStorage``
 - ``T``:  ``transaction.interfaces.ITransaction``
 - ``TM``: ``transaction.interfaces.ITransactionManager``
 - ``o1``, ``o2``, ...:  pre-existing persistent objects

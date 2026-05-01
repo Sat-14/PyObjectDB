@@ -1,5 +1,5 @@
 #
-# ZODB documentation and articles documentation build configuration file,
+# PyObjectDB documentation and articles documentation build configuration file,
 # created by sphinx-quickstart on Sat Feb 21 09:17:33 2009.
 #
 # This file is execfile()d with the current directory set to its containing dir
@@ -38,7 +38,7 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # General configuration
 # ---------------------
 
-version_str = get_version('ZODB')
+version_str = get_version('PyObjectDB')
 
 # Add any Sphinx extension module names here as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -64,7 +64,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'ZODB'
+project = 'PyObjectDB'
 copyright = f'2009-{datetime.date.today().year}, Zope Foundation'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -130,12 +130,12 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'zodb.png'
+html_logo = 'PyObjectDB.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = '.static/zodb.ico'
+html_favicon = '.static/PyObjectDB.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -178,7 +178,7 @@ html_static_path = ['.static']
 # html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ZODBdocumentationandarticlesdoc'
+htmlhelp_basename = 'PyObjectDBdocumentationandarticlesdoc'
 
 
 # Options for LaTeX output
@@ -195,8 +195,8 @@ htmlhelp_basename = 'ZODBdocumentationandarticlesdoc'
 # document class [howto/manual]).
 latex_documents = [
     ('index',
-     'ZODBdocumentationandarticles.tex',
-     'ZODB documentation and articles',
+     'PyObjectDBdocumentationandarticles.tex',
+     'PyObjectDB documentation and articles',
      'Zope Developer Community',
      'manual'),
 ]
@@ -221,9 +221,9 @@ latex_documents = [
 intersphinx_mapping = {
     "python": ('https://docs.python.org/3/', None),
     "persistent": ('https://persistent.readthedocs.io/en/latest/', None),
-    "zodburi": (
-        "https://docs.pylonsproject.org/projects/zodburi/en/latest/", None),
+    "PyObjectDBuri": (
+        "https://docs.pylonsproject.org/projects/PyObjectDBuri/en/latest/", None),
     "btrees": ("https://btrees.readthedocs.io/en/latest/", None),
-    "zodburi": (
-        "https://docs.pylonsproject.org/projects/zodburi/en/latest/", None),
+    "PyObjectDBuri": (
+        "https://docs.pylonsproject.org/projects/PyObjectDBuri/en/latest/", None),
 }

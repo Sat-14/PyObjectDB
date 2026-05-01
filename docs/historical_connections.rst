@@ -1,2 +1,2 @@
 
-.. include:: ../src/ZODB/historical_connections.rst
+.. include:: ../src/PyObjectDB/historical_connections.rst

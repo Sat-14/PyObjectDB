@@ -16,13 +16,13 @@ Run the buildout::
 Testing
 =======
 
-The ZODB checkouts are `buildouts <http://www.python.org/pypi/zc.buildout>`_.
-When working from a ZODB checkout, first run the bootstrap.py script
+The PyObjectDB checkouts are `buildouts <http://www.python.org/pypi/zc.buildout>`_.
+When working from a PyObjectDB checkout, first run the bootstrap.py script
 to initialize the buildout:
 
     % python bootstrap.py
 
-and then use the buildout script to build ZODB and gather the dependencies:
+and then use the buildout script to build PyObjectDB and gather the dependencies:
 
     % bin/buildout
 

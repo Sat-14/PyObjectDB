@@ -1,10 +1,10 @@
-Using zc.zodbdgc (fix PosKeyError's)
+Using zc.PyObjectDBdgc (fix PosKeyError's)
 ====================================
 
 *This article was written by Hanno Schlichting*
 
-The `zc.zodbdgc <https://pypi.org/project/zc.zodbdgc/>`_ library contains two
-useful features. On the one hand it supports advanced ZODB packing and garbage
+The `zc.PyObjectDBdgc <https://pypi.org/project/zc.PyObjectDBdgc/>`_ library contains two
+useful features. On the one hand it supports advanced PyObjectDB packing and garbage
 collection approaches and on the other hand it includes the ability to create a
 database of all persistent references.
 
@@ -12,19 +12,19 @@ The second feature allows us to debug and repair PosKeyErrors by finding the
 persistent object(s) that point to the lost object.
 
 .. note::
-    This documentation applies to ZODB 3.9 and later. Earlier versions of the
-    ZODB are not supported, as they lack the fast storage iteration API's required
-    by ``zc.zodbdgc``.
+    This documentation applies to PyObjectDB 3.9 and later. Earlier versions of the
+    PyObjectDB are not supported, as they lack the fast storage iteration API's required
+    by ``zc.PyObjectDBdgc``.
 
 .. note:: 
     Unless you're using multi-databases, this documentation does not apply to
     `RelStorage <https://pypi.org/project/RelStorage/>`_ which has the same
     features built-in, but accessible in different ways. Look at the options for
-    the ``zodbpack`` script. The ``--prepack`` option creates a table containing the
+    the ``PyObjectDBpack`` script. The ``--prepack`` option creates a table containing the
     same information as we are creating in the reference database. 
     
     If you *are* using multi-databases, be aware that RelStorage 2.0 is needed to 
-    perform packing and garbage collection with ``zc.zodbdgc``, and those features only
+    perform packing and garbage collection with ``zc.PyObjectDBdgc``, and those features only
     work in history-free databases. 
     
     It's important to realize that there is currently no way to perform garbage collection
@@ -41,7 +41,7 @@ look like this::
     zeo
     zeopy
     zeo-conf
-    zodbdgc
+    PyObjectDBdgc
     refdb-conf
 
   [zeo]
@@ -54,15 +54,15 @@ look like this::
   [zeopy]
   recipe = zc.recipe.egg
   eggs =
-      ZODB3
-      zc.zodbdgc
+      PyObjectDB3
+      zc.PyObjectDBdgc
   interpreter = zeopy
   scripts = zeopy
 
   [zeo-conf]
   recipe = collective.recipe.template
   input = inline:
-    <zodb main>
+    <PyObjectDB main>
       <zeoclient>
         blob-dir ${buildout:directory}/var/blobstorage
         shared-blob-dir yes
@@ -71,21 +71,21 @@ look like this::
         name zeostorage
         var ${buildout:directory}/var
       </zeoclient>
-    </zodb>
+    </PyObjectDB>
   output = ${buildout:directory}/etc/zeo.conf
 
-  [zodbdgc]
+  [PyObjectDBdgc]
   recipe = zc.recipe.egg
-  eggs = zc.zodbdgc
+  eggs = zc.PyObjectDBdgc
 
   [refdb-conf]
   recipe = collective.recipe.template
   input = inline:
-    <zodb main>
+    <PyObjectDB main>
       <filestorage 1>
         path ${buildout:directory}/var/refdb.fs
       </filestorage>
-    </zodb>
+    </PyObjectDB>
   output = ${buildout:directory}/etc/refdb.conf
 
 
@@ -96,7 +96,7 @@ We configured the ZEO server to skip garbage collection as part of the normal
 pack in the above config (`pack-gc = false`). Instead we use explicit garbage
 collection via a different job::
 
-  bin/multi-zodb-gc etc/zeo.conf
+  bin/multi-PyObjectDB-gc etc/zeo.conf
 
 On larger databases garbage collection can take a couple hours. We can run this
 only once a week or even less frequent. All explicitly deleted objects will
@@ -124,7 +124,7 @@ If our database has any POSKeyErrors, we can find and repair those.
 Either we already have the oids of lost objects, or we can check the entire
 database for any errors. To check everything we run the following command::
 
-  $ bin/multi-zodb-check-refs etc/zeo.conf
+  $ bin/multi-PyObjectDB-check-refs etc/zeo.conf
 
 This can take about 15 to 30 minutes on moderately sized databases of up to
 10gb, dependent on disk speed. We'll write down the reported errors, as we'll
@@ -133,15 +133,15 @@ need them later on to analyze them.
 If there are any lost objects, we can create a reference database to make it
 easier to debug and find those lost objects::
 
-  $ bin/multi-zodb-check-refs -r var/refdb.fs etc/zeo.conf
+  $ bin/multi-PyObjectDB-check-refs -r var/refdb.fs etc/zeo.conf
 
 This is significantly slower and can take several hours to complete. Once this
 is complete we can open the generated database via our interpreter::
 
   $ bin/zeopy
 
-  >>> import ZODB.config
-  >>> db = ZODB.config.databaseFromFile(open('./etc/refdb.conf'))
+  >>> import PyObjectDB.config
+  >>> db = PyObjectDB.config.databaseFromFile(open('./etc/refdb.conf'))
   >>> conn = db.open()
   >>> refs = conn.root()['references']
 
@@ -158,7 +158,7 @@ We can look up the persistent oid it was referenced from via::
 
 We can also get the hex representation::
 
-  >>> from ZODB.utils import p64
+  >>> from PyObjectDB.utils import p64
   >>> p64(parent[0])
   '\x00\x00\x00\x00\x00\xc9\x16\x15'
 
@@ -169,10 +169,10 @@ look up some more objects, until we get one we can identify and work on.
 We could load the parent. In a debug prompt we could do something like::
 
   >>> app._p_jar.get('\x00\x00\x00\x00\x00\xc9\x16\x15')
-  2010-04-28 14:28:28 ERROR ZODB.Connection Couldn't load state for 0xc91615
+  2010-04-28 14:28:28 ERROR PyObjectDB.Connection Couldn't load state for 0xc91615
   Traceback (most recent call last):
   ...
-  ZODB.POSException.POSKeyError: 0xc92d77
+  PyObjectDB.POSException.POSKeyError: 0xc92d77
 
 Gah, this gives us the POSKeyError of course. But we can load the actual data
 of the parent, to get an idea of what this is::
@@ -194,7 +194,7 @@ one::
 
 The persistent oid that was reported missing was ``13184375``::
 
-  >>> from ZODB.utils import p64
+  >>> from PyObjectDB.utils import p64
   >>> p64(13184375)
   '\x00\x00\x00\x00\x00\xc9-w'
 

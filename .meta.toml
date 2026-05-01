@@ -39,8 +39,8 @@ fail-under = 80
 additional-config = [
     "# F401 imported but unused",
     "per-file-ignores =",
-    "    src/ZODB/FileStorage/__init__.py: F401",
-    "    src/ZODB/__init__.py: F401",
+    "    src/PyObjectDB/FileStorage/__init__.py: F401",
+    "    src/PyObjectDB/__init__.py: F401",
     ]
 
 [manifest]

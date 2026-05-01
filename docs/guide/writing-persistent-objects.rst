@@ -52,9 +52,9 @@ by setting ``_p_changed`` to True::
 .. -> src
 
    >>> exec(src)
-   >>> db = ZODB.DB(None)
+   >>> db = PyObjectDB.DB(None)
    >>> with db.transaction() as conn:
-   ...     conn.root.book = Book("ZODB")
+   ...     conn.root.book = Book("PyObjectDB")
    >>> conn = db.open()
    >>> book = conn.root.book
    >>> bool(book._p_changed)
@@ -98,9 +98,9 @@ often, you can use tuples instead of lists::
 .. -> src
 
    >>> exec(src)
-   >>> db = ZODB.DB(None)
+   >>> db = PyObjectDB.DB(None)
    >>> with db.transaction() as conn:
-   ...     conn.root.book = Book("ZODB")
+   ...     conn.root.book = Book("PyObjectDB")
    >>> conn = db.open()
    >>> book = conn.root.book
    >>> bool(book._p_changed)
@@ -136,9 +136,9 @@ use ``PersistentList``::
 .. -> src
 
    >>> exec(src)
-   >>> db = ZODB.DB(None)
+   >>> db = PyObjectDB.DB(None)
    >>> with db.transaction() as conn:
-   ...     conn.root.book = Book("ZODB")
+   ...     conn.root.book = Book("PyObjectDB")
    >>> conn = db.open()
    >>> book = conn.root.book
    >>> bool(book._p_changed)
@@ -153,7 +153,7 @@ use ``PersistentList``::
 Note that in this example, when we added an author, the book itself
 didn't change, but the ``authors`` attribute value did.  Because
 ``authors`` is a persistent object, it's stored in a separate database
-record from the book record and is managed by ZODB independent of the
+record from the book record and is managed by PyObjectDB independent of the
 management of the book.
 
 In addition to ``PersistentList`` and ``PersistentMapping``, general
@@ -166,7 +166,7 @@ objects, because their data are spread over many subobjects.
 It's generally better to use ``BTree`` objects than
 ``PersistentMapping`` objects, because they're scalable and because
 they handle :ref:`conflicts <conflicts-label>` better. ``TreeSet``
-objects are the only ZODB-provided persistent set implementation.
+objects are the only PyObjectDB-provided persistent set implementation.
 ``BTree`` and ``TreeSets`` come in a number of families provided via
 different modules and differ in their internal implementations:
 
@@ -201,9 +201,9 @@ Here's a version of the example that uses a ``TreeSet``::
 .. -> src
 
    >>> exec(src)
-   >>> db = ZODB.DB(None)
+   >>> db = PyObjectDB.DB(None)
    >>> with db.transaction() as conn:
-   ...     conn.root.book = Book("ZODB")
+   ...     conn.root.book = Book("PyObjectDB")
    >>> conn = db.open()
    >>> book = conn.root.book
    >>> bool(book._p_changed)
@@ -243,7 +243,7 @@ Special attributes
 There are some attributes that are treated specially.
 
 Attributes with names starting with ``_p_`` are reserved for use by
-the persistence machinery and by ZODB.  These include (but aren't
+the persistence machinery and by PyObjectDB.  These include (but aren't
 limited to):
 
 _p_changed
@@ -308,7 +308,7 @@ persistent (subclasses ``persistent.Persistent``) or not.  If you save
 objects in a database who's classes subclass ``persistent.Persistent``,
 you can't change your mind later and make them non-persistent, and the
 other way around.  This may be a `bug or misfeature
-<https://github.com/zopefoundation/ZODB/issues/99>`_.
+<https://github.com/zopefoundation/PyObjectDB/issues/99>`_.
 
 .. _schema-migration-label:
 
@@ -455,8 +455,8 @@ attributes, described in `Special attributes`_, above.
 Let's look at some state transitions with an example. First, we create
 an unsaved book::
 
-    >>> book = Book("ZODB")
-    >>> from ZODB.utils import z64
+    >>> book = Book("PyObjectDB")
+    >>> from PyObjectDB.utils import z64
     >>> book._p_changed, bool(book._p_oid)
     (False, False)
 
@@ -464,8 +464,8 @@ We can tell that it's unsaved because it doesn't have an object id, ``_p_oid``.
 
 If we add it to a database::
 
-    >>> import ZODB
-    >>> connection = ZODB.connection(None)
+    >>> import PyObjectDB
+    >>> connection = PyObjectDB.connection(None)
     >>> connection.add(book)
     >>> book._p_changed, bool(book._p_oid), book._p_serial == z64
     (False, True, True)
@@ -486,7 +486,7 @@ id and serial, and is unchanged.
 
 Now if we modify the object, it enters the changed state:
 
-    >>> book.title = "ZODB Explained"
+    >>> book.title = "PyObjectDB Explained"
     >>> book._p_changed, bool(book._p_oid), book._p_serial == z64
     (True, True, False)
 
@@ -503,7 +503,7 @@ If we access the object, it will be loaded into the saved state, which
 is indicated by a false ``_p_changed`` and an object id and non-zero serial.
 
     >>> book.title
-    'ZODB'
+    'PyObjectDB'
     >>> book._p_changed, bool(book._p_oid), book._p_serial == z64
     (False, True, False)
 
@@ -597,8 +597,8 @@ inherits identity-based ``__eq__`` and ``__hash__``.
     Lets see an example of how these classes behave when stored in a
     dictionary. First, lets store some dictionaries::
 
-    >>> import ZODB
-    >>> db = ZODB.DB(None)
+    >>> import PyObjectDB
+    >>> db = PyObjectDB.DB(None)
     >>> conn1 = db.open()
     >>> conn1.root.with_hashes = {BookEq(str(i)) for i in range(5000)}
     >>> conn1.root.with_ident =  {Book(str(i)) for i in range(5000)}

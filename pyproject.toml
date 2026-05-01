@@ -8,8 +8,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ZODB"
-description = "ZODB, a Python object-oriented database"
+name = "PyObjectDB"
+description = "PyObjectDB, a Python object-oriented database"
 version = "6.4.dev0"
 license = "ZPL-2.1"
 classifiers = [
@@ -27,7 +27,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: Unix",
-    "Framework :: ZODB",
+    "Framework :: PyObjectDB",
 ]
 dynamic = ["readme"]
 requires-python = ">=3.10"
@@ -44,16 +44,16 @@ dependencies = [
     "transaction >= 2.4",
     "zc.lockfile",
     "zope.interface",
-    "zodbpickle >= 1.0.1",
+    "PyObjectDBpickle >= 1.0.1",
 ]
 keywords = ["database", "nosql", "python", "zope"]
 
 [project.scripts]
-fsdump = "ZODB.FileStorage.fsdump:main"
-fsoids = "ZODB.scripts.fsoids:main"
-fsrefs = "ZODB.scripts.fsrefs:main"
-fstail = "ZODB.scripts.fstail:Main"
-repozo = "ZODB.scripts.repozo:main"
+fsdump = "PyObjectDB.FileStorage.fsdump:main"
+fsoids = "PyObjectDB.scripts.fsoids:main"
+fsrefs = "PyObjectDB.scripts.fsrefs:main"
+fstail = "PyObjectDB.scripts.fstail:Main"
+repozo = "PyObjectDB.scripts.repozo:main"
 
 [project.optional-dependencies]
 test = [
@@ -63,21 +63,21 @@ test = [
 ]
 docs = [
     "Sphinx < 7",
-    "ZODB",
+    "PyObjectDB",
     "j1m.sphinxautozconfig",
     "sphinx_rtd_theme",
     "sphinxcontrib_zopeext",
 ]
 
 [project.urls]
-Documentation = "http://zodb-docs.readthedocs.io"
-Issues = "https://github.com/zopefoundation/ZODB/issues"
-Source = "https://github.com/zopefoundation/ZODB"
-Changelog = "https://github.com/zopefoundation/ZODB/blob/master/CHANGES.rst"
+Documentation = "http://PyObjectDB-docs.readthedocs.io"
+Issues = "https://github.com/zopefoundation/PyObjectDB/issues"
+Source = "https://github.com/zopefoundation/PyObjectDB"
+Changelog = "https://github.com/zopefoundation/PyObjectDB/blob/master/CHANGES.rst"
 
 [tool.coverage.run]
 branch = true
-source = ["ZODB"]
+source = ["PyObjectDB"]
 
 [tool.coverage.report]
 fail_under = 80

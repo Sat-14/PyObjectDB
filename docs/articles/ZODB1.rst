@@ -1,14 +1,14 @@
-Introduction to the ZODB (by Michel Pelletier)
+Introduction to the PyObjectDB (by Michel Pelletier)
 ==============================================
 
 In this article, we cover the very basics of the Zope Object
-Database (ZODB) for Python programmers.  This short article
+Database (PyObjectDB) for Python programmers.  This short article
 documents almost everything you need to know about using this
 powerful object database in Python. In a later article, I will
-cover some of the more advanced features of ZODB for Python
+cover some of the more advanced features of PyObjectDB for Python
 programmers.
 
-ZODB is a database for Python objects that comes with
+PyObjectDB is a database for Python objects that comes with
 `Zope <http://www.zope.org>`_.  If you've ever worked with a
 relational database, like PostgreSQL, MySQL, or Oracle, than you
 should be familiar with the role of a database.  It's a long term
@@ -17,10 +17,10 @@ or short term storage for your application data.
 For many tasks, relational databases are clearly a good solution,
 but sometimes relational databases don't fit well with your object
 model.  If you have lots of different kinds of interconnected
-objects with complex relationships, and changing schemas then ZODB
+objects with complex relationships, and changing schemas then PyObjectDB
 might be worth giving a try.
 
-A major feature of ZODB is transparency.  You do not need to write
+A major feature of PyObjectDB is transparency.  You do not need to write
 any code to explicitly read or write your objects to or from a
 database.  You just put your *persistent* objects into a container
 that works just like a Python dictionary.  Everything inside this
@@ -29,7 +29,7 @@ be the "root" of the database. It's like a magic bag; any Python
 object that you put inside it becomes persistent.
 
 Actually there are a few restrictions on what you can store in the
-ZODB. You can store any objects that can be "pickled" into a
+PyObjectDB. You can store any objects that can be "pickled" into a
 standard, cross-platform serial format.  Objects like lists,
 dictionaries, and numbers can be pickled.  Objects like files,
 sockets, and Python code objects, cannot be stored in the database
@@ -40,33 +40,33 @@ http://www.python.org/doc/current/lib/module-pickle.html
 A Simple Example
 ----------------
 
-The first thing you need to do to start working with ZODB is to
+The first thing you need to do to start working with PyObjectDB is to
 create a "root object".  This process involves first opening a
 connection to a "storage", which is the actual back-end that stores
 your data.
 
-ZODB supports many pluggable storage back-ends, but for the
+PyObjectDB supports many pluggable storage back-ends, but for the
 purposes of this article I'm going to show you how to use the
 'FileStorage' back-end storage, which stores your object data in a
 file.  Other storages include storing objects in relational
 databases, Berkeley databases, and a client to server storage that
 stores objects on a remote storage server.
 
-To set up a ZODB, you must first install it.  ZODB comes with
-Zope, so the easiest way to install ZODB is to install Zope and
-use the ZODB that comes with your Zope installation.  For those of
-you who don't want all of Zope, but just ZODB, see the
-instructions for downloading StandaloneZODB from the `ZODB web
-page <http://www.zope.org/Wikis/ZODB/FrontPage>`_.
+To set up a PyObjectDB, you must first install it.  PyObjectDB comes with
+Zope, so the easiest way to install PyObjectDB is to install Zope and
+use the PyObjectDB that comes with your Zope installation.  For those of
+you who don't want all of Zope, but just PyObjectDB, see the
+instructions for downloading StandalonePyObjectDB from the `PyObjectDB web
+page <http://www.zope.org/Wikis/PyObjectDB/FrontPage>`_.
 
-StandaloneZODB can be installed into your system's Python
+StandalonePyObjectDB can be installed into your system's Python
 libraries using the standard 'distutils' Python module.
 
-After installing ZODB, you can start to experiment with it right
+After installing PyObjectDB, you can start to experiment with it right
 from the Python command line interpreter.  For example, try the
 following python code in your interpreter::
 
-      >>> from ZODB import FileStorage, DB
+      >>> from PyObjectDB import FileStorage, DB
       >>> storage = FileStorage.FileStorage('mydatabase.fs')
       >>> db = DB(storage)
       >>> connection = db.open()
@@ -110,7 +110,7 @@ database connection::
 Then quit Python. Now start the Python interpreter up again, and
 connect to the database you just created::
 
-      >>> from ZODB import FileStorage, DB
+      >>> from PyObjectDB import FileStorage, DB
       >>> storage = FileStorage.FileStorage('mydatabase.fs')
       >>> db = DB(storage)
       >>> connection = db.open()
@@ -125,11 +125,11 @@ There's your list.  If you had used a relational database, you
 would have had to issue a SQL query to save even a simple Python
 list like the above example.  You would have also needed some code
 to convert a SQL query back into the list when you wanted to use
-it again.  You don't have to do any of this work when using ZODB.
-Using ZODB is almost completely transparent, in fact, ZODB based
+it again.  You don't have to do any of this work when using PyObjectDB.
+Using PyObjectDB is almost completely transparent, in fact, PyObjectDB based
 programs often look suspiciously simple!
 
-Keep in mind that ZODB's persistent dictionary is just the tip of
+Keep in mind that PyObjectDB's persistent dictionary is just the tip of
 the persistent iceberg.  Persistent objects can have attributes
 that are themselves persistent.  In other words, even though you
 may have only one or two "top level" persistent objects as values
@@ -141,7 +141,7 @@ Zope, there is only *one* top level object that is the root
 Detecting Changes
 -----------------
 
-One thing that makes ZODB so easy to use is that it doesn't
+One thing that makes PyObjectDB so easy to use is that it doesn't
 require you to keep track of your changes. All you have to do is
 to make changes to persistent objects and then commit a
 transaction. Anything that has changed will be stored in the
@@ -156,9 +156,9 @@ the change will *not* take effect.  Consider this example::
       >>> transaction.commit()
     
 You would expect this to work, but it doesn't.  The reason for
-this is that ZODB cannot detect that the 'employees' list
+this is that PyObjectDB cannot detect that the 'employees' list
 changed. The 'employees' list is a mutable object that does not
-notify ZODB when it changes.
+notify PyObjectDB when it changes.
 
 There are a couple of very simple ways around this problem.  The
 simplest is to re-assign the changed object::
@@ -174,20 +174,20 @@ commit the transaction.  This reassignment notifies the database
 that the list changed and needs to be saved to the database.
 
 Later in this article, we'll show you another technique for
-notifying the ZODB that your objects have changed.  Also, in a
-later article, we'll show you how to use simple, ZODB-aware list
-and dictionary classes that come pre-packaged with ZODB for your
+notifying the PyObjectDB that your objects have changed.  Also, in a
+later article, we'll show you how to use simple, PyObjectDB-aware list
+and dictionary classes that come pre-packaged with PyObjectDB for your
 convenience. 
 
 Persistent Classes
 ------------------
 
-The easiest way to create mutable objects that notify the ZODB of
+The easiest way to create mutable objects that notify the PyObjectDB of
 changes is to create a persistent class.  Persistent classes let
 you store your own kinds of objects in the database.  For example,
 consider a class that represents a employee::
 
-      import ZODB
+      import PyObjectDB
       from Persistence import Persistent
 
       class Employee(Persistent):
@@ -196,10 +196,10 @@ consider a class that represents a employee::
               self.name = name
 
 To create a persistent class, simply subclass from
-'Persistent.Persistent'. Because of some special magic that ZODB
-does, you must first import ZODB before you can import Persistent.
+'Persistent.Persistent'. Because of some special magic that PyObjectDB
+does, you must first import PyObjectDB before you can import Persistent.
 The 'Persistent' module is actually *created* when you import
-'ZODB'.
+'PyObjectDB'.
 
 Now, you can put Employee objects in your database::
 
@@ -236,7 +236,7 @@ normal Python language rules still work as you'd expect.
 Mutable Attributes
 ------------------
 
-Earlier you saw how ZODB can't detect changes to normal mutable
+Earlier you saw how PyObjectDB can't detect changes to normal mutable
 objects like Python lists. This issue still affects you when using
 persistent instances. This is because persistent instances can
 have attributes which are normal mutable objects. For example,
@@ -253,11 +253,11 @@ consider this class::
           def addTask(self, task):
               self.task.append(task)
 
-When you call 'addTask', the ZODB won't know that the mutable
+When you call 'addTask', the PyObjectDB won't know that the mutable
 attribute 'self.tasks' has changed.  As you saw earlier, you can
 reassign 'self.tasks' after you change it to get around this
 problem. However, when you're using persistent instances, you have
-another choice. You can signal the ZODB that your instance has
+another choice. You can signal the PyObjectDB that your instance has
 changed with the '_p_changed' attribute::
 
       class Employee(Persistent):
@@ -268,13 +268,13 @@ changed with the '_p_changed' attribute::
               self._p_changed = 1
 
 To signal that this object has change, set the '_p_changed'
-attribute to 1. You only need to signal ZODB once, even if you
+attribute to 1. You only need to signal PyObjectDB once, even if you
 change many mutable attributes.
 
 The '_p_changed' flag leads us to one of the few rules of you must
 follow when creating persistent classes: your instances *cannot*
 have attributes that begin with '_p_', those names are reserved
-for use by the ZODB.
+for use by the PyObjectDB.
 
 A Complete Example
 ------------------
@@ -282,9 +282,9 @@ A Complete Example
 Here's a complete example program. It builds on the employee
 examples used so far::
 
-      from ZODB import DB
-      from ZODB.FileStorage import FileStorage
-      from ZODB.PersistentMapping import PersistentMapping
+      from PyObjectDB import DB
+      from PyObjectDB.FileStorage import FileStorage
+      from PyObjectDB.PersistentMapping import PersistentMapping
       from Persistence import Persistent
       import transaction
 
@@ -375,22 +375,22 @@ create one and initialize it.
 Conclusion
 ----------
 
-ZODB is a very simple, transparent object database for Python that
+PyObjectDB is a very simple, transparent object database for Python that
 is a freely available component of the Zope application server.
 As these examples illustrate, only a few lines of code are needed
-to start storing Python objects in ZODB, with no need to write SQL
-queries.  In the next article on ZODB, we'll show you some more
-advanced techniques for using ZODB, like using ZODB's distributed
+to start storing Python objects in PyObjectDB, with no need to write SQL
+queries.  In the next article on PyObjectDB, we'll show you some more
+advanced techniques for using PyObjectDB, like using PyObjectDB's distributed
 object protocol to distribute your persistent objects across many
 machines.  
 
-ZODB Resources
+PyObjectDB Resources
 
-- `Andrew Kuchling's "ZODB pages" <http://web.archive.org/web/20030606003753/http://amk.ca/zodb/>`_ (archived)
+- `Andrew Kuchling's "PyObjectDB pages" <http://web.archive.org/web/20030606003753/http://amk.ca/PyObjectDB/>`_ (archived)
 
-- `Zope.org "ZODB Wiki" <http://www.zope.org/Wikis/ZODB/FrontPage>`_
+- `Zope.org "PyObjectDB Wiki" <http://www.zope.org/Wikis/PyObjectDB/FrontPage>`_
 
-- `Jim Fulton's "Introduction to the Zope Object Database" <http://www.python.org/workshops/2000-01/proceedings/papers/fulton/zodb3.html>`_
+- `Jim Fulton's "Introduction to the Zope Object Database" <http://www.python.org/workshops/2000-01/proceedings/papers/fulton/PyObjectDB3.html>`_
 
 
 

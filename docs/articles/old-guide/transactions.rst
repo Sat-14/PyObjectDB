@@ -3,7 +3,7 @@
 .. % Subtransactions
 .. % Undoing
 .. % Versions
-.. % Multithreaded ZODB Programs
+.. % Multithreaded PyObjectDB Programs
 
 
 Transactions and Versioning
@@ -24,15 +24,15 @@ transaction thrown away) by invoking the :meth:`abort` method of the current
 :class:`Transaction` object, or simply ``transaction.abort()`` if using the
 default thread transaction manager.
 
-Prior to ZODB 3.3, if a commit failed (meaning the ``commit()`` call raised an
+Prior to PyObjectDB 3.3, if a commit failed (meaning the ``commit()`` call raised an
 exception), the transaction was implicitly aborted and a new transaction was
 implicitly started.  This could be very surprising if the exception was
 suppressed, and especially if the failing commit was one in a sequence of
 subtransaction commits.
 
-So, starting with ZODB 3.3, if a commit fails, all further attempts to commit,
+So, starting with PyObjectDB 3.3, if a commit fails, all further attempts to commit,
 join, or register with the transaction raise
-:exc:`ZODB.POSException.TransactionFailedError`.  You must explicitly start a
+:exc:`PyObjectDB.POSException.TransactionFailedError`.  You must explicitly start a
 new transaction then, either by calling the :meth:`abort` method of the current
 transaction, or by calling the :meth:`begin` method of the current transaction's
 transaction manager.
@@ -49,7 +49,7 @@ The primary purpose of subtransactions is to decrease the memory usage of
 transactions that touch a very large number of objects.  Consider a transaction
 during which 200,000 objects are modified.  All the objects that are modified in
 a single transaction have to remain in memory until the transaction is
-committed, because the ZODB can't discard them from the object cache.  This can
+committed, because the PyObjectDB can't discard them from the object cache.  This can
 potentially make the memory usage quite large.  With subtransactions, a commit
 can be be performed at intervals, say, every 10,000 objects.  Those 10,000
 objects are then written to permanent storage and can be purged from the cache
@@ -113,7 +113,7 @@ of a single transaction. ::
 
 To undo a transaction, call the :meth:`DB.undo(id)` method, passing it the ID of
 the transaction to undo.  If the transaction can't be undone, a
-:exc:`ZODB.POSException.UndoError` exception will be raised, with the message
+:exc:`PyObjectDB.POSException.UndoError` exception will be raised, with the message
 "non-undoable transaction".  Usually this will happen because later transactions
 modified the objects affected by the transaction you're trying to undo.
 
@@ -133,9 +133,9 @@ Versions
 
 While many subtransactions can be contained within a single regular transaction,
 it's also possible to contain many regular transactions within a long-running
-transaction, called a version in ZODB terminology.  Inside a version, any number
+transaction, called a version in PyObjectDB terminology.  Inside a version, any number
 of transactions can be created and committed or rolled back, but the changes
-within a version are not made visible to other connections to the same ZODB.
+within a version are not made visible to other connections to the same PyObjectDB.
 
 Not all storages support versions, but you can test for versioning ability by
 calling :meth:`supportsVersions` method of the :class:`DB` instance, which
@@ -154,13 +154,13 @@ version``.  To commit or abort a version, which will either make the changes
 visible to all clients or roll them back, call the :meth:`DB.commitVersion` or
 :meth:`DB.abortVersion` methods. XXX what are the source and dest arguments for?
 
-The ZODB makes no attempt to reconcile changes between different versions.
+The PyObjectDB makes no attempt to reconcile changes between different versions.
 Instead, the first version which modifies an object will gain a lock on that
 object.  Attempting to modify the object from a different version or from an
-unversioned connection will cause a :exc:`ZODB.POSException.VersionLockError` to
+unversioned connection will cause a :exc:`PyObjectDB.POSException.VersionLockError` to
 be raised::
 
-   from ZODB.POSException import VersionLockError
+   from PyObjectDB.POSException import VersionLockError
 
    try:
        transaction.commit()
@@ -172,17 +172,17 @@ The exception provides the ID of the locked object, and the name of the version
 having a lock on it.
 
 
-Multithreaded ZODB Programs
+Multithreaded PyObjectDB Programs
 ---------------------------
 
-ZODB databases can be accessed from multithreaded Python programs. The
+PyObjectDB databases can be accessed from multithreaded Python programs. The
 :class:`Storage` and :class:`DB` instances can be shared among several threads,
 as long as individual :class:`Connection` instances are created for each thread.
 
 .. rubric:: Footnotes
 
 .. [#] There are actually two different ways a storage can implement the undo feature.
-   Most of the storages that ship with ZODB use the transactional form of undo
+   Most of the storages that ship with PyObjectDB use the transactional form of undo
    described in the main text.  Some storages may use a non-transactional undo
    makes changes visible immediately.
 

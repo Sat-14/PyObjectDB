@@ -12,48 +12,48 @@ storage interfaces. They differ primarily in their constructors.
 
 Application code rarely calls storage methods, and those it calls are
 generally called indirectly through databases.  There are
-interface-defined methods that are called internally by ZODB. These
+interface-defined methods that are called internally by PyObjectDB. These
 aren't shown below.
 
 
 IStorage
 --------
 
-.. autointerface:: ZODB.interfaces.IStorage
+.. autointerface:: PyObjectDB.interfaces.IStorage
    :members: close, getName, getSize, history, isReadOnly, lastTransaction,
              __len__, pack, sortKey
 
 IStorageIteration
 -----------------
 
-.. autointerface:: ZODB.interfaces.IStorageIteration
+.. autointerface:: PyObjectDB.interfaces.IStorageIteration
 
 IStorageUndoable
 ----------------
 
-.. autointerface:: ZODB.interfaces.IStorageUndoable
+.. autointerface:: PyObjectDB.interfaces.IStorageUndoable
    :members: undoLog, undoInfo
 
 IStorageCurrentRecordIteration
 ------------------------------
 
-.. autointerface:: ZODB.interfaces.IStorageCurrentRecordIteration
+.. autointerface:: PyObjectDB.interfaces.IStorageCurrentRecordIteration
 
 IBlobStorage
 ------------
 
-.. autointerface:: ZODB.interfaces.IBlobStorage
+.. autointerface:: PyObjectDB.interfaces.IBlobStorage
    :members: temporaryDirectory
 
 IStorageRecordInformation
 -------------------------
 
-.. autointerface:: ZODB.interfaces.IStorageRecordInformation
+.. autointerface:: PyObjectDB.interfaces.IStorageRecordInformation
 
 IStorageTransactionInformation
 ------------------------------
 
-.. autointerface:: ZODB.interfaces.IStorageTransactionInformation
+.. autointerface:: PyObjectDB.interfaces.IStorageTransactionInformation
 
 .. _included-storages-label:
 
@@ -64,11 +64,11 @@ FileStorage
 -----------
 
 
-.. autoclass:: ZODB.FileStorage.FileStorage.FileStorage
+.. autoclass:: PyObjectDB.FileStorage.FileStorage.FileStorage
    :members: __init__
 
 
-.. autointerface:: ZODB.FileStorage.interfaces.IFileStoragePacker
+.. autointerface:: PyObjectDB.FileStorage.interfaces.IFileStoragePacker
 
 FileStorage text configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,12 +81,12 @@ File storages are configured using the ``filestorage`` section::
 
 which accepts the following options:
 
-.. zconfigsectionkeys:: ZODB component.xml filestorage
+.. zconfigsectionkeys:: PyObjectDB component.xml filestorage
 
 MappingStorage
 --------------
 
-.. autoclass:: ZODB.MappingStorage.MappingStorage
+.. autoclass:: PyObjectDB.MappingStorage.MappingStorage
    :members: __init__
 
 .. _mappingstorage-text-configuration:
@@ -101,12 +101,12 @@ File storages are configured using the ``mappingstorage`` section::
 
 Options:
 
-.. zconfigsectionkeys:: ZODB component.xml mappingstorage
+.. zconfigsectionkeys:: PyObjectDB component.xml mappingstorage
 
 DemoStorage
 -----------
 
-.. autoclass:: ZODB.DemoStorage.DemoStorage
+.. autoclass:: PyObjectDB.DemoStorage.DemoStorage
    :members: __init__, push, pop
 
 DemoStorage text configuration
@@ -125,8 +125,8 @@ Demo storages are configured using the ``demostorage`` section::
 
 .. -> src
 
-   >>> import ZODB.config
-   >>> storage = ZODB.config.storageFromString(src)
+   >>> import PyObjectDB.config
+   >>> storage = PyObjectDB.config.storageFromString(src)
    >>> storage.base.getName()
    'base.fs'
    >>> storage.changes.getName()
@@ -135,17 +135,17 @@ Demo storages are configured using the ``demostorage`` section::
 
 ``demostorage`` sections can contain up to 2 storage subsections,
 named ``base`` and ``changes``, specifying the demo storage's base and
-changes storages.  See :meth:`ZODB.DemoStorage.DemoStorage.__init__`
+changes storages.  See :meth:`PyObjectDB.DemoStorage.DemoStorage.__init__`
 for more on the base and changes storages.
 
 Options:
 
-.. zconfigsectionkeys:: ZODB component.xml demostorage
+.. zconfigsectionkeys:: PyObjectDB component.xml demostorage
 
 Noteworthy non-included storages
 ================================
 
-A number of important ZODB storages are distributed separately.
+A number of important PyObjectDB storages are distributed separately.
 
 Base storages
 -------------
@@ -171,7 +171,7 @@ RelStorage
 
 ZEO
   `ZEO <https://github.com/zopefoundation/ZEO>`_ is a client-server
-  database implementation for ZODB.  To use ZEO, you run a ZEO server,
+  database implementation for PyObjectDB.  To use ZEO, you run a ZEO server,
   and use ZEO clients in your application.
 
   For more information, see https://github.com/zopefoundation/ZEO.
@@ -183,9 +183,9 @@ ZRS
   `ZRS <https://github.com/zc/zrs>`_
   provides replication from one database to another.  It's most
   commonly used with ZEO.  With ZRS, you create a ZRS primary database
-  around a :class:`~ZODB.FileStorage.FileStorage.FileStorage` and in a
+  around a :class:`~PyObjectDB.FileStorage.FileStorage.FileStorage` and in a
   separate process, you create a ZRS secondary storage around any
-  :interface:`storage <ZODB.interfaces.IStorage>`. As transactions are
+  :interface:`storage <PyObjectDB.interfaces.IStorage>`. As transactions are
   committed on the primary, they're copied asynchronously to
   secondaries.
 
@@ -202,7 +202,7 @@ beforestorage
   `beforestorage <https://pypi.org/project/zc.beforestorage/>`_
   provides a point-in-time view of a database that might
   be changing.  This can be useful to provide a non-changing view of a
-  production database for use with a :class:`~ZODB.DemoStorage.DemoStorage`.
+  production database for use with a :class:`~PyObjectDB.DemoStorage.DemoStorage`.
 
   For more information, see https://pypi.org/project/zc.beforestorage/.
 

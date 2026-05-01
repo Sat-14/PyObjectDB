@@ -5,7 +5,7 @@ Transactions and concurrency
 .. contents::
 
 `Transactions <https://en.wikipedia.org/wiki/Database_transaction>`_
-are a core feature of ZODB.  Much has been written about transactions,
+are a core feature of PyObjectDB.  Much has been written about transactions,
 and we won't go into much detail here.  Transactions provide two core
 benefits:
 
@@ -29,11 +29,11 @@ Concurrency
 Using transactions
 ==================
 
-All activity in ZODB happens in the context of database connections
+All activity in PyObjectDB happens in the context of database connections
 and transactions.  Here's a simple example::
 
-  import ZODB, transaction
-  db = ZODB.DB(None) # Use a mapping storage
+  import PyObjectDB, transaction
+  db = PyObjectDB.DB(None) # Use a mapping storage
   conn = db.open()
 
   conn.root.x = 1
@@ -45,7 +45,7 @@ and transactions.  Here's a simple example::
 
 In the example above, we used ``transaction.commit()`` to commit a
 transaction, making the change to ``conn.root`` permanent.  This is
-the most common way to use ZODB, at least historically.
+the most common way to use PyObjectDB, at least historically.
 
 If we decide we don't want to commit a transaction, we can use
 ``abort``::
@@ -81,15 +81,15 @@ Transaction manager
    :interface:`~transaction.interfaces.ITransactionManager` interface.
 
 Data manager
-   Data managers manage data associated with transactions.  ZODB
+   Data managers manage data associated with transactions.  PyObjectDB
    connections are data managers.  The details of how they interact
    with transactions aren't important here.
 
 Explicit transaction managers
 -----------------------------
 
-ZODB connections have transaction managers associated with them when
-they're opened. When we call the database :meth:`~ZODB.DB.open` method
+PyObjectDB connections have transaction managers associated with them when
+they're opened. When we call the database :meth:`~PyObjectDB.DB.open` method
 without an argument, a thread-local transaction manager is used. Each
 thread has its own transaction manager.  When we called
 ``transaction.commit()`` above we were calling commit on the
@@ -103,7 +103,7 @@ If we want to run multiple simultaneous transactions in a single
 thread, or if we want to spread the work of a transaction over
 multiple threads [#bad-idea-using-multiple-threads-per-transaction]_,
 then we can create transaction managers ourselves and pass them to
-:meth:`~ZODB.DB.open`::
+:meth:`~PyObjectDB.DB.open`::
 
   my_transaction_manager = transaction.TransactionManager()
   conn = db.open(my_transaction_manager)
@@ -115,7 +115,7 @@ then we can create transaction managers ourselves and pass them to
    >>> exec(src)
 
 In this example, to commit our work, we called ``commit()`` on the
-transaction manager we created and passed to :meth:`~ZODB.DB.open`.
+transaction manager we created and passed to :meth:`~PyObjectDB.DB.open`.
 
 Context managers
 ----------------
@@ -156,7 +156,7 @@ error.
 
 We used ``as trans`` above to get the transaction.
 
-Databases provide the :meth:`~ZODB.DB.transaction` method to execute a code
+Databases provide the :meth:`~PyObjectDB.DB.transaction` method to execute a code
 block as a transaction::
 
   with db.transaction() as conn2:
@@ -199,7 +199,7 @@ Connection isolation
 --------------------
 
 In the last few examples, we used a connection opened using
-:meth:`~ZODB.DB.transaction`.  This was distinct from and used a
+:meth:`~PyObjectDB.DB.transaction`.  This was distinct from and used a
 different transaction manager than the original connection. If we
 looked at the original connection, ``conn``, we'd see that it has the
 same value for ``x`` that we set earlier:
@@ -215,9 +215,9 @@ have to begin a new transaction:
   >>> conn.root.x
   5
 
-ZODB uses a timestamp-based commit protocol that provides `snapshot
+PyObjectDB uses a timestamp-based commit protocol that provides `snapshot
 isolation <https://en.wikipedia.org/wiki/Snapshot_isolation>`_.
-Whenever we look at ZODB data, we see its state as of the time the
+Whenever we look at PyObjectDB data, we see its state as of the time the
 transaction began.
 
 .. _conflicts-label:
@@ -241,7 +241,7 @@ connections will get a conflict error when it tries to commit::
     >>> exec(src) # doctest: +ELLIPSIS
     Traceback (most recent call last):
     ...
-    ZODB.POSException.ConflictError: ...
+    PyObjectDB.POSException.ConflictError: ...
 
 If we executed this code, we'd get a ``ConflictError`` exception on the
 last line.  After a conflict error is raised, we'd need to abort the
@@ -252,7 +252,7 @@ written by the other connection:
     >>> conn.root.x
     6
 
-The timestamp-based approach used by ZODB is referred to as an
+The timestamp-based approach used by PyObjectDB is referred to as an
 *optimistic* approach, because it works best if there are no
 conflicts.
 
@@ -293,7 +293,7 @@ for us.
 
 The example above is rather tedious.  There are a number of tools to
 automate transaction retry.  The `transaction
-<http://zodb.readthedocs.io/en/latest/transactions.html#retrying-transactions>`_
+<http://PyObjectDB.readthedocs.io/en/latest/transactions.html#retrying-transactions>`_
 package provides a context-manager-based mechanism for retrying
 transactions::
 
@@ -317,7 +317,7 @@ runs retry the work.
 Conflict resolution
 ~~~~~~~~~~~~~~~~~~~
 
-ZODB provides a conflict-resolution framework for merging conflicting
+PyObjectDB provides a conflict-resolution framework for merging conflicting
 changes.  When conflicts occur, conflict resolution is used, when
 possible, to resolve the conflicts without raising a ConflictError to
 the application.
@@ -336,16 +336,16 @@ simply accumulating changes.
 
 .. caution::
    Conflict resolution weakens consistency.  Resist the temptation to
-   try to implement conflict resolution yourself.  In the future, ZODB
+   try to implement conflict resolution yourself.  In the future, PyObjectDB
    will provide greater control over conflict resolution, including
    the option of disabling it.
 
    It's generally best to avoid conflicts in the first place, if possible.
 
-ZODB and atomicity
+PyObjectDB and atomicity
 ==================
 
-ZODB provides atomic transactions. When using ZODB, it's important to
+PyObjectDB provides atomic transactions. When using PyObjectDB, it's important to
 align work with transactions.  Once a transaction is committed, it
 can't be rolled back [#undo]_ automatically.  For applications, this
 implies that work that should be atomic shouldn't be split over
@@ -364,8 +364,8 @@ individually.  This is done by creating savepoints.  Changes in a
 savepoint can be rolled back without rolling back an entire
 transaction::
 
-  import ZODB
-  db = ZODB.DB(None) # using a mapping storage
+  import PyObjectDB
+  db = PyObjectDB.DB(None) # using a mapping storage
   with db.transaction() as conn:
       conn.root.x = 1
       conn.root.y = 0
@@ -392,11 +392,11 @@ be freed if they aren't used later in the transaction.
 Concurrency, threads and processes
 ==================================
 
-ZODB supports concurrency through transactions.  Multiple programs
+PyObjectDB supports concurrency through transactions.  Multiple programs
 [#wtf-program]_ can operate independently in separate transactions.
 They synchronize at transaction boundaries.
 
-The most common way to run ZODB is with each program running in its
+The most common way to run PyObjectDB is with each program running in its
 own thread.  Usually the thread-local transaction manager is used.
 
 You can use multiple threads per transaction and you can run multiple
@@ -452,7 +452,7 @@ Some things to keep in mind when utilizing multiple processes:
 .. [#implicit-transaction-creation] Transactions are implicitly
    created when needed, such as when data are first modified.
 
-.. [#context-managers-are-new] ZODB and the transaction package
+.. [#context-managers-are-new] PyObjectDB and the transaction package
    predate context managers and the Python ``with`` statement.
 
 .. [#wtf-program] We're using *program* here in a fairly general
