@@ -1,46 +1,43 @@
-#  PyObjectDB: Seamless Python Object Storage
+# PyObjectDB: Seamless Python Object Storage
 
-Hi there! Welcome to **PyObjectDB**. This is a project I've been working on to solve a common headache in Python development: translating objects to relational databases. 
+Welcome to PyObjectDB, an ACID-compliant, object-oriented database designed natively for Python applications. 
 
-Instead of writing complex SQL queries or dealing with clunky Object-Relational Mappers (ORMs), **PyObjectDB** lets you store your Python objects *exactly as they are*. It’s a pure, ACID-compliant, object-oriented database designed to make your code feel incredibly clean and natural.
+Traditional relational databases require developers to map their application's object models into tables using an Object-Relational Mapper (ORM). PyObjectDB eliminates this translation layer entirely. It allows you to persist Python objects exactly as they are in memory, drastically simplifying your architecture and reducing boilerplate code.
 
-##  Why I Built This
+## Technical Architecture
 
-I realized that we spend way too much time writing boilerplate code just to save data. With PyObjectDB, you can:
-- **Skip the SQL**: You don't need to know another language just to save a Python class.
-- **Forget the ORM**: There is no mapping layer. You just save the object, and it stays an object.
-- **Keep it Pythonic**: The seam between your application logic and your database is practically invisible.
-
-##  How It Works (Simplified Architecture)
-
-Here is a simple diagram showing how your Python code interacts with the database. Notice how there is no translation layer—your objects go straight into storage!
+PyObjectDB operates by hooking into Python's native serialization mechanisms and tracking state changes in memory. When a transaction is committed, only the modified objects are serialized and written to the underlying storage mechanism.
 
 ```mermaid
 flowchart TD
-    %% Define styles for a friendly look
-    classDef app fill:#4CAF50,stroke:#388E3C,stroke-width:2px,color:#fff,rx:10,ry:10
-    classDef core fill:#2196F3,stroke:#1976D2,stroke-width:2px,color:#fff,rx:10,ry:10
-    classDef storage fill:#FFC107,stroke:#FFA000,stroke-width:2px,color:#333,rx:10,ry:10
+    classDef component stroke:#333,stroke-width:2px;
 
-    App[" Your Python App\n(Creates standard objects)"]:::app
-    Core[" PyObjectDB Core\n(Manages transactions)"]:::core
+    App["Python Application\n(Native Objects)"]:::component
+    Core["PyObjectDB Core\n(Transaction Manager & Cache)"]:::component
     
-    App -->|Saves Objects directly| Core
+    App -->|Reads/Writes Objects| Core
     
-    subgraph Storage Options
-        File[" Local File\n(Great for testing)"]:::storage
-        DB[" SQL Database\n(For production)"]:::storage
-        Net[" Network\n(For distributed apps)"]:::storage
+    subgraph Storage Backends
+        File["FileStorage\n(Append-only local file)"]:::component
+        RelStorage["RelStorage\n(PostgreSQL / MySQL)"]:::component
+        ZEO["Network Storage\n(Distributed ZEO Server)"]:::component
     end
     
-    Core -.->|Option A| File
-    Core -.->|Option B| DB
-    Core -.->|Option C| Net
+    Core -.->|Commits Deltas| File
+    Core -.->|Commits Deltas| RelStorage
+    Core -.->|Commits Deltas| ZEO
 ```
 
-##  Getting Started
+## Key Technical Details
 
-This database runs beautifully on Python 3.7+ and PyPy. Whether you are building a small personal project or a large distributed system, PyObjectDB adapts to your needs seamlessly.
+- **ACID Transactions**: Every modification is fully transactional. If an error occurs, you can roll back the transaction, and your in-memory Python objects will revert to their previous state automatically.
+- **Multi-Version Concurrency Control (MVCC)**: Readers are never blocked by writers. The database maintains historical states of objects to ensure consistent reads across concurrent threads or processes.
+- **Pluggable Storage Backends**: 
+  - `FileStorage`: A highly optimized, append-only local file structure suitable for single-node applications.
+  - `RelStorage`: Allows you to back PyObjectDB with an existing SQL database (like PostgreSQL) for enterprise-grade durability and replication.
+  - `ZEO (Zope Enterprise Objects)`: A client-server architecture that lets multiple Python processes share the same PyObjectDB database over a network.
+- **Transparent Persistence**: By inheriting from the `Persistent` base class, PyObjectDB automatically tracks when your object's attributes change, ensuring only modified data is sent to the database.
 
----
-*Feel free to explore the code, open issues, or submit pull requests!*
+## Getting Started
+
+This database runs on Python 3.7+ and PyPy. It is heavily utilized in complex web frameworks and distributed task queues where the relational model becomes a bottleneck for deep, graph-like object relationships.
