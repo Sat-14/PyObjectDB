@@ -1,0 +1,25 @@
+# Generated with zope.meta (https://zopemeta.readthedocs.io/) from:
+# https://github.com/zopefoundation/meta/tree/master/src/zope/meta/pure-python
+include *.md
+include *.rst
+include *.txt
+include buildout.cfg
+include tox.ini
+include .pre-commit-config.yaml
+
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs *.txt
+recursive-include docs Makefile
+
+recursive-include src *.py
+include *.yaml
+include COPYING
+recursive-include docs *.ico
+recursive-include docs *.png
+recursive-include docs *.svg
+recursive-include src *.fs
+recursive-include src *.rst
+recursive-include src *.test
+recursive-include src *.txt
+recursive-include src *.xml
